@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 08:24:06 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 00:57:52 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/25 01:11:54 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,4 @@ SDL_Point   *mem_octant(SDL_Point pos1, SDL_Point pos2, int *length);
 void    	*nazi_case(void);
 void		draw_texture(t_line top, t_line bot, char *pixels, t_text *text);
 void    	bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio);
-SDL_Point   vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot);
-
 #endif

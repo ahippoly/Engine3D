@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 01:19:12 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 04:15:22 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/26 00:53:43 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ SDL_Point	vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot)
 	screen_pos.x = (diff.y * sin_rot.y - diff.x * cos_rot.y + depth) * WIN_SIZE / (depth * 2);
 	screen_pos.y = (diff.z * sin_rot.x - diff.x * cos_rot.x * sin_rot.y - diff.y * cos_rot.x * cos_rot.y + depth) * WIN_SIZE / (depth * 2);
 
-	printf("vox_on_screen depth = %f\n", depth);
-	if (depth < 0)
-		screen_pos.x = -42;
 	return (screen_pos);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 05:02:25 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 04:22:32 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/26 03:25:04 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,12 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 
 	//if (startx > 0 && startx < width && starty > 0 && starty < width)
 	{
-		ret.x = startx * WIN_SIZE / width;
+		pos2.x = startx * WIN_SIZE / width;
 		//pos2.y = WIN_SIZE / 2 - 200 / (diffx_distance * 0.5);
 		//size2.y = 300 / (diffx_distance * 0.5);
-		ret.y = starty * WIN_SIZE / width;
+		pos2.y = starty * WIN_SIZE / width;
+		ret.x = pos2.x;
+		ret.y = pos2.y;
 //		put_rect(v->p_tab, pos2, size2, 0xffffffff, v->win_size);
 //		put_rect(v->p_tab, pos, size, 0xffffffff, v->win_size);
 	}
@@ -132,8 +134,8 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	cam_rot.x = v->roty;
 	cam_rot.y = v->rot;
 
-	//corner[0] = vox_on_screen(pos3d, v->perso_pos, cam_rot);
-	corner[0] = load_corner(v, x , y , z);
+	//corner[0] = load_corner(v, x , y , z);
+	corner[0] = vox_on_screen(pos3d, v->perso_pos, cam_rot);
 	corner[1] = load_corner(v, x + 1, y , z);
 	corner[2] = load_corner(v, x , y + 1 , z);
 	corner[3] = load_corner(v, x + 1, y + 1 , z);
@@ -145,12 +147,11 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	bot.pos2 = corner[3];
 
 	//disp_text(v->p_tab, v->img_tab, v->img_size);
-	draw_texture(top, bot, v->p_tab, &v->stone);
-/*	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+	//draw_texture(top, bot, v->p_tab, &v->stone);
+	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
 	octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
 	octant(corner[1], corner[3], v->p_tab, 0xff00ffff);	
 	octant(corner[2], corner[3], v->p_tab, 0xff00ffff);
-*/
 }
 
 
@@ -175,9 +176,9 @@ void load_cube_point(t_var *v, int x, int y, int z)
     bot.pos1 = downcorner[0];
     bot.pos2 = downcorner[1];
 
-    draw_texture(top, bot, v->p_tab, &v->stone);
+    //draw_texture(top, bot, v->p_tab, &v->stone);
 
-	//octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
+	octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
 	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
 	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);	
 	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff);
