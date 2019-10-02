@@ -2,6 +2,7 @@ Quelques idees de structures:
 
 typedef unsigned char	t_usshort;
 typedef char			t_sshort;
+typedef unsigned short	t_ushort
 
 typedef struct		s_vertex
 {
@@ -21,9 +22,6 @@ typedef struct		s_sidedef
 }					t_sidedef;
 
 
-typedef struct	
-
-
 typedef struct		s_linedef
 {
 	t_vertex		*start;
@@ -37,6 +35,7 @@ typedef struct		s_linedef
 	t_sidedef		*left_sidedef;
 }					t_linedefs;
 
+
 typedef struct		s_sector
 {
 	short			floor_height;
@@ -47,3 +46,26 @@ typedef struct		s_sector
 	unsigned short	type;
 	unsigned short	sector_tag;
 }					t_sector;
+
+typedef struct		s_seg
+{
+	t_vertex		*start;
+	t_vertex		*end;
+	t_sidedef		*sidedef;
+	t_linedef		*linedef;
+	t_sector		*front;
+	t_sector		*back;
+}					t_seg;
+
+typedef struct		s_bspnode
+{
+	short			x;
+	short			y;
+	short			dx;
+	short			dy;
+	short			bbox[2][4];
+	t_ushort		children[2];
+	// OU
+	struct s_bspnode	*right;
+	struct s_bspnode	*left;
+}
