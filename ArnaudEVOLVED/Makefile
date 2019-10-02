@@ -20,6 +20,8 @@ MLX = -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
 
 PTHREAD = -lpthread
 
+SDLM = `sdl2-config --cflags --libs`
+
 #CFLAGS = -Wall -Wextra -Werror
 
 HEADER = -I .
@@ -31,7 +33,7 @@ SAN = -fsanitize=address
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC)  $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(MLX) $(SDL2)
+	$(CC)  $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(MLX) $(SDL2) $(SDLM)
 
 $(LIBFT):
 	make -C ./libft/

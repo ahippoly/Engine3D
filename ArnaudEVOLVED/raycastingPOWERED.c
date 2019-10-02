@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 05:02:25 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 04:22:32 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/30 21:42:43 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,12 +175,13 @@ void load_cube_point(t_var *v, int x, int y, int z)
     bot.pos1 = downcorner[0];
     bot.pos2 = downcorner[1];
 
-    draw_texture(top, bot, v->p_tab, &v->stone);
+	draw_texture(top, bot, v->p_tab, &v->stone);
 
 	//octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
 	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
 	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);	
 	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff);
+
 }
 
 void load_wall(t_var *v)
