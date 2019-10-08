@@ -12,8 +12,17 @@
 
 #ifndef LIBFTPRINTF_H
 # define LIBFTPRINTF_H
+
+/*
+** LIBRARIES
+*/
+
 # include <stdarg.h>
 # include <string.h>
+
+/*
+** TYPEDEFS/STRUCTS
+*/
 
 typedef enum		e_type
 {
@@ -42,23 +51,44 @@ typedef struct		s_param
 	int				num;
 }					t_param;
 
+/*
+** FUNCTIONS
+*/
+
+/*
+** Parsor functions
+*/
+
 t_param				parsor(const char *format, int i, va_list ap);
-int					is_flag(char c);
-int					is_ok(char c);
 int					parsor_flag(const char *format, int i, t_param *params);
 int					parsor_precis(const char *format, int i, t_param *params
 		, va_list ap);
 int					parsor_type(const char *format, int i, t_param *params);
 int					parsor_pad(const char *format, int i, t_param *params
 		, va_list ap);
+
+/*
+** Check functions
+*/
+
+int					is_flag(char c);
+int					is_ok(char c);
+
+/*
+** Numbers functions
+*/
+
 int					size_number(long long n, int base);
 int					size_u_number(unsigned long long n, int base);
 int					len_int(t_param *params, long long num);
-void				ft_putchar_params(char c, t_param *params);
-long long			ft_atoi(const char *str);
-size_t				ft_strlen(const char *s);
-void				ft_putstr_params(const char *s, t_param *params);
 unsigned long long	ft_pow(unsigned long long a, int power);
+
+/*
+** Writing functions
+*/
+
+void				ft_putchar_params(char c, t_param *params);
+void				ft_putstr_params(const char *s, t_param *params);
 void				ft_putnbr_params(int n, t_param *params);
 void				ft_putnbr_params_h(short n, t_param *params);
 void				ft_putnbr_params_hh(char n, t_param *params);
@@ -85,5 +115,12 @@ int					print_float(t_param *params, va_list ap);
 int					print_char(t_param *params, va_list ap);
 int					print_string(t_param *params, va_list ap);
 void				print_addr(void *addr, t_param *params);
+
+/*
+** Strings function
+*/
+
+long long			ft_atoi(const char *str);
+size_t				ft_strlen(const char *s);
 
 #endif

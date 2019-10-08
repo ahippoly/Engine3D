@@ -12,7 +12,7 @@
 
 NAME= libft.a
 PRINTF= libftprintf.a
-CFLAGS= -g -Wall -Wextra -Werror -O3 -ffreestanding -fno-builtin
+CFLAGS= -g -Wall -Wextra -Werror -O2
 CC= gcc
 HEAD_PF= ./ft_printf
 HEAD_LIB= .

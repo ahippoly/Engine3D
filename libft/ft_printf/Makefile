@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME= libftprintf.a
-CFLAGS= -Wall -Wextra -Werror -Ofast
+CFLAGS= -Wall -Wextra -Werror -O2
 CC= gcc
 SRC= aff.c ft_atoi.c ft_gputnbr.c ft_pow.c ft_printf.c ft_putchar_params.c \
 	 ft_putfloat.c ft_putnbr_params.c ft_putstr_params.c ft_strlen.c \
