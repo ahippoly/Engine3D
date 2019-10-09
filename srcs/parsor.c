@@ -6,13 +6,13 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 15:10:34 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/08 15:42:01 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/09 13:57:11 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom-nukem.h"
 
-void	init_parsor(t_parsor *parsor)
+static void	init_parsor(t_parsor *parsor)
 {
 	ft_bzero(parsor->count, sizeof(int) * 4);
 	ft_bzero(parsor->check_n, sizeof(t_bool) * 4);
@@ -20,9 +20,26 @@ void	init_parsor(t_parsor *parsor)
 	parsor->what_check = 0;
 }
 
+static void	init_list(t_env *e)
+{
+	if (!(e->vertex_list = (t_vertex*)malloc(sizeof(t_vertex) * n_list[VERTEX])))
+		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
+	if (!(e->sector_list = (t_sector*)malloc(sizeof(t_sector) * n_list[SECTOR])))
+		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
+	if (!(e->linedef_list = (t_linedef*)malloc(sizeof(t_linedef) * n_list[LINEDEF])))
+		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
+	if (!(e->sidedef_list = (t_sidedef*)malloc(sizeof(t_sidedef) * n_list[SIDEDEF])))
+		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
+}
+
 void	doom_parsor(t_env *e)
 {
+	int	id;
+
 	init_parsor(&e->parsor);
 	if (check_numbers(e))
 		exit_error(e, ERR_COUNTING, "doom-nukem: counting error");
+	init_lists(e);
+	if ((id = get_doom_data(e)) != 0)
+		exit_error(e, id, "doom-nukem: error in data points");
 }

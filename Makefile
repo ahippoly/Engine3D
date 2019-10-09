@@ -6,7 +6,7 @@
 #    By: msiesse <msiesse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/10 22:26:21 by msiesse           #+#    #+#              #
-#    Updated: 2019/10/08 15:44:19 by msiesse          ###   ########.fr        #
+#    Updated: 2019/10/09 13:49:46 by msiesse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ SRC_PATH = srcs/
 SRC_NAME = 	parsor.c\
 		manage_error.c\
 		check_numbers.c\
-		main.c
+		main.c\
+		init_env.c
 
 OBJ_PATH = objs/
 INC_PATH = includes/

@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_error.c                                     :+:      :+:    :+:   */
+/*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 15:40:05 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/09 13:55:42 by msiesse          ###   ########.fr       */
+/*   Created: 2019/10/09 13:45:20 by msiesse           #+#    #+#             */
+/*   Updated: 2019/10/09 13:47:45 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom-nukem.h"
 
-void	exit_error(t_env *e, int id, const char *msg)
+void	init_env(t_env *e)
 {
-	if (id >= 3)
-	{
-		free(e->vertex_list);
-		free(e->sector_list);
-		free(e->linedef_list);
-		free(e->sidedef_list);
-	}
-	ft_putendl_fd(msg, 2);
-	exit(EXIT_FAILURE);
+	e->vertex_list = NULL;
+	e->sidedef_list = NULL;
+	e->linedef_list = NULL;
+	e->sector_list = NULL;
 }

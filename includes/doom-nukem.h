@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:17:24 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/08 16:07:10 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/09 13:50:39 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@
 # define ERR_COUNTING 1
 # define ERR_DOUBLE_DEF 2
 
-# define LINEDEF 0
-# define SIDEDEF 1
-# define SECTOR 2
-# define VERTEX 3
+/*
+** memory
+*/
+
+# define ERR_MEM_LISTS 3
+
+# define LINEDEF 2
+# define SIDEDEF 3
+# define SECTOR 1
+# define VERTEX 0
 
 /*
 ** TYPEDEFS/STRUCTS
@@ -147,5 +153,6 @@ t_bool			check_numbers(t_env *e);
 */
 
 void			exit_error(t_env *e, int id, const char *msg);
+void			init_env(t_env *e);
 
 #endif

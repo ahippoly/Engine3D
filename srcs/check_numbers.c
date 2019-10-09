@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 15:43:17 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/08 16:17:03 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/09 13:38:18 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,10 @@ t_bool		check_numbers(t_env *e)
 		;
 	if (!c)
 		return (1);
-	while ((res = check_number_line(e, &c)) != 0)
+	while ((res = check_number_line(e, &c)) == 0)
 		;
 	if (res != -1)
 		return (res);
+	e->parsor.pos = c;
 	return (0);
 }
