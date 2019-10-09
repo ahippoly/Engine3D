@@ -13,7 +13,8 @@
 SRC_PATH = srcs/
 SRC_NAME = 	parsor.c\
 		manage_error.c\
-		check_numbers.c
+		check_numbers.c\
+		main.c
 
 OBJ_PATH = objs/
 INC_PATH = includes/
@@ -38,7 +39,6 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIB_PATH)
-	@make -C $(MLX_PATH)
 	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
 
 $(OBJ): $(INC)
@@ -63,7 +63,6 @@ norme:
 
 cleanlib:
 	@make -C $(LIB_PATH) fclean
-	@make -C $(MLX_PATH) clean
 
 analyzer:
 	$(CC) -fsyntax-only $(CFLAGS) $(CPPFLAGS) $(SRC)

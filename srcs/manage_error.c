@@ -12,8 +12,10 @@
 
 #include "doom-nukem.h"
 
-void	exit_error(int num, const char *msg)
+void	exit_error(t_env *e, int id, const char *msg)
 {
+	(void)e;
+	(void)id;
 	ft_putendl_fd(msg, 2);
 	exit(EXIT_FAILURE);
 }

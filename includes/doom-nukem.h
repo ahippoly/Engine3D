@@ -28,11 +28,12 @@
 */
 
 # define ERR_COUNTING 1
+# define ERR_DOUBLE_DEF 2
 
-# define N_LINEDEF 0
-# define N_SIDEDEF 1
-# define N_SECTOR 2
-# define N_VERTEX 3
+# define LINEDEF 0
+# define SIDEDEF 1
+# define SECTOR 2
+# define VERTEX 3
 
 /*
 ** TYPEDEFS/STRUCTS
@@ -74,7 +75,7 @@ typedef struct		s_linedef
 	unsigned short	flags; // pas obligatoire a priori mais a voir
 	unsigned short	type;
 	unsigned short	sector_tag;
-	unsigned short	right_sidedef;  Obsolete si pointeur sur les sidedefs
+	unsigned short	right_sidedef;  //Obsolete si pointeur sur les sidedefs
 	unsigned short	left_sidedef;
 }					t_linedef;
 
@@ -114,15 +115,10 @@ typedef struct		s_bspnode
 typedef struct		s_parsor
 {
 	int		fd;
-	int		count_sector;
-	int		count_sidedef;
-	int		count_linedef;
-	int		count_vertex;
-	t_bool		check_nsector;
-	t_bool		check_nsidedef;
-	t_bool		check_nlinedef;
-	t_bool		check_nvertex;
-	int		what_count;
+	int		count[4];
+	t_bool		check_n[4];
+	int		total_check;
+	int		what_check;
 }			t_parsor;
 
 typedef struct		s_env
@@ -131,9 +127,25 @@ typedef struct		s_env
 	t_sidedef	*sidedef_list;
 	t_linedef	*linedef_list;
 	t_sector	*sector_list;
-	int		n_sector;
-	int		n_sidedef;
-	int		n_linedef;
-	int		n_vertex;
-	t_parsor	e_pars;
+	int		n_list[4];
+	t_parsor	parsor;
 }			t_env;
+
+/*
+** FUNCTIONS
+*/
+
+/*
+** Parsor functions
+*/
+
+void			doom_parsor(t_env *e);
+t_bool			check_numbers(t_env *e);
+
+/*
+** Utilities functions
+*/
+
+void			exit_error(t_env *e, int id, const char *msg);
+
+#endif
