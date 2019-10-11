@@ -6,7 +6,7 @@
 #    By: msiesse <msiesse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/10 22:26:21 by msiesse           #+#    #+#              #
-#    Updated: 2019/10/09 13:49:46 by msiesse          ###   ########.fr        #
+#    Updated: 2019/10/11 16:04:08 by msiesse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,11 @@ SRC_NAME = 	parsor.c\
 		manage_error.c\
 		check_numbers.c\
 		main.c\
-		init_env.c
+		init_env.c\
+		get_doom_data.c\
+		get_vertex.c\
+		get_things_parsor.c\
+		get_linedef.c
 
 OBJ_PATH = objs/
 INC_PATH = includes/

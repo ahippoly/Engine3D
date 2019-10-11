@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_doom_data.c                                    :+:      :+:    :+:   */
+/*   get_vertex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 13:57:18 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/11 16:01:04 by msiesse          ###   ########.fr       */
+/*   Created: 2019/10/11 14:04:07 by msiesse           #+#    #+#             */
+/*   Updated: 2019/10/11 15:46:33 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom-nukem.h"
 
-static t_bool	get_doom_data_line(t_env *e)
+t_bool		get_vertex(t_env *e)
 {
-	t_bool	id;
+	t_bool		id;
+	int		index;
 
-	id = ERR_NOT_VALID_STRUCT;
-	while (e->parsor.pos == '\n' || e->parsor.pos == ' ')
+	id = 0;
+	index = get_the_number(e);
+	if (index < 0 || index >= e->n_list[VERTEX])
+		exit_error(e, ERR_INDEX, "doom-nukem: index error");
+	e->vertex_list[index].x = (float)get_the_number(e);
+	e->vertex_list[index].y = (float)get_the_number(e);
+	e->vertex_list[index].z = (float)get_the_number(e);
+	while (e->parsor.pos == ' ')
 		e->parsor.pos = ft_fgetc(e->parsor.fd);
-	if (e->parsor.pos == 'v')
-		id = get_vertex(e);
-	if (e->parsor.pos == 'l')
-		id = get_linedef(e);
-	if (e->parsor.pos == 0)
-		return (-1);
+	if (e->parsor.pos && e->parsor.pos != '\n')
+		id = ERR_NOT_VALID_VERTEX;
 	return (id);
-}
-
-t_bool		get_doom_data(t_env *e)
-{
-	t_bool	id;
-
-	while (!(id = get_doom_data_line(e)))
-		;
-	if (id != -1 && id == ERR_NOT_VALID_LINEDEF)
-		exit_error(e, id, "doom-nukem: can't get the data");
-	return (0);
 }

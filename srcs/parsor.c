@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 15:10:34 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/09 13:57:11 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/11 14:33:37 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void	init_parsor(t_parsor *parsor)
 	parsor->what_check = 0;
 }
 
-static void	init_list(t_env *e)
+static void	init_lists(t_env *e)
 {
-	if (!(e->vertex_list = (t_vertex*)malloc(sizeof(t_vertex) * n_list[VERTEX])))
+	if (!(e->vertex_list = (t_vertex*)malloc(sizeof(t_vertex) * e->n_list[VERTEX])))
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
-	if (!(e->sector_list = (t_sector*)malloc(sizeof(t_sector) * n_list[SECTOR])))
+	if (!(e->sector_list = (t_sector*)malloc(sizeof(t_sector) * e->n_list[SECTOR])))
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
-	if (!(e->linedef_list = (t_linedef*)malloc(sizeof(t_linedef) * n_list[LINEDEF])))
+	if (!(e->linedef_list = (t_linedef*)malloc(sizeof(t_linedef) * e->n_list[LINEDEF])))
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
-	if (!(e->sidedef_list = (t_sidedef*)malloc(sizeof(t_sidedef) * n_list[SIDEDEF])))
+	if (!(e->sidedef_list = (t_sidedef*)malloc(sizeof(t_sidedef) * e->n_list[SIDEDEF])))
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
 }
 

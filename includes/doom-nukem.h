@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:17:24 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/09 13:50:39 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/11 16:06:30 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 */
 
 #include "libft.h"
+#include <stdio.h> // a delete
 
 /*
 ** MACROS
@@ -29,6 +30,13 @@
 
 # define ERR_COUNTING 1
 # define ERR_DOUBLE_DEF 2
+# define ERR_NOT_VALID_STRUCT 4
+# define ERR_GET_DATA 5
+# define ERR_SYNTAX 6
+# define ERR_TOO_BIG_DATA 7
+# define ERR_NOT_VALID_VERTEX 8
+# define ERR_INDEX 9
+# define ERR_NOT_VALID_LINEDEF 10
 
 /*
 ** memory
@@ -76,13 +84,13 @@ typedef struct		s_sidedef
 
 typedef struct		s_linedef
 {
-	t_vertex		start;
-	t_vertex		end;
-	unsigned short	flags; // pas obligatoire a priori mais a voir
-	unsigned short	type;
-	unsigned short	sector_tag;
-	unsigned short	right_sidedef;  //Obsolete si pointeur sur les sidedefs
-	unsigned short	left_sidedef;
+	unsigned short		start;
+	unsigned short		end;
+	short	flags; // pas obligatoire a priori mais a voir
+	short	type;
+	short	sector_tag;
+	short	right_sidedef;  //Obsolete si pointeur sur les sidedefs
+	short	left_sidedef;
 }					t_linedef;
 
 
@@ -125,6 +133,7 @@ typedef struct		s_parsor
 	t_bool		check_n[4];
 	int		total_check;
 	int		what_check;
+	char		pos;
 }			t_parsor;
 
 typedef struct		s_env
@@ -147,6 +156,10 @@ typedef struct		s_env
 
 void			doom_parsor(t_env *e);
 t_bool			check_numbers(t_env *e);
+t_bool			get_doom_data(t_env *e);
+t_bool			get_vertex(t_env *e);
+int			get_the_number(t_env *e);
+t_bool			get_linedef(t_env *e);
 
 /*
 ** Utilities functions
