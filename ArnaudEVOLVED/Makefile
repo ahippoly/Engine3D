@@ -26,14 +26,14 @@ SDLM = `sdl2-config --cflags --libs`
 
 HEADER = -I .
 
-SDL2 = -L lib -lSDL2
+SDL2 = -L lib -l SDL2
 
 SAN = -fsanitize=address
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC)  $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(MLX) $(SDL2) $(SDLM)
+	$(CC)  $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(SDLM)
 
 $(LIBFT):
 	make -C ./libft/

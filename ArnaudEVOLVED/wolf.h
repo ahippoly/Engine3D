@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 08:24:06 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 00:57:52 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:26:28 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ typedef struct	s_text
 	int		h;
 	int		bpp;
 }				t_text;
+
+typedef struct  s_vox_line
+{
+
+
+
+}				t_vox_line;
 
 typedef struct  s_var
 {
@@ -127,4 +134,9 @@ void		draw_texture(t_line top, t_line bot, char *pixels, t_text *text);
 void    	bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio);
 SDL_Point   vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot);
 
+t_vox cut_frustum(t_vox cam_pos, t_pos cam_rot);
+t_pos line_intersect(t_vox cam_pos, t_pos cam_rot);
+void adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2);
+
+SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4);
 #endif

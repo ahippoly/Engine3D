@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:51:11 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/25 00:52:41 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:51:58 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,11 @@ void var_ini(t_var *v, char *file)
 	v->p_tab = (char*)malloc(WIN_SIZE * WIN_SIZE * 4);	
 	v->map = readfile2(file, v);
 	printf("map_size : x = %f, y = %f, z = %f\n",v->map_size.x ,v->map_size.y, v->map_size.z);
-	v->perso_pos.x = 1;
-	v->perso_pos.y = 1;
-	v->perso_pos.z = -1.5;
+	v->perso_pos.x = 1.5;
+	v->perso_pos.y = -1;
+	v->perso_pos.z = -0.5;
 	v->fov = 1;
-	v->rot = 1;
+	v->rot = 0;
 	v->roty = 1;
 	v->win_size.x = WIN_SIZE;
     v->win_size.y = WIN_SIZE;
@@ -196,6 +196,9 @@ int main(int ac, char **av)
 	SDL_Point map_size;
 	float rot;
 	t_var v;
+	t_pos cam_rot;
+	SDL_Point test1;
+	SDL_Point test2;
 
 	ac = 1;
 	SDL_Init(SDL_INIT_VIDEO);
@@ -214,6 +217,8 @@ int main(int ac, char **av)
 			{
 				quit = 1;
 			}
+			cam_rot.x = v.roty;
+			cam_rot.y = v.rot;
 			if (e.type == SDL_KEYDOWN)
 			{
 				if (e.key.keysym.scancode == SDL_SCANCODE_W)
@@ -285,6 +290,16 @@ int main(int ac, char **av)
 						v.fov -= (double)0.05;
 						print_map(&v);
 					}
+				}
+				if (e.key.keysym.scancode == SDL_SCANCODE_B)
+				{
+					test1.x = 500;
+					test1.y = 500;
+					test2.x = 1000;
+					test2.y = 700;
+					adapt_out_screen(&test1, &test2);
+					//line_intersect(v.perso_pos, cam_rot);
+//					cut_frustum(v.perso_pos, cam_rot);
 				}
 				printf("       rotx = %f \n",v.rot);
 				printf("       roty = %f \n",v.roty);

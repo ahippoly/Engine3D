@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 05:02:25 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/30 21:42:43 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:44:04 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	cam_rot.y = v->rot;
 
 	//corner[0] = vox_on_screen(pos3d, v->perso_pos, cam_rot);
-	corner[0] = load_corner(v, x , y , z);
+	corner[0] = load_corner(v, x , y , z );
 	corner[1] = load_corner(v, x + 1, y , z);
 	corner[2] = load_corner(v, x , y + 1 , z);
 	corner[3] = load_corner(v, x + 1, y + 1 , z);
@@ -145,12 +145,12 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	bot.pos2 = corner[3];
 
 	//disp_text(v->p_tab, v->img_tab, v->img_size);
-	draw_texture(top, bot, v->p_tab, &v->stone);
-/*	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+	//draw_texture(top, bot, v->p_tab, &v->stone);
+	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
 	octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
 	octant(corner[1], corner[3], v->p_tab, 0xff00ffff);	
 	octant(corner[2], corner[3], v->p_tab, 0xff00ffff);
-*/
+
 }
 
 
@@ -175,9 +175,9 @@ void load_cube_point(t_var *v, int x, int y, int z)
     bot.pos1 = downcorner[0];
     bot.pos2 = downcorner[1];
 
-	draw_texture(top, bot, v->p_tab, &v->stone);
+	//draw_texture(top, bot, v->p_tab, &v->stone);
 
-	//octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
+	octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
 	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
 	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);	
 	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff);
