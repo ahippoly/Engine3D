@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:51:11 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/10 19:51:58 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/13 17:43:47 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,8 @@ int main(int ac, char **av)
 					test1.y = 500;
 					test2.x = 1000;
 					test2.y = 700;
-					adapt_out_screen(&test1, &test2);
+//					adapt_out_screen(&test1, &test2);
+					octant(test1, test2, v.p_tab, 0xffffffff);
 					//line_intersect(v.perso_pos, cam_rot);
 //					cut_frustum(v.perso_pos, cam_rot);
 				}

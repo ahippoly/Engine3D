@@ -14,7 +14,7 @@ INC = -I includes
 
 LIBFT = libft/libft.a
 
-CC = gcc 
+CC = gcc -g 
 
 MLX = -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
 

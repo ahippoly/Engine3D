@@ -6,11 +6,11 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 18:48:11 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/11 21:58:01 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/11 22:04:19 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf.h"
+# include "include/SDL2/SDL.h"
 
 SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4)
 {

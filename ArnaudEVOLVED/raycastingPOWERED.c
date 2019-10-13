@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 05:02:25 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/10 19:44:04 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/13 19:14:50 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	corner[2] = load_corner(v, x , y + 1 , z);
 	corner[3] = load_corner(v, x + 1, y + 1 , z);
 
-	printf("YES 1\n");
+	//printf("YES 1\n");
 	top.pos1 = corner[0];
 	top.pos2 = corner[1];
 	bot.pos1 = corner[2];
@@ -150,7 +150,6 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
 	octant(corner[1], corner[3], v->p_tab, 0xff00ffff);	
 	octant(corner[2], corner[3], v->p_tab, 0xff00ffff);
-
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:02:22 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/10 20:53:51 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/13 20:35:11 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,71 @@ void adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2)
 {
 	SDL_Point p1;
 	SDL_Point p2;
+	int adapt;
 
 	p1 = *pp1;
 	p2 = *pp2;
-	printf("pre = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
+	adapt = 0;
+	//printf("pre = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 	if (!(p1.x > WIN_SIZE && p2.x > WIN_SIZE) 
 		&& !(p1.x <= 0 && p2.x <= 0) 
 		&& !(p1.y > WIN_SIZE && p2.y > WIN_SIZE) 
 		&& !(p1.y <= 0 && p2.y <= 0))
 	{
-		printf("beg = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
-		printf("abs x = %d, abs y = %d",ft_abs(p1.x - p2.x), ft_abs(p1.y - p2.y));
+//		printf("beg = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
+		//printf("abs x = %d, abs y = %d\n",ft_abs(p1.x - p2.x), ft_abs(p1.y - p2.y));
 		if (p1.x > WIN_SIZE)
 		{
-			p1.y = p2.y + ft_abs(WIN_SIZE - p2.x) * (p2.y - p1.y) / ft_abs(p1.x - p2.x);
+			adapt = 1;
+			p1.y = p2.y + (WIN_SIZE - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
 			p1.x = WIN_SIZE;
 		}
 		if (p2.x > WIN_SIZE)
 		{
-			p2.y = p1.y + ft_abs(WIN_SIZE - p1.x) * (p2.y - p1.y) / ft_abs(p2.x - p1.x);
+			adapt = 2;
+			p2.y = p1.y + (WIN_SIZE - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
 			p2.x = WIN_SIZE;
 		}
 		if (p1.y > WIN_SIZE)
 		{
-			p1.x = p1.x + ft_abs(WIN_SIZE - p1.y) * (p2.x - p1.x) / ft_abs(p2.y - p1.y);
+			adapt = 3;
+			p1.x = p1.x + (WIN_SIZE - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
 			p1.y = WIN_SIZE;
 		}
 		if (p2.y > WIN_SIZE)
 		{
-			p2.x = p2.x + ft_abs(WIN_SIZE - p2.y) * (p2.x - p1.x) / ft_abs(p1.y - p2.y);
+			adapt = 4;
+			p2.x = p2.x + (WIN_SIZE - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
 			p2.y = WIN_SIZE;
+		}
+		if (p1.x < 0)
+		{
+			adapt = 5;
+			p1.y = p1.y + -p1.x * (p2.y - p1.y) / (p2.x - p1.x);
+			p1.x = 0;
+		}
+		if (p2.x < 0)
+		{
+			adapt = 6;
+			p2.y = p2.y + -p2.x * (p1.y - p2.y) / (p1.x - p2.x);
+			p2.x = 0;
+		}
+		if (p1.y < 0)
+		{
+			adapt = 7;
+			p1.x = p1.x + -p1.y * (p2.x - p1.x) / (p2.y - p1.y);
+			p1.y = 0;
+		}
+		if (p2.y < 0)
+		{
+			adapt = 8;
+			p2.x = p2.x + -p2.y * (p1.x - p2.x) / (p1.y - p2.y);
+			p2.y = 0;
 		}
 		*pp1 = p1;
 		*pp2 = p2;
-		printf("res = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
+		if (adapt > 0)
+			printf("res = p1, x = %d y = %d, p2 x = %d y = %d, adapt = %d\n",p1.x, p1.y, p2.x, p2.y,adapt);
 	}
 }
 
@@ -87,8 +118,8 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
 	{
 		p_tab = (unsigned int*)pixel;
 		i = 0;
-		oct_ini(&oct, pos1, pos2, pos);
 		adapt_out_screen(&pos1, &pos2);
+		oct_ini(&oct, pos1, pos2, pos);
 		length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]));
 		//printf("pixels drawed = %i\n", length);
 		while (i < length)
