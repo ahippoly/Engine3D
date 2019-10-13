@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 15:10:34 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/11 14:33:37 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/13 18:40:42 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	init_parsor(t_parsor *parsor)
 {
-	ft_bzero(parsor->count, sizeof(int) * 4);
 	ft_bzero(parsor->check_n, sizeof(t_bool) * 4);
 	parsor->total_check = 0;
 	parsor->what_check = 0;
@@ -30,6 +29,10 @@ static void	init_lists(t_env *e)
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
 	if (!(e->sidedef_list = (t_sidedef*)malloc(sizeof(t_sidedef) * e->n_list[SIDEDEF])))
 		exit_error(e, ERR_MEM_LISTS, "doom-nukem: allocation error");
+	init_darr(&e->parsor.vertex_occ, sizeof(int));
+	init_darr(&e->parsor.sector_occ, sizeof(int));
+	init_darr(&e->parsor.linedef_occ, sizeof(int));
+	init_darr(&e->parsor.sidedef_occ, sizeof(int));
 }
 
 void	doom_parsor(t_env *e)

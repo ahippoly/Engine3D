@@ -17,9 +17,11 @@ linedef 1 2 3 0 -1 -1 1
 linedef 2 4 5 0 -1 -1 2
 linedef 3 6 7 0 -1 -1 3
 
-sector 0 0 100 "floor.png" "ceil.png" 100
+sector 0 0 100 7 12 100 5
 
-sidedef 0 0 0 "Up.png" "low.png" "middle.png" 0
-sidedef 1 0 0 "Up.png" "low.png" "middle.png" 0
-sidedef 2 0 0 "Up.png" "low.png" "middle.png" 0
-sidedef 3 0 0 "Up.png" "low.png" "middle.png" 0
+sidedef 0 0 0 8 9 10 0
+sidedef 1 0 0 8 9 10 0
+sidedef 2 0 0 8 9 10 0
+sidedef 3 0 0 8 9 10 0
+
+sector 0 0 100 2 2 100 5

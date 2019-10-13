@@ -6,7 +6,7 @@
 #    By: msiesse <msiesse@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/10 22:26:21 by msiesse           #+#    #+#              #
-#    Updated: 2019/10/11 16:04:08 by msiesse          ###   ########.fr        #
+#    Updated: 2019/10/13 18:00:09 by msiesse          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,9 @@ SRC_NAME = 	parsor.c\
 		get_doom_data.c\
 		get_vertex.c\
 		get_things_parsor.c\
-		get_linedef.c
+		get_linedef.c\
+		get_sector.c\
+		get_sidedef.c
 
 OBJ_PATH = objs/
 INC_PATH = includes/

@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:17:24 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/11 16:06:30 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/13 18:40:00 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define ERR_NOT_VALID_VERTEX 8
 # define ERR_INDEX 9
 # define ERR_NOT_VALID_LINEDEF 10
+# define ERR_ALREADY_GET 11
 
 /*
 ** memory
@@ -75,9 +76,9 @@ typedef struct		s_sidedef
 {
 	float			x_offset; //ou short x_offset
 	float			y_offset; //ou short y_offset
-	char			*up_texture;
-	char			*low_texture;
-	char			*middle_texture;
+	short			up_texture;
+	short			low_texture;
+	short			middle_texture;
 	unsigned short	sector_id;
 }					t_sidedef;
 
@@ -98,8 +99,8 @@ typedef struct		s_sector
 {
 	short			floor_height;
 	short			ceil_height;
-	char			*floor_texture;
-	char			*ceil_texture;
+	short			floor_texture;
+	short			ceil_texture;
 	short			light_lvl;
 	unsigned short	type; // defini le type de secteur, est-ce qu'il y a de la brume, du poison, etc...
 	unsigned short	sector_tag; /* defini une possibilie d'action avec une linedef qui possede le meme sector_tag
@@ -129,7 +130,10 @@ typedef struct		s_bspnode
 typedef struct		s_parsor
 {
 	int		fd;
-	int		count[4];
+	t_darr		vertex_occ;
+	t_darr		sidedef_occ;
+	t_darr		linedef_occ;
+	t_darr		sector_occ;
 	t_bool		check_n[4];
 	int		total_check;
 	int		what_check;
@@ -160,6 +164,9 @@ t_bool			get_doom_data(t_env *e);
 t_bool			get_vertex(t_env *e);
 int			get_the_number(t_env *e);
 t_bool			get_linedef(t_env *e);
+t_bool			get_sector(t_env *e);
+t_bool			get_sidedef(t_env *e);
+t_bool			is_saved(int index, t_darr d_arr);
 
 /*
 ** Utilities functions
