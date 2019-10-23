@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 11:03:16 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/22 13:47:16 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/23 16:26:37 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	editor(t_env *e)
 			delete_line(e);
 		if (e->sdl.event.key.keysym.scancode == 20 && e->i_file > 0)
 		{
+			e->set_wall = 0;
 			e->select ^= 1;
 			if (e->select == 0)
 				e->edit_id = e->tmp_id;
