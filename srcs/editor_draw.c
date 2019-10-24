@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 15:52:02 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/23 16:12:50 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/24 11:26:09 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void			edit_draw(t_env *e)
 	while (i < e->i_file)
 	{
 		e->i_back = 0;
-		ft_putstr("oui\n");
-		ft_putstr(e->file[i]);
 		e->edit_id = ft_atoi(e->file[i]);
 		back_pass(e, i);
 		e->x1 = ft_atoi(&e->file[i][e->i_back]);

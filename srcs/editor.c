@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 11:03:16 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/23 16:26:37 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/24 11:33:32 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,5 @@ void	editor(t_env *e)
 		}
 		if (e->sdl.event.button.button == SDL_BUTTON_RIGHT)
 				e->set_wall = 0;
-	}
-	if (e->sdl.event.type == SDL_KEYDOWN)
-	{
-		if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 0)
-			draw_back(e);
-		if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 1)
-			delete_line(e);
-		if (e->sdl.event.key.keysym.scancode == 20 && e->i_file > 0)
-		{
-			e->set_wall = 0;
-			e->select ^= 1;
-			if (e->select == 0)
-				e->edit_id = e->tmp_id;
-		}
 	}
 }

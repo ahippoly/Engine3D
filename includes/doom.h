@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/22 13:59:02 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/24 11:34:47 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef	struct		s_env
 }					t_env;
 
 void	error_sdl(t_env *e);
+void    gere_key(t_env *e);
 
 /*
 ** Bresenham functions ##################################################
