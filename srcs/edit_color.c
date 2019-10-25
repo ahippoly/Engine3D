@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 14:29:59 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:13:52 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 14:50:33 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ void		fill_pixel(char *pixels, int x, int y, int color)
 void	set_color(t_env *e)
 {
 	if (e->edit_id == -1)
-		fill_pixel(e->sdl.pixels, e->x1, e->y1, PINK);
+		fill_pixel(e->sec[e->secteur].pixels, e->x1, e->y1, PINK);
 	if (e->edit_id == 0)
-		fill_pixel(e->sdl.pixels, e->x1, e->y1, RED);
+		fill_pixel(e->sec[e->secteur].pixels, e->x1, e->y1, RED);
 	if (e->edit_id == 1)
-		fill_pixel(e->sdl.pixels, e->x1, e->y1, GREEN);
+		fill_pixel(e->sec[e->secteur].pixels, e->x1, e->y1, GREEN);
 	if (e->edit_id == 2)
-		fill_pixel(e->sdl.pixels, e->x1, e->y1, BLUE);
+		fill_pixel(e->sec[e->secteur].pixels, e->x1, e->y1, BLUE);
 	if (e->edit_id == 10)
-		fill_pixel(e->sdl.pixels, e->x1, e->y1, WHITE);
+		fill_pixel(e->sec[e->secteur].pixels, e->x1, e->y1, WHITE);
 }
 
 void	print(t_env *e)
 {
 		SDL_RenderClear(e->sdl.renderer);
-		SDL_UpdateTexture(e->sdl.texture, NULL, e->sdl.pixels, W_IMG * 4);
+		SDL_UpdateTexture(e->sdl.texture, NULL, e->sec[e->secteur].pixels, W_IMG * 4);
 		if (SDL_RenderCopy(e->sdl.renderer, e->sdl.texture, &e->map, NULL) != 0)
 			error_sdl(e);
 		SDL_RenderPresent(e->sdl.renderer);
@@ -55,10 +55,10 @@ void	print(t_env *e)
 
 void	draw_clic(t_env *e, int x, int y)
 {
-	fill_pixel(e->sdl.pixels, x, y, PINK);
-	fill_pixel(e->sdl.pixels, x + 1, y, PINK);
-	fill_pixel(e->sdl.pixels, x - 1, y, PINK);
-	fill_pixel(e->sdl.pixels, x, y + 1, PINK);
-	fill_pixel(e->sdl.pixels, x, y - 1, PINK);
+	fill_pixel(e->sec[e->secteur].pixels, x, y, PINK);
+	fill_pixel(e->sec[e->secteur].pixels, x + 1, y, PINK);
+	fill_pixel(e->sec[e->secteur].pixels, x - 1, y, PINK);
+	fill_pixel(e->sec[e->secteur].pixels, x, y + 1, PINK);
+	fill_pixel(e->sec[e->secteur].pixels, x, y - 1, PINK);
 	print(e);
 }

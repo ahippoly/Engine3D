@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 13:38:48 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/23 11:05:13 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 14:17:59 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	write_file(t_env *e)
 
 	i = 0;
 	ft_putstr_fd("id	x1	y1	x2	y2\n", e->fd);
-	while (i < e->i_file)
+	while (i < e->sec[e->secteur].i_file)
 	{
-		write(e->fd, e->file[i], ft_strlen(e->file[i]));
-		free(e->file[i]);
+		write(e->fd, e->sec[e->secteur].file[i], ft_strlen(e->sec[e->secteur].file[i]));
+		free(e->sec[e->secteur].file[i]);
 		i++;
 	}
 	close(e->fd);
-	free(e->file);
+	free(e->sec[e->secteur].file);
 }

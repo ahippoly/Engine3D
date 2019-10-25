@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:47:46 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:52:07 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,39 @@ void    gere_key(t_env *e)
 	if (e->sdl.event.key.keysym.scancode == 79) // move map
 		if (e->map.x < 960)
 			e->map.x += 10;
-    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 0) //effacer dernier ligne
+    if (e->sdl.event.key.keysym.scancode == 42 && e->sec[e->secteur].i_file > 0 && e->select == 0) //effacer dernier ligne
     	draw_back(e);
-    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 1)	//effacer ligne select
+    if (e->sdl.event.key.keysym.scancode == 42 && e->sec[e->secteur].i_file > 0 && e->select == 1)	//effacer ligne select
     	delete_line(e);
-    if (e->sdl.event.key.keysym.scancode == 20 && e->i_file > 0) //select ligne
+    if (e->sdl.event.key.keysym.scancode == 20 && e->sec[e->secteur].i_file > 0) //select ligne
     {
     	e->set_wall = 0;
     	e->select ^= 1;
     	if (e->select == 0)
     		e->edit_id = e->tmp_id;
-		clear(e);
+		clear(e);;;
 		draw_ver(e);
 		edit_draw(e);
-		print(e);
 	}
+	if (e->sdl.event.key.keysym.scancode == 87)
+		if (e->secteur < 10)
+		{
+			e->secteur++;
+    	//	clear(e);;;
+			draw_ver(e);
+			edit_draw(e);
+			e->set_wall = 0;
+		}
+	if (e->sdl.event.key.keysym.scancode == 86)
+		if (e->secteur > 0)
+		{
+ 	   		e->set_wall = 0;
+			e->secteur--;
+ 	   		//clear(e);
+			draw_ver(e);
+			edit_draw(e);
+	}
+	ft_putnbr(e->secteur);
+	ft_putchar('\n');
     print(e);
 }

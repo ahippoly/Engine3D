@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:48:27 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:15:59 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:49:37 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	redraw(t_env *e)
 {
-	clear(e);
+	clear(e);;;
 	draw_ver(e);
 	edit_draw(e);
 	print(e);
@@ -29,27 +29,27 @@ void	delete_line(t_env *e)
 
 	i = 0;
 	j = 0;
-	if (!(new = (char**)malloc(sizeof(*new) * e->i_file)))
+	if (!(new = (char**)malloc(sizeof(*new) * e->sec[e->secteur].i_file)))
 		error(e);
-	while (i < e->i_file)
+	while (i < e->sec[e->secteur].i_file)
 	{
-		if (i == e->line)
+		if (i == e->sec[e->secteur].line)
 		{
-			free(e->file[i]);
+			free(e->sec[e->secteur].file[i]);
 			i++;
 		}
-		new[j] = e->file[i];
+		new[j] = e->sec[e->secteur].file[i];
 		i++;
 		j++;
 	}
 	new[j] = 0;
-	tmp = e->file;
+	tmp = e->sec[e->secteur].file;
 	i = 0;
-	e->i_file--;
-	e->file = new;
-	while (i < e->i_file)
+	e->sec[e->secteur].i_file--;
+	e->sec[e->secteur].file = new;
+	while (i < e->sec[e->secteur].i_file)
 	{
-		e->file[i] = new[i];
+		e->sec[e->secteur].file[i] = new[i];
 		i++;
 	}
 	free(tmp);

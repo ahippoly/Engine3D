@@ -6,7 +6,7 @@
 #    By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/11 13:58:07 by ceaudouy          #+#    #+#              #
-#    Updated: 2019/10/24 11:34:27 by ceaudouy         ###   ########.fr        #
+#    Updated: 2019/10/25 15:35:45 by ceaudouy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC_NAME = main.c\
 		   draw_back.c\
 		   select.c\
 		   delete_line.c\
-		   gere_key.c
+		   gere_key.c\
+		   init.c
 
 OBJ_PATH = objs/
 INC_PATH = includes/

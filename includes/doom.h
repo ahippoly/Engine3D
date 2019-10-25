@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:13:18 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:30:27 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,20 @@ typedef	struct		s_sdl
 	SDL_Point		point;
 	SDL_Event		event;
 	SDL_Rect		pos;
-	char			*pixels;
 }					t_sdl;
+
+typedef	struct		s_sec
+{
+	char			**file;
+	int				i_file;
+	int				line;
+	char			*pixels;
+
+}					t_sec;
 
 typedef	struct		s_env
 {
+	int				secteur;
 	int				x;
 	int				y;
 
@@ -56,8 +65,6 @@ typedef	struct		s_env
 	int				set_wall;
 	int				set_map;
 	int				fd;
-	char			**file;
-	int				i_file;
 	int				edit_id;
 	int				tmp_id;
 	int				i_back;
@@ -76,12 +83,13 @@ typedef	struct		s_env
 	
 	int				select;
 	int				select_line;
-	int				line;
 	t_sdl			sdl;
+	t_sec			sec[10];
 }					t_env;
 
 void	error_sdl(t_env *e);
 void    gere_key(t_env *e);
+void    init(t_env *e);
 
 /*
 ** Bresenham functions ##################################################

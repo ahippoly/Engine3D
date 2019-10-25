@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 15:52:02 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 12:16:53 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:49:37 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,52 +28,52 @@ static void		write_tab(t_env *e)
 	tmp2 = ft_itoa(e->edit_id);
 	tmp = ft_itoa(e->x1 - 32);
 	check_error(e, tmp, tmp2);
-	if (!(e->file[e->i_file] = ft_strjoin(tmp2, "	")))
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(tmp2, "	")))
 		error_edit(e, tmp, tmp2);
 	free(tmp2);
-	tmp2 = e->file[e->i_file];
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], tmp)))
+	tmp2 = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], tmp)))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
 	free(tmp2);
-	tmp = e->file[e->i_file];
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], "\t")))
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], "\t")))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
-	tmp = e->file[e->i_file];
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
 	tmp2 = ft_itoa(e->y1 - 32);
 	check_error(e, tmp, tmp2);
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], tmp2)))
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], tmp2)))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
 	free(tmp2);
-	tmp = e->file[e->i_file];
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], "\t")))
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], "\t")))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
 	tmp2 = ft_itoa(e->x2 - 32);
-	tmp = e->file[e->i_file];
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
 	check_error(e, tmp, tmp2);
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], tmp2)))
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], tmp2)))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
 	free(tmp2);
-	tmp = e->file[e->i_file];
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], "\t")))
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], "\t")))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
-	tmp = e->file[e->i_file];
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
 	tmp2 = ft_itoa(e->y2 - 32);
 	check_error(e, tmp, tmp2);
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], tmp2)))
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], tmp2)))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
 	free(tmp2);
-	tmp = e->file[e->i_file];
-	if (!(e->file[e->i_file] = ft_strjoin(e->file[e->i_file], "\n")))
+	tmp = e->sec[e->secteur].file[e->sec[e->secteur].i_file];
+	if (!(e->sec[e->secteur].file[e->sec[e->secteur].i_file] = ft_strjoin(e->sec[e->secteur].file[e->sec[e->secteur].i_file], "\n")))
 		error_edit(e, tmp, tmp2);
 	free(tmp);
-	e->i_file++;
+	e->sec[e->secteur].i_file++;
 }
 
 void			edit_draw(t_env *e)
@@ -81,18 +81,18 @@ void			edit_draw(t_env *e)
 	int		i;
 
 	i = 0;
-	while (i < e->i_file)
+	while (i < e->sec[e->secteur].i_file)
 	{
 		e->i_back = 0;
-		e->edit_id = ft_atoi(e->file[i]);
+		e->edit_id = ft_atoi(e->sec[e->secteur].file[i]);
 		back_pass(e, i);
-		e->x1 = ft_atoi(&e->file[i][e->i_back]);
+		e->x1 = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]);
 		back_pass(e, i);
-		e->y1 = ft_atoi(&e->file[i][e->i_back]);
+		e->y1 = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]);
 		back_pass(e, i);
-		e->x2 = ft_atoi(&e->file[i][e->i_back]);
+		e->x2 = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]);
 		back_pass(e, i);
-		e->y2 = ft_atoi(&e->file[i][e->i_back]);
+		e->y2 = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]);
 		e->x1 += 32;
 		e->y1 += 32;
 		e->x2 += 32;
@@ -135,10 +135,10 @@ void			draw_wall(t_env *e)
 		if (e->x1 > 31 && e->x1 < 1857 && e->y1 > 31 && e->y1 < 1029
 			&& e->x2 > 31 && e->x2 < 1857 && e->y2 > 31 && e->y2 < 1029)
 		{
-			if (/*check_redraw(e) == 1 ||*/ (e->i_file >= 1 && check_crossing(e) == 1))
+			if (/*check_redraw(e) == 1 ||*/ (e->sec[e->secteur].i_file >= 1 && check_crossing(e) == 1))
 				return ;
 			write_tab(e);
-			clear(e);
+			clear(e);;;
 			ft_bresenham(e);
 			draw_ver(e);
 			edit_draw(e);

@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 11:38:48 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:14:59 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:49:37 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	find_select(t_env *e, int i)
 {
 	if (e->select_line == 1)
 	{
-		clear(e);
+		clear(e);;;
 		draw_ver(e);
 		edit_draw(e);
 	}
-	e->line = i;
+	e->sec[e->secteur].line = i;
 	e->x1 = e->p3.x;
 	e->y1 = e->p3.y;
 	e->x2 = e->p4.x;
@@ -46,7 +46,7 @@ void	select_mode(t_env *e)
 	e->x2 = x - 5;
 	e->y1 = y + 5;
 	e->y2 = y - 5;
-	while (i < e->i_file)
+	while (i < e->sec[e->secteur].i_file)
 	{
 		take_cord(e, i);
 		inter = segment_intersect(e);

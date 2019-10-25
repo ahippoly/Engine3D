@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 15:02:43 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 11:14:31 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 15:49:24 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	back_pass(t_env *e, int i)
 {
-	while (e->file[i][e->i_back] != '\t')
+	while (e->sec[e->secteur].file[i][e->i_back] != '\t')
 		e->i_back++;
-	while (e->file[i][e->i_back] == '\t')
+	while (e->sec[e->secteur].file[i][e->i_back] == '\t')
 		e->i_back++;
 }
 
@@ -31,7 +31,7 @@ void	clear(t_env *e)
 		j = 0;
 		while (j < W_IMG)
 		{
-			fill_pixel(e->sdl.pixels, j, i, BLACK);
+			fill_pixel(e->sec[e->secteur].pixels, j, i, BLACK);
 			j++;
 		}
 		i++;
@@ -45,11 +45,11 @@ void	draw_back(t_env *e)
 
 	e->set_wall = 0;
 	i = 0;
-	e->i_file--;
+	e->sec[e->secteur].i_file--;
 	SDL_RenderClear(e->sdl.renderer);
-	ft_bzero(e->file[e->i_file], ft_strlen(e->file[e->i_file]));
-	free(e->file[e->i_file]);
-	clear(e);
+	ft_bzero(e->sec[e->secteur].file[e->sec[e->secteur].i_file], ft_strlen(e->sec[e->secteur].file[e->sec[e->secteur].i_file]));
+	free(e->sec[e->secteur].file[e->sec[e->secteur].i_file]);
+	////clear(e);;
 	draw_ver(e);
 	edit_draw(e);
 	print(e);
@@ -58,6 +58,6 @@ void	draw_back(t_env *e)
 void	error(t_env *e)
 {
 	//free all
-	e->i_file++;
+	e->sec[e->secteur].i_file++;
 	exit (1);
 }
