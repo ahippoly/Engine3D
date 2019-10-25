@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/24 11:34:32 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 11:47:46 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ void    gere_key(t_env *e)
 	if (e->sdl.event.key.keysym.scancode == 79) // move map
 		if (e->map.x < 960)
 			e->map.x += 10;
-    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 0)
+    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 0) //effacer dernier ligne
     	draw_back(e);
-    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 1)
+    if (e->sdl.event.key.keysym.scancode == 42 && e->i_file > 0 && e->select == 1)	//effacer ligne select
     	delete_line(e);
-    if (e->sdl.event.key.keysym.scancode == 20 && e->i_file > 0)
+    if (e->sdl.event.key.keysym.scancode == 20 && e->i_file > 0) //select ligne
     {
     	e->set_wall = 0;
     	e->select ^= 1;
     	if (e->select == 0)
     		e->edit_id = e->tmp_id;
-    }
-    SDL_RenderClear(e->sdl.renderer);
-	SDL_UpdateTexture(e->sdl.texture, NULL, e->sdl.pixels, W_IMG * 4);
-	if (SDL_RenderCopy(e->sdl.renderer, e->sdl.texture, &e->map, NULL) != 0)
-		error_sdl(e);
-	SDL_RenderPresent(e->sdl.renderer);
+		clear(e);
+		draw_ver(e);
+		edit_draw(e);
+		print(e);
+	}
+    print(e);
 }

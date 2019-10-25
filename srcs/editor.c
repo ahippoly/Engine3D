@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 11:03:16 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/24 11:33:32 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 11:46:00 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void	editor(t_env *e)
 	{
 		draw_ver(e);
 		e->set_map = 1;
-		SDL_UpdateTexture(e->sdl.texture, NULL, e->sdl.pixels, W_IMG * 4);
-		if (SDL_RenderCopy(e->sdl.renderer, e->sdl.texture, &e->map, NULL) != 0)
-			error_sdl(e);
-		SDL_RenderPresent(e->sdl.renderer);
+		print(e);
 	}
 	if (e->sdl.event.type == SDL_MOUSEBUTTONDOWN)
 	{	
@@ -74,6 +71,12 @@ void	editor(t_env *e)
 				draw_wall(e);
 		}
 		if (e->sdl.event.button.button == SDL_BUTTON_RIGHT)
-				e->set_wall = 0;
+		{	
+			e->set_wall = 0;
+			clear(e);
+			draw_ver(e);
+			edit_draw(e);
+			print(e);
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 13:48:27 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/24 11:28:00 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 11:15:59 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 void	redraw(t_env *e)
 {
-	SDL_RenderClear(e->sdl.renderer);
 	clear(e);
 	draw_ver(e);
 	edit_draw(e);
-	SDL_UpdateTexture(e->sdl.texture, NULL, e->sdl.pixels, W_IMG * 4);
-	if (SDL_RenderCopy(e->sdl.renderer, e->sdl.texture, &e->map, NULL) != 0)
-		error_sdl(e);
-	SDL_RenderPresent(e->sdl.renderer);
+	print(e);
 }
 
 void	delete_line(t_env *e)

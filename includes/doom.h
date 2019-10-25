@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/24 11:34:47 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 11:13:18 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ int					check_inter(t_env *e, SDL_Point inter);
 void				clear(t_env *e);
 void				delete_line(t_env *e);
 void				error(t_env *e);
-
+void				draw_clic(t_env *e, int x, int y);
+void				print(t_env *e);
 
 /*
 ** ####################################################################

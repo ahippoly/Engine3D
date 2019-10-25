@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 15:52:02 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/24 11:26:09 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:16:53 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void			draw_wall(t_env *e)
 		e->x1 = x;
 		e->y1 = y;
 		e->set_wall = 1;
+		draw_clic(e, x, y);
 	}
 	else if (e->x1 == x && e->y1 == y)
 		return ;
@@ -137,12 +138,12 @@ void			draw_wall(t_env *e)
 			if (/*check_redraw(e) == 1 ||*/ (e->i_file >= 1 && check_crossing(e) == 1))
 				return ;
 			write_tab(e);
+			clear(e);
 			ft_bresenham(e);
+			draw_ver(e);
+			edit_draw(e);
+			draw_clic(e, x, y);
 		}
-		SDL_RenderClear(e->sdl.renderer);
-		SDL_UpdateTexture(e->sdl.texture, NULL, e->sdl.pixels, W_IMG * 4);
-		if (SDL_RenderCopy(e->sdl.renderer, e->sdl.texture, &e->map, NULL) != 0)
-			error_sdl(e);
-		SDL_RenderPresent(e->sdl.renderer);
+		print(e);
 	}
 }
