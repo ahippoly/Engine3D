@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 13:44:54 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/13 18:14:44 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/28 18:25:43 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	main(int ac, char **av)
 	ft_putchar('\n');
 	for (int i = 0; i < e.n_list[SIDEDEF]; i++)
 	{
-		printf("sidedef %d: x_offset = %f; y_offset = %f; up_texture = %hd; low_texture = %hd; mid_texture = %hd; sector_id = %hu\n", i, e.sidedef_list[i].x_offset,
-				e.sidedef_list[i].y_offset, e.sidedef_list[i].up_texture, e.sidedef_list[i].low_texture, e.sidedef_list[i].middle_texture, e.sidedef_list[i].sector_id) ;
+		printf("sidedef %d: up_texture = %hd; low_texture = %hd; mid_texture = %hd; sector_id = %hu\n", i, e.sidedef_list[i].up_texture, e.sidedef_list[i].low_texture, e.sidedef_list[i].middle_texture, e.sidedef_list[i].sector_id) ;
 
 	}
 	return (0);

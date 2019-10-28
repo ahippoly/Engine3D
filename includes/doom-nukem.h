@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:17:24 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/24 14:39:27 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/28 18:15:32 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define ERR_INDEX 9
 # define ERR_NOT_VALID_LINEDEF 10
 # define ERR_ALREADY_GET 11
+# define ERR_NOT_VALID_SIDEDEF 12
 
 /*
 ** memory
@@ -78,17 +79,25 @@ typedef struct		s_vect
 	float			z;
 }					t_vect;
 
+typedef struct		s_base
+{
+	t_vect			ux;
+	t_vect			uy;
+	t_vect			uz;
+}					t_base;
 
 typedef struct		s_sidedef
 {
-	float			x_offset; //ou short x_offset
-	float			y_offset; //ou short y_offset
+//	float			x_offset; //ou short x_offset
+//	float			y_offset; //ou short y_offset
 	short			up_texture;
 	short			low_texture;
 	short			middle_texture;
 	unsigned short	sector_id;
 	t_vect			v_n;
 	unsigned short	linedef_id;
+	void			*data;
+	int			size_data;
 }					t_sidedef;
 
 
@@ -115,14 +124,22 @@ typedef struct		s_sector
 	unsigned short	type; // defini le type de secteur, est-ce qu'il y a de la brume, du poison, etc...
 	unsigned short	sector_tag; /* defini une possibilie d'action avec une linedef qui possede le meme sector_tag
 								example: plus de luminosite des qu'on a realise une action sur un mur */
-	unsigned short	id;
-	float			k;
-	t_mat			m_trans[3][3];
-	t_mat			m_rot[3][3];
-	t_mat			m_reflex[3][3];
 	unsigned short	start_sidedef;
 	unsigned short	end_sidedef;
 }					t_sector;
+
+typedef struct		s_cam
+{
+	t_base		base; // la base qui sera utilise pour exprimer les coordonnes des objets
+	t_vertex	pos; // la pos dans le repere classique
+	t_vect		view; // le facteur k se trouve dans ce vecteur
+}					t_cam;
+
+typedef struct		s_portal
+{
+	unsigned short		sidedef_root;
+	unsigned short		sidedef_dest;
+}					t_portal;
 
 typedef struct		s_seg
 {
@@ -165,6 +182,7 @@ typedef struct		s_env
 	t_sector	*sector_list;
 	int		n_list[4];
 	t_parsor	parsor;
+	t_cam		cam[8];
 }			t_env;
 
 /*

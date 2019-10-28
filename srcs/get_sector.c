@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 17:48:14 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/13 19:12:35 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/28 18:26:23 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_bool	get_sector(t_env *e)
 	e->sector_list[index].ceil_texture = get_the_number(e);
 	e->sector_list[index].light_lvl = get_the_number(e);
 	e->sector_list[index].type = get_the_number(e);
+	e->sector_list[index].start_sidedef = get_the_number(e);
+	e->sector_list[index].end_sidedef = get_the_number(e);
 	while (e->parsor.pos == ' ')
 		e->parsor.pos = ft_fgetc(e->parsor.fd);
 	if (e->parsor.pos && e->parsor.pos != '\n')
