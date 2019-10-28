@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 15:52:07 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/28 11:53:48 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void    gere_key(t_env *e)
 		if (e->secteur < 10)
 		{
 			e->secteur++;
-    	//	clear(e);;;
+    		clear(e);
 			draw_ver(e);
 			edit_draw(e);
 			e->set_wall = 0;
@@ -64,11 +64,9 @@ void    gere_key(t_env *e)
 		{
  	   		e->set_wall = 0;
 			e->secteur--;
- 	   		//clear(e);
+ 	   		clear(e);
 			draw_ver(e);
 			edit_draw(e);
 	}
-	ft_putnbr(e->secteur);
-	ft_putchar('\n');
     print(e);
 }

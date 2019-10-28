@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 15:29:51 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 15:34:34 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/28 11:36:25 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    init2(t_env *e)
     i = 0;
     while (i < 10)
     {
-        if (!(e->sec[i].file = (char**)malloc(sizeof(*e->sec[i].file) * 2)))
+        if (!(e->sec[i].file = (char*)malloc(sizeof(*e->sec[i].file) * 2)))
 		    exit (1);
 	    e->sec[i].file[1] = 0;
 	    if (!(e->sec[i].pixels = (char*)malloc(H_IMG * W_IMG * 4)))

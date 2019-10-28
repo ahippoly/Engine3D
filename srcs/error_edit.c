@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 14:13:26 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 14:19:25 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/28 12:16:39 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	error_edit(t_env *e, char *tmp, char *tmp2)
 		free(tmp);
 	if (tmp2 != NULL)
 		free(tmp2);
-	while (i < e->sec[e->secteur].i_file)
-	{
-		if (e->sec[e->secteur].file[i] && e->sec[e->secteur].file[i] != NULL)
-			free(e->sec[e->secteur].file[i]);
-		i++;
-	}
+//	while (i < e->sec[e->secteur].i_file)
+//	{
+//		if (e->sec[e->secteur].file[i] && e->sec[e->secteur].file != NULL)
+//			free(e->sec[e->secteur].file[i]);
+//		i++;
+//	}
 	free(e->sec[e->secteur].file);
 	close(e->fd);
 	ft_putstr("error editor");
@@ -41,15 +41,14 @@ void	error_edit(t_env *e, char *tmp, char *tmp2)
 
 void	take_cord(t_env *e, int i)
 {
-	e->i_back = 0;
 	back_pass(e, i);
-	e->p3.x = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]) + 32;
+	e->p3.x = ft_atoi(&e->sec[e->secteur].file[e->i_back]) + 32;
 	back_pass(e, i);
-	e->p3.y = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]) + 32;
+	e->p3.y = ft_atoi(&e->sec[e->secteur].file[e->i_back]) + 32;
 	back_pass(e, i);
-	e->p4.x = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]) + 32;
+	e->p4.x = ft_atoi(&e->sec[e->secteur].file[e->i_back]) + 32;
 	back_pass(e, i);
-	e->p4.y = ft_atoi(&e->sec[e->secteur].file[i][e->i_back]) + 32;
+	e->p4.y = ft_atoi(&e->sec[e->secteur].file[e->i_back]) + 32;
 	e->p1.x = e->x1;
 	e->p1.y = e->y1;
 	e->p2.x = e->x2;
@@ -164,6 +163,7 @@ int	check_crossing(t_env *e)
 	SDL_Point inter;
 
 	i = 0;
+	e->i_back = 0;
 	while (i < e->sec[e->secteur].i_file)
 	{
 		take_cord(e, i);

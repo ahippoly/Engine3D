@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 15:30:27 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/28 11:24:14 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef	struct		s_sdl
 
 typedef	struct		s_sec
 {
-	char			**file;
+	char			*file;
 	int				i_file;
 	int				line;
 	char			*pixels;
