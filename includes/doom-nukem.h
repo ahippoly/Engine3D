@@ -6,7 +6,7 @@
 /*   By: msiesse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:17:24 by msiesse           #+#    #+#             */
-/*   Updated: 2019/10/13 18:40:00 by msiesse          ###   ########.fr       */
+/*   Updated: 2019/10/24 14:39:27 by msiesse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef t_darr		t_dsidedef;
 typedef t_darr		t_dlinedef;
 typedef t_darr		t_dsector;
 typedef char		t_bool;
-
+typedef float		t_mat;
 
 typedef struct		s_vertex
 {
@@ -70,6 +70,13 @@ typedef struct		s_vertex
 	float			y;  // ou short	y
 	float			z;  // ou short z
 }					t_vertex;
+
+typedef struct		s_vect
+{
+	float			x;
+	float			y;
+	float			z;
+}					t_vect;
 
 
 typedef struct		s_sidedef
@@ -80,6 +87,8 @@ typedef struct		s_sidedef
 	short			low_texture;
 	short			middle_texture;
 	unsigned short	sector_id;
+	t_vect			v_n;
+	unsigned short	linedef_id;
 }					t_sidedef;
 
 
@@ -87,6 +96,7 @@ typedef struct		s_linedef
 {
 	unsigned short		start;
 	unsigned short		end;
+	t_vect			v_l;
 	short	flags; // pas obligatoire a priori mais a voir
 	short	type;
 	short	sector_tag;
@@ -105,6 +115,13 @@ typedef struct		s_sector
 	unsigned short	type; // defini le type de secteur, est-ce qu'il y a de la brume, du poison, etc...
 	unsigned short	sector_tag; /* defini une possibilie d'action avec une linedef qui possede le meme sector_tag
 								example: plus de luminosite des qu'on a realise une action sur un mur */
+	unsigned short	id;
+	float			k;
+	t_mat			m_trans[3][3];
+	t_mat			m_rot[3][3];
+	t_mat			m_reflex[3][3];
+	unsigned short	start_sidedef;
+	unsigned short	end_sidedef;
 }					t_sector;
 
 typedef struct		s_seg
