@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 11:38:48 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/28 15:51:41 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/29 13:02:23 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ void	select_mode(t_env *e)
 	e->y1 = y + 5;
 	e->y2 = y - 5;
 	e->i_back = 0;
-	ft_putstr(e->sec[e->secteur].file);
-	ft_putchar('\n');
-	ft_putnbr(e->i_back);
-	ft_putchar('\n');
 	while (i < e->sec[e->secteur].i_file)
 	{
 		take_cord(e, i);

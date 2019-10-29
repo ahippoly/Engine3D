@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 11:03:16 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 15:49:37 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/29 13:00:40 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,18 @@ void	editor(t_env *e)
 		if (e->sdl.event.button.button == SDL_BUTTON_LEFT)
 		{
 			if (e->select == 1)
+			{
+				e->i_back = 0;
 				select_mode(e);
+				
+			}
 			else
 				draw_wall(e);
 		}
 		if (e->sdl.event.button.button == SDL_BUTTON_RIGHT)
 		{	
 			e->set_wall = 0;
-			clear(e);;;
+			clear(e);
 			draw_ver(e);
 			edit_draw(e);
 			print(e);
