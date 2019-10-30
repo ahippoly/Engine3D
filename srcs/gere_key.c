@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/28 11:53:48 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/30 12:17:16 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    gere_key(t_env *e)
     	e->select ^= 1;
     	if (e->select == 0)
     		e->edit_id = e->tmp_id;
-		clear(e);;;
+		clear(e);
 		draw_ver(e);
 		edit_draw(e);
 	}
@@ -67,6 +67,7 @@ void    gere_key(t_env *e)
  	   		clear(e);
 			draw_ver(e);
 			edit_draw(e);
-	}
+		}
+	printf("e->secteur = %d\n", e->secteur);
     print(e);
 }
