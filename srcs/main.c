@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:58:19 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/25 15:35:14 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:23:44 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	set_sdl(t_env *e)
 		error_sdl(e);
 	while(!e->sdl.quit)
 	{
-		
 		SDL_WaitEvent(&e->sdl.event);
 		if (e->sdl.event.type == SDL_QUIT)
 			e->sdl.quit = SDL_TRUE;	
