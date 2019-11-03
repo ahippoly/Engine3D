@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:02:22 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/13 20:35:11 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/14 18:49:27 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,76 +34,98 @@ void calc_new_point(int *v1, int *v2, int *v3, int *v4)
 	
 }
 
-void adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2)
+t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy)
 {
 	SDL_Point p1;
 	SDL_Point p2;
+	t_disp_range range;
 	int adapt;
 
 	p1 = *pp1;
 	p2 = *pp2;
 	adapt = 0;
+	range.start_x = 0;
+	range.start_y = 0;
+	range.end_x = 0;
+	range.end_y = 0;
 	//printf("pre = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
-	if (!(p1.x > WIN_SIZE && p2.x > WIN_SIZE) 
-		&& !(p1.x <= 0 && p2.x <= 0) 
-		&& !(p1.y > WIN_SIZE && p2.y > WIN_SIZE) 
-		&& !(p1.y <= 0 && p2.y <= 0))
+	if ((p1.x < WIN_SIZE || p2.x < WIN_SIZE) 
+		&& (p1.x > 0 || p2.x > 0) 
+		&& (p1.y < WIN_SIZE || p2.y < WIN_SIZE) 
+		&& (p1.y > 0 || p2.y > 0))
 	{
-//		printf("beg = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
+		//printf("beg = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 		//printf("abs x = %d, abs y = %d\n",ft_abs(p1.x - p2.x), ft_abs(p1.y - p2.y));
-		if (p1.x > WIN_SIZE)
+		if (for_xy > 1 || for_xy == 0)
 		{
-			adapt = 1;
-			p1.y = p2.y + (WIN_SIZE - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
-			p1.x = WIN_SIZE;
+			if (p1.x > WIN_SIZE)
+			{
+				adapt = 1;
+				p1.y = p2.y + (WIN_SIZE - p2.x) * (p1.y - p2.y) / (p1.x - p2.x);
+				range.end_x = (p1.x - WIN_SIZE) / WIN_SIZE;
+				p1.x = WIN_SIZE;
+			}
+			if (p2.x > WIN_SIZE)
+			{
+				adapt = 2;
+				p2.y = p1.y + (WIN_SIZE - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
+				range.end_x = (p2.x - WIN_SIZE) / WIN_SIZE;
+				p2.x = WIN_SIZE;
+			}
+			if (p1.x < 0)
+			{
+				adapt = 5;
+				p1.y = p1.y + -p1.x * (p2.y - p1.y) / (p2.x - p1.x);
+				range.start_x = -p1.x / WIN_SIZE;
+				p1.x = 0;
+			}
+			if (p2.x < 0)
+			{
+				adapt = 6;
+				p2.y = p2.y + -p2.x * (p1.y - p2.y) / (p1.x - p2.x);
+				range.start_x = -p2.x / WIN_SIZE;
+				p2.x = 0;
+			}
 		}
-		if (p2.x > WIN_SIZE)
+		if (for_xy >= 1)
 		{
-			adapt = 2;
-			p2.y = p1.y + (WIN_SIZE - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
-			p2.x = WIN_SIZE;
-		}
-		if (p1.y > WIN_SIZE)
-		{
-			adapt = 3;
-			p1.x = p1.x + (WIN_SIZE - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
-			p1.y = WIN_SIZE;
-		}
-		if (p2.y > WIN_SIZE)
-		{
-			adapt = 4;
-			p2.x = p2.x + (WIN_SIZE - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
-			p2.y = WIN_SIZE;
-		}
-		if (p1.x < 0)
-		{
-			adapt = 5;
-			p1.y = p1.y + -p1.x * (p2.y - p1.y) / (p2.x - p1.x);
-			p1.x = 0;
-		}
-		if (p2.x < 0)
-		{
-			adapt = 6;
-			p2.y = p2.y + -p2.x * (p1.y - p2.y) / (p1.x - p2.x);
-			p2.x = 0;
-		}
-		if (p1.y < 0)
-		{
-			adapt = 7;
-			p1.x = p1.x + -p1.y * (p2.x - p1.x) / (p2.y - p1.y);
-			p1.y = 0;
-		}
-		if (p2.y < 0)
-		{
-			adapt = 8;
-			p2.x = p2.x + -p2.y * (p1.x - p2.x) / (p1.y - p2.y);
-			p2.y = 0;
+			if (p1.y < 0)
+			{
+				adapt = 7;
+				p1.x = p1.x + -p1.y * (p2.x - p1.x) / (p2.y - p1.y);
+				range.start_y = -p1.y / WIN_SIZE;
+				p1.y = 0;
+			}
+			if (p2.y < 0)
+			{
+				adapt = 8;
+				p2.x = p2.x + -p2.y * (p1.x - p2.x) / (p1.y - p2.y);
+				range.start_y = -p2.y / WIN_SIZE;
+				p2.y = 0;
+			}
+			if (p1.y > WIN_SIZE)
+			{
+				adapt = 3;
+				p1.x = p1.x + (WIN_SIZE - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
+				range.end_y = (p1.y - WIN_SIZE) / WIN_SIZE;
+				p1.y = WIN_SIZE;
+			}
+			if (p2.y > WIN_SIZE)
+			{
+				adapt = 4;
+				p2.x = p2.x + (WIN_SIZE - p2.y) * (p1.x - p2.x) / (p1.y - p2.y);
+				range.end_y = (p2.y - WIN_SIZE) / WIN_SIZE;
+				p2.y = WIN_SIZE;
+			}
 		}
 		*pp1 = p1;
 		*pp2 = p2;
-		if (adapt > 0)
-			printf("res = p1, x = %d y = %d, p2 x = %d y = %d, adapt = %d\n",p1.x, p1.y, p2.x, p2.y,adapt);
+		//if (adapt > 0)
+		//	printf("res = p1, x = %d y = %d, p2 x = %d y = %d, adapt = %d\n",p1.x, p1.y, p2.x, p2.y,adapt);
 	}
+	return (range);
+	//else
+	//	printf("--Out of Screeen, p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 }
 
 void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
@@ -114,11 +136,15 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
 	unsigned int	*p_tab;
 	int 			length;
 
-	if (pos1.x != -42 && pos2.x != -42)
+	if (pos1.x != -42 && pos2.x != -42
+		&& pos1.x != -2147483648
+		&& pos2.x != -2147483648
+		&& pos1.y != -2147483648
+		&& pos2.y != -2147483648)
 	{
 		p_tab = (unsigned int*)pixel;
 		i = 0;
-		adapt_out_screen(&pos1, &pos2);
+		adapt_out_screen(&pos1, &pos2, 2);
 		oct_ini(&oct, pos1, pos2, pos);
 		length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]));
 		//printf("pixels drawed = %i\n", length);
@@ -150,8 +176,9 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length)
 	if (pos1.x != -42 && pos2.x != -42)
 	{
 		i = 0;
+		//adapt_out_screen(&pos1, &pos2, 0);
 		oct_ini(&oct, pos1, pos2, pos);
-		*length = ft_min(WIN_SIZE * 4, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]));
+		*length = ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]);
 		//printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
 		pos_tab = (SDL_Point*)malloc(sizeof(SDL_Point) * *length);
@@ -223,7 +250,7 @@ void disp_text(char *pixels, char *img_tab, SDL_Point size)
 	}
 }
 
-void    bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio)
+void    bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio, t_disp_range ra)
 {
 	t_oct           oct;
     int             pos[2][2];
@@ -232,26 +259,30 @@ void    bresenham_texture(t_line line, char *pixels, t_text *text, double x_rati
     unsigned int    *p_tab;
 	unsigned int	*text_pix;
 	int				text_x_ratio;
+	int				start_xy;
+	t_disp_range	vertical;
 
     if (line.pos1.x != -10000 && line.pos2.x != -10000)
     {
 		p_tab = (unsigned int*)pixels;
 		text_pix = (unsigned int*)text->pixels;
         i = 0;
+		//vertical = adapt_out_screen(&line.pos1, &line.pos2, 2);
         oct_ini(&oct, line.pos1, line.pos2, pos);
+		//printf("diff length = %d\n", ft_abs(pos[oct.boolxy][1] - pos[oct.boolxy][0]));
 		step = (double)text->w / ft_abs(pos[oct.boolxy][1] - pos[oct.boolxy][0]);
 		text_x_ratio = (int)(x_ratio * text->w);
+		start_xy = (int)(vertical.start_y * text->h * text->w) + text_x_ratio; 
 //		printf("x_ratio = %i\n",text_x_ratio);
         while (pos[oct.boolxy][0] != pos[oct.boolxy][1])
         {
-            if (pos[0][0] < WIN_SIZE && pos[0][0] > 0 && pos[1][0] > 0
-                && pos[1][0] < WIN_SIZE)
+            if (pos[0][0] < WIN_SIZE && pos[0][0] > 0 && pos[1][0] > 0 && pos[1][0] < WIN_SIZE)
 			{
-                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[text_x_ratio + ((int)i * text->w)];
-//                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[512*512 - 1];
-//                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[(int)(size.x * x_ratio)];
-//                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = 0xff000000 | (int)(x_ratio * 256);
-//                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = 0xff000000 | ((int)(i * 65536) & 0xff00ff00) | (int)(x_ratio * 256);
+                p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[start_xy + ((int)i * text->w)];
+//              p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[512 * 512 - 1];
+//              p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = text_pix[(int)(size.x * x_ratio)];
+//              p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = 0xff000000 | (int)(x_ratio * 256);
+//              p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = 0xff000000 | ((int)(i * 65536) & 0xff00ff00) | (int)(x_ratio * 256);
 //				printf("current y ratio = %i\n",(int)(i));
 			}
 			if ((oct.e -= oct.d[oct.bool]) <= 0)

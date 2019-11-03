@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 01:19:12 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/17 21:15:01 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/21 19:38:42 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,28 @@ t_pos	vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot)
 	return (screen_pos);
 }
 
-void draw_texture(t_pos tl, t_pos tr, t_pos bl, t_pos br, char *img_files)
+t_line create_line(int x1, int y1, int x2, int y2)
+{
+	t_line line;
+	line.pos1.x = x1;
+	line.pos1.y = y1;
+	line.pos2.x = x2;
+	line.pos2.y = y2;
+	return (line);
+}
+
+void draw_texture(t_line top, t_line bot, char *img_files)
 {
 	double dist_top;
 	double dist_bot;
+	double step;
+	t_memline top_tab;
+	t_memline bot_tab;
 
-	dist_top = hypot(tr.x - tl.x, tr.y - tl.y);
-	dist_bot = hypot(br.x - bl.x, tr.y - tl.y);
-
-	if (dist_top > dist_bot)
-	{
-		
-	}
-
-
+	top_tab = mem_octant(top.pos1, top.pos2);
+	bot_tab = mem_octant(bot.pos1, bot.pos2);
+	
+	
 
 
 }

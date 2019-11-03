@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:51:11 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/13 17:43:47 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/17 17:53:23 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,9 @@ int main(int ac, char **av)
 	float rot;
 	t_var v;
 	t_pos cam_rot;
-	SDL_Point test1;
-	SDL_Point test2;
+	t_line test;
+	t_vox pt1;
+	t_vox pt2;
 
 	ac = 1;
 	SDL_Init(SDL_INIT_VIDEO);
@@ -293,13 +294,19 @@ int main(int ac, char **av)
 				}
 				if (e.key.keysym.scancode == SDL_SCANCODE_B)
 				{
-					test1.x = 500;
-					test1.y = 500;
-					test2.x = 1000;
-					test2.y = 700;
+					test.pos1.x = -42;
+					test.pos1.y = 500;
+					test.pos2.x = 1000;
+					test.pos2.y = 700;
 //					adapt_out_screen(&test1, &test2);
-					octant(test1, test2, v.p_tab, 0xffffffff);
-					//line_intersect(v.perso_pos, cam_rot);
+					//octant(test1, test2, v.p_tab, 0xffffffff);
+					pt1.x = 1;
+					pt1.y = 0;
+					pt1.z = 0;
+					pt2.x = 1;
+					pt2.y = 1;
+					pt2.z = 0;
+					line_intersect(v.perso_pos, cam_rot, &pt1, &pt2, &test);
 //					cut_frustum(v.perso_pos, cam_rot);
 				}
 				printf("       rotx = %f \n",v.rot);

@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 08:24:06 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/17 17:52:58 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/09/21 19:14:59 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define MINI_MAP_H 100
 # define PERSO 5
 # define BUFF_SIZE 1000000
-# define NAZI "Alerte nazi, Test de nazi detecte, Alerte nazi\n"
 
 typedef struct  s_pos
 {
@@ -45,24 +44,17 @@ typedef struct  s_vox
 
 typedef struct  s_line
 {
-	SDL_Point	pos1;
-	SDL_Point	pos2;
-	double		text_ratio;
+	SDL_Point pos1;
+	SDL_Point pos2;
 }               t_line;
 
 typedef struct	s_text
 {
-	char		*pixels;
-	int			w;
-	int			h;
-	int			bpp;
+	char	*pixels;
+	int		width;
+	int		length;
+	int		bpp;
 }				t_text;
-
-typedef struct  s_vox_line
-{
-	t_vox pos1;
-	t_vox pos2;
-}				t_vox_line;
 
 typedef struct  s_var
 {
@@ -87,9 +79,6 @@ typedef struct  s_var
 	double rot;
 	double roty;
 	double fov;
-	t_text stone;
-	char *img_tab;
-	SDL_Point img_size;
 }               t_var;
 
 typedef struct  s_oct
@@ -107,14 +96,6 @@ typedef struct  s_memline
 	int 		length;
 	SDL_Point	*pos;
 }				t_memline;
-
-typedef struct  s_disp_range
-{
-	double		start_x;
-	double		start_y;
-	double		end_y;
-	double		end_x;
-}				t_disp_range;
 
 char *ft_load_bmp(char *file, int *width, int *height);
 void errorcase(void);
@@ -134,20 +115,4 @@ void load_triangle_point(t_var *v, int x, int y, int z, int rot);
 
 char ***readfile2(char *file, t_var *v);
 
-void disp_text(char *pixels, char *img_tab, SDL_Point size);
-
-SDL_Point   *mem_octant(SDL_Point pos1, SDL_Point pos2, int *length);
-void    	*nazi_case(void);
-void		draw_texture(t_line top, t_line bot, char *pixels, t_text *text);
-void   		bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio, t_disp_range ra);
-SDL_Point   vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot);
-
-t_vox cut_frustum(t_vox cam_pos, t_pos cam_rot);
-//t_pos line_intersect(t_vox cam_pos, t_pos cam_rot);
-t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy);
-
-SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4);
-void line_intersect(t_vox cam_pos, t_pos cam_rot, t_vox *p1, t_vox *p2, t_line *line);
-t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2);
-t_vox create_vox(double x, double y, double z);
 #endif

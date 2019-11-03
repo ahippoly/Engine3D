@@ -6,11 +6,12 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 18:48:11 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/11 22:04:19 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/15 16:44:56 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "include/SDL2/SDL.h"
+#include "include/SDL2/SDL.h"
+#include "libft/libft.h"
 
 SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4)
 {

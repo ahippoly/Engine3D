@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 05:02:25 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/13 19:14:50 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/18 18:08:58 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 
 	ret.x = -42;
 	ret.y = 0;
+	if (i == -42 && j == -42)
+		return (ret);
 
 	pos.x = i * MINI_MAP_W / (v->map_size.x) +  MINI_MAP_X;
 	pos.y = j * MINI_MAP_H / (v->map_size.y) +  MINI_MAP_Y;
@@ -116,7 +118,37 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 	return (ret);
 }
 
-void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
+void draw_line(t_var *v, t_line line, int color)
+{
+	octant(line.pos1, line.pos2, v->p_tab, color);
+}
+
+void load_cube_lines(t_var *v, int x, int y, int z, t_vox cam_pos, t_pos cam_rot)
+{
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z)), 0xffaaffcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y, z), create_vox(x + 1, y + 1, z)), 0xffaaffcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z)), 0xffaaffcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x, y + 1, z)), 0xffaaffcc);
+
+draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
+, v->p_tab, &v->stone);
+
+draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
+, v->p_tab, &v->stone);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x, y, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y, z), create_vox(x + 1, y, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y + 1, z), create_vox(x + 1, y + 1, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x, y + 1, z + 1)), 0xffaabbcc);
+
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y, z + 1), create_vox(x + 1, y + 1, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y + 1, z + 1), create_vox(x, y + 1, z + 1)), 0xffaabbcc);
+	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x, y + 1, z + 1)), 0xffaabbcc);
+}
+
+void load_cube_plane(t_var *v, int x, int y, int z, SDL_Point corner[4])
 {
 	SDL_Point point;
 	SDL_Point point2;
@@ -124,10 +156,13 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	t_line bot;
 	t_vox pos3d;
 	t_pos cam_rot;
+	t_vox pt1;
+	t_vox pt2;
+	t_line inter;
 
-	pos3d.x = x;
-	pos3d.y = y;
-	pos3d.z = z;
+	pt1.x = x;
+	pt1.y = y;
+	pt1.z = z;
 
 	cam_rot.x = v->roty;
 	cam_rot.y = v->rot;
@@ -144,14 +179,22 @@ void load_cube_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 	bot.pos1 = corner[2];
 	bot.pos2 = corner[3];
 
+	pt2.x = x;
+	pt2.y = y + 1;
+	pt2.z = z;
+	printf("pt1: x = %f, y = %f, z = %f\n",pt1.x,pt1.y,pt1.z);
 	//disp_text(v->p_tab, v->img_tab, v->img_size);
 	//draw_texture(top, bot, v->p_tab, &v->stone);
+	inter.pos1 = corner[0];
+	inter.pos2 = corner[1];
+	line_intersect(v->perso_pos, cam_rot, &pt1, &pt2, &inter);
+	corner[0] = inter.pos1;
+	corner[1] = inter.pos2;
 	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
 	octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
 	octant(corner[1], corner[3], v->p_tab, 0xff00ffff);	
 	octant(corner[2], corner[3], v->p_tab, 0xff00ffff);
 }
-
 
 void load_cube_point(t_var *v, int x, int y, int z)
 {
@@ -180,7 +223,6 @@ void load_cube_point(t_var *v, int x, int y, int z)
 	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
 	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);	
 	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff);
-
 }
 
 void load_wall(t_var *v)
@@ -192,6 +234,9 @@ void load_wall(t_var *v)
 	t_line wall_hight_tmp;
 	t_line wall_hight;
 	t_line wall_hight2;
+	t_pos cam_rot;
+	cam_rot.x = v->roty;
+	cam_rot.y = v->rot;
 
 	x = 0;
 	while (x < v->map_size.x)
@@ -207,9 +252,10 @@ void load_wall(t_var *v)
 				{
 					//printf("i = %i , j = %i, map = %i , Id = %i , height = %i\n",i,j, v->map[j][i], v->map[j][i] / 100, v->map[j][i] % 100);
 					if (v->map[x][y][z] < 5 && v->map[x][y][z] > 1) //load triangle
-						load_triangle_point( v, x, y, -z, v->map[x][y][z]);
+						load_triangle_point(v, x, y, -z, v->map[x][y][z]);
 					else
-						load_cube_point( v, x, y, -z);
+						//load_cube_point(v, x, y, -z);
+						load_cube_lines(v, x, y, z, v->perso_pos, cam_rot);
 				}
 				z++;
 			}
