@@ -62,15 +62,15 @@ void print_map(t_var *v)
 	startray.y = perso_pos.y;
 	endray.x = perso_pos.x + 150 * sin(rot - fov) * sin(roty);
 	endray.y = perso_pos.y + 150 * cos(rot - fov) ;
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 150 * sin(rot + fov) * sin(roty);
 	endray.y = perso_pos.y + 150 * cos(rot + fov) ;
 //	endray.x = perso_pos.x + 150 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 150 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 100 * sin(rot) * sin(roty);
 	endray.y = perso_pos.y + 100 * cos(rot);
-	octant(startray, endray, v->p_tab, 0xff00ffff);
+	octant(startray, endray, v->p_tab, 0xff00ffff, 0);
 	startray.x = perso_pos.x + 100 * sin(rot - fov) * sin(roty);
 	startray.y = perso_pos.y + 100 * cos(rot - fov) ;
 	endray.x = perso_pos.x + 100 * sin(rot + fov) * sin(roty);
@@ -79,7 +79,7 @@ void print_map(t_var *v)
 //	startray.y = perso_pos.y + 100 * cos((v->rot - 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
 //	endray.x = perso_pos.x + 100 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 100 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0x0000ff00);
+	octant(startray, endray, v->p_tab, 0x0000ff00, 0);
 	//SDL_RenderClear(v->rend);
 
 
@@ -90,15 +90,15 @@ void print_map(t_var *v)
 	startray.y = perso_pos.y;
 	endray.x = perso_pos.x + 150 * sin(roty - fov) * sin(rot);
 	endray.y = perso_pos.y + 150 * cos(roty - fov) ;
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 150 * sin(roty + fov) * sin(rot);
 	endray.y = perso_pos.y + 150 * cos(roty + fov) ;
 //	endray.x = perso_pos.x + 150 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 150 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 100 * sin(roty) * sin(rot);
 	endray.y = perso_pos.y + 100 * cos(roty);
-	octant(startray, endray, v->p_tab, 0xff00ffff);
+	octant(startray, endray, v->p_tab, 0xff00ffff, 0);
 	startray.x = perso_pos.x + 100 * sin(roty - fov) * sin(rot);
 	startray.y = perso_pos.y + 100 * cos(roty - fov) ;
 	endray.x = perso_pos.x + 100 * sin(roty + fov) * sin(rot);
@@ -107,7 +107,7 @@ void print_map(t_var *v)
 //	startray.y = perso_pos.y + 100 * cos((v->rot - 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
 //	endray.x = perso_pos.x + 100 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 100 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0x0000ff00);
+	octant(startray, endray, v->p_tab, 0x0000ff00, 0);
 
 /////////////////////////////////// MINI_MAP SIDE 2 FOV DISPLAY  ////////////////////////////
 	perso_pos.x = v->perso_pos.y * MINI_MAP_W / (v->map_size.x) + MINI_MAP_X;
@@ -116,15 +116,15 @@ void print_map(t_var *v)
 	startray.y = perso_pos.y;
 	endray.x = perso_pos.x + 150 * sin(roty - fov) * cos(rot);
 	endray.y = perso_pos.y + 150 * cos(roty - fov) ;
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 150 * sin(roty + fov) * cos(rot);
 	endray.y = perso_pos.y + 150 * cos(roty + fov) ;
 //	endray.x = perso_pos.x + 150 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 150 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0xffff00ff);
+	octant(startray, endray, v->p_tab, 0xffff00ff, 0);
 	endray.x = perso_pos.x + 100 * sin(roty) * cos(rot) ;
 	endray.y = perso_pos.y + 100 * cos(roty);
-	octant(startray, endray, v->p_tab, 0xff00ffff);
+	octant(startray, endray, v->p_tab, 0xff00ffff, 0);
 	startray.x = perso_pos.x + 100 * sin(roty - fov) * cos(rot);
 	startray.y = perso_pos.y + 100 * cos(roty - fov) ;
 	endray.x = perso_pos.x + 100 * sin(roty + fov) * cos(rot);
@@ -133,7 +133,7 @@ void print_map(t_var *v)
 //	startray.y = perso_pos.y + 100 * cos((v->rot - 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
 //	endray.x = perso_pos.x + 100 * sin((v->rot + 0.5) * M_PI_2);// * cos((v->fov) * M_PI_2);
 //	endray.y = perso_pos.y + 100 * cos((v->rot + 0.5) * M_PI_2) * sin((v->fov) * M_PI_2);
-	octant(startray, endray, v->p_tab, 0x0000ff00);
+	octant(startray, endray, v->p_tab, 0x0000ff00, 0);
 
 
 	SDL_UpdateTexture(v->screen, NULL, v->p_tab, WIN_SIZE*4);

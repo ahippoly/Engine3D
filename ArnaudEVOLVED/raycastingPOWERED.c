@@ -120,7 +120,7 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 
 void draw_line(t_var *v, t_line line, int color)
 {
-	octant(line.pos1, line.pos2, v->p_tab, color);
+	octant(line.pos1, line.pos2, v->p_tab, color, 0);
 }
 
 void load_cube_lines(t_var *v, int x, int y, int z, t_vox cam_pos, t_pos cam_rot)
@@ -190,10 +190,10 @@ void load_cube_plane(t_var *v, int x, int y, int z, SDL_Point corner[4])
 	line_intersect(v->perso_pos, cam_rot, &pt1, &pt2, &inter);
 	corner[0] = inter.pos1;
 	corner[1] = inter.pos2;
-	octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
-	octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
-	octant(corner[1], corner[3], v->p_tab, 0xff00ffff);	
-	octant(corner[2], corner[3], v->p_tab, 0xff00ffff);
+	octant(corner[0], corner[1], v->p_tab, 0xff00ffff, 0);
+	octant(corner[0], corner[2], v->p_tab, 0xff00ffff, 0);
+	octant(corner[1], corner[3], v->p_tab, 0xff00ffff, 0);	
+	octant(corner[2], corner[3], v->p_tab, 0xff00ffff, 0);
 }
 
 void load_cube_point(t_var *v, int x, int y, int z)
@@ -219,10 +219,10 @@ void load_cube_point(t_var *v, int x, int y, int z)
 
 	//draw_texture(top, bot, v->p_tab, &v->stone);
 
-	octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
-	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
-	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);	
-	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff);
+	octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff, 0);
+	octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff, 0);
+	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff, 0);	
+	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff, 0);
 }
 
 void load_wall(t_var *v)

@@ -119,8 +119,8 @@ typedef struct  s_disp_range
 char *ft_load_bmp(char *file, int *width, int *height);
 void errorcase(void);
 
-void    oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2]);
-void    octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color);
+void    oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2], int forced_side);
+void    octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_side);
 
 void put_border(char *p_tab, SDL_Point disp_size);
 void put_rect(char *pixel, SDL_Point pos, SDL_Point size, int color, SDL_Point win_size);
@@ -136,7 +136,7 @@ char ***readfile2(char *file, t_var *v);
 
 void disp_text(char *pixels, char *img_tab, SDL_Point size);
 
-SDL_Point   *mem_octant(SDL_Point pos1, SDL_Point pos2, int *length);
+SDL_Point   *mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_side);
 void    	*nazi_case(void);
 void		draw_texture(t_line top, t_line bot, char *pixels, t_text *text);
 void   		bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio, t_disp_range ra);
@@ -150,4 +150,5 @@ SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point 
 void line_intersect(t_vox cam_pos, t_pos cam_rot, t_vox *p1, t_vox *p2, t_line *line);
 t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2);
 t_vox create_vox(double x, double y, double z);
+SDL_Point create_point(int x, int y);
 #endif

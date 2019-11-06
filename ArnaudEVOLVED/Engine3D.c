@@ -304,8 +304,8 @@ void draw_texture(t_line top, t_line bot, char *pixels, t_text *text)
 	double end_y_ratio;
 	t_disp_range ra;
 
-	line[0] = mem_octant(top.pos1, top.pos2, &length[0]);
-	line[1] = mem_octant(bot.pos1, bot.pos2, &length[1]);
+	line[0] = mem_octant(top.pos1, top.pos2, &length[0], 0);
+	line[1] = mem_octant(bot.pos1, bot.pos2, &length[1], 0);
 	printf("top start pos : x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", top.pos1.x, top.pos1.y, top.pos2.x, top.pos2.y);
 	printf("bot start pos : x1 = %d, y1 = %d, x2 = %d, y2 = %d \n", bot.pos1.x, bot.pos1.y, bot.pos2.x, bot.pos2.y);
 	if (length[0] != 0 && length[1] != 0)
@@ -356,4 +356,11 @@ void draw_texture(t_line top, t_line bot, char *pixels, t_text *text)
 	}
 	free(line[0]);
 	free(line[1]);
+}
+
+void draw_textured_triangle(SDL_Point begin, SDL_Point end, SDL_Point corner, int side, t_text *text, char *pixel)
+{
+	unsigned int *p_tab;
+
+	p_tab = (unsigned int*)pixel;
 }

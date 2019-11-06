@@ -12,7 +12,16 @@
 
 #include "wolf.h"
 
-void	oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2])
+SDL_Point create_point(int x, int y)
+{
+	SDL_Point point;
+
+	point.x = x;
+	point.y = y;
+	return (point);
+}
+
+void	oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2], int forced_side)
 {
 	pos[0][0] = pos1.x;
 	pos[0][1] = pos2.x;
@@ -22,7 +31,15 @@ void	oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2])
 	oct->inc[1] = pos2.y - pos1.y > 0 ? 1 : -1;
 	oct->d[0] = (pos2.x - pos1.x) * 2 * oct->inc[0];
 	oct->d[1] = (pos2.y - pos1.y) * 2 * oct->inc[1];
-	oct->bool = oct->d[0] > oct->d[1] ? 1 : 0;
+	if (forced_side != 0)
+	{
+		if (forced_side == 1)
+			oct->bool = 1;
+		else
+			oct->bool = 0;
+	}
+	else
+		oct->bool = oct->d[0] > oct->d[1] ? 1 : 0;
 	oct->boolxy = 1 - oct->bool;
 	oct->e = oct->d[oct->boolxy] / 2;
 	oct->ecart = (pos[oct->boolxy][1] - pos[oct->boolxy][0])
@@ -128,7 +145,7 @@ t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy)
 	//	printf("--Out of Screeen, p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 }
 
-void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
+void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_side)
 {
 	t_oct			oct;
 	int				pos[2][2];
@@ -145,7 +162,7 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
 		p_tab = (unsigned int*)pixel;
 		i = 0;
 		adapt_out_screen(&pos1, &pos2, 2);
-		oct_ini(&oct, pos1, pos2, pos);
+		oct_ini(&oct, pos1, pos2, pos, forced_side);
 		length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]));
 		//printf("pixels drawed = %i\n", length);
 		while (i < length)
@@ -153,7 +170,10 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
 			if (pos[0][0] < WIN_SIZE && pos[0][0] > 0 && pos[1][0] > 0
 				&& pos[1][0] < WIN_SIZE)
 				p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = color;
-			if ((oct.e -= oct.d[oct.bool]) <= 0)
+		//	if (forced_side != 0)
+		//		printf("oct.e = %d\n",oct.e);
+			oct.e -= oct.d[oct.bool];
+			while (oct.e <= 0)
 			{
 				pos[oct.bool][0] += oct.inc[oct.bool];
 				oct.e += oct.d[oct.boolxy];
@@ -161,10 +181,14 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color)
 			i++;
 			pos[oct.boolxy][0] += oct.inc[oct.boolxy];
 		}
+		//printf("octant line length = %d \n", length);
+		if (pos[0][0] < WIN_SIZE && pos[0][0] > 0 && pos[1][0] > 0
+				&& pos[1][0] < WIN_SIZE)
+				p_tab[pos[0][0] + pos[1][0] * WIN_SIZE] = color;
 	}
 }
 
-SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length)
+SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_side)
 {
 	t_oct			oct;
 	int				pos[2][2];
@@ -177,7 +201,7 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length)
 	{
 		i = 0;
 		//adapt_out_screen(&pos1, &pos2, 0);
-		oct_ini(&oct, pos1, pos2, pos);
+		oct_ini(&oct, pos1, pos2, pos, forced_side);
 		*length = ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]);
 		//printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
@@ -186,7 +210,8 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length)
 		{
 			pos_tab[i].x = pos[0][0];
 			pos_tab[i].y = pos[1][0];
-			if ((oct.e -= oct.d[oct.bool]) <= 0)
+			oct.e -= oct.d[oct.bool];
+			while (oct.e <= 0)
 			{
 				pos[oct.bool][0] += oct.inc[oct.bool];
 				oct.e += oct.d[oct.boolxy];
@@ -194,6 +219,8 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length)
 			i++;
 			pos[oct.boolxy][0] += oct.inc[oct.boolxy];
 		}
+		//pos_tab[i].x = pos[0][0];
+		//pos_tab[i].y = pos[1][0];
 	}
 	return (pos_tab);
 }
@@ -207,8 +234,8 @@ void	fill_rectangle(t_line top, t_line bot, char *pixel, int color)
 	int 			longer;
 
 	p_tab = (unsigned int*)pixel;
-	oct_ini(&oct[0], top.pos1, top.pos2, pos[0]);
-	oct_ini(&oct[1], bot.pos1, bot.pos2, pos[1]);
+	oct_ini(&oct[0], top.pos1, top.pos2, pos[0], 0);
+	oct_ini(&oct[1], bot.pos1, bot.pos2, pos[1], 0);
 	dist[0] = hypot(top.pos2.x - top.pos1.x, top.pos2.y - top.pos1.y);
 	dist[1] = hypot(bot.pos2.x - bot.pos1.x, bot.pos2.y - bot.pos1.y);
 	longer = dist[1] > dist[0] ? 1 : 0;
@@ -268,7 +295,7 @@ void    bresenham_texture(t_line line, char *pixels, t_text *text, double x_rati
 		text_pix = (unsigned int*)text->pixels;
         i = 0;
 		//vertical = adapt_out_screen(&line.pos1, &line.pos2, 2);
-        oct_ini(&oct, line.pos1, line.pos2, pos);
+        oct_ini(&oct, line.pos1, line.pos2, pos, 0);
 		//printf("diff length = %d\n", ft_abs(pos[oct.boolxy][1] - pos[oct.boolxy][0]));
 		step = (double)text->w / ft_abs(pos[oct.boolxy][1] - pos[oct.boolxy][0]);
 		text_x_ratio = (int)(x_ratio * text->w);

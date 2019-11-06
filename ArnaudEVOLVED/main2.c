@@ -120,7 +120,7 @@ void put_view_ray(char *pixel, SDL_Point cube_pos[2], SDL_Point pos, float rot, 
 
 	endpoint.x = pos.x - (100 * cos(rot * M_PI_2));
 	endpoint.y = pos.y - (100 * sin(rot * M_PI_2));
-	octant(pos, endpoint, pixel, color);
+	octant(pos, endpoint, pixel, color, 0);
 }
 /*
 void clear_tab_ini(t_var *v)
@@ -200,6 +200,8 @@ int main(int ac, char **av)
 	t_line test;
 	t_vox pt1;
 	t_vox pt2;
+	SDL_Point mousebutton1;
+	SDL_Point mousebutton2;
 
 	ac = 1;
 	SDL_Init(SDL_INIT_VIDEO);
@@ -210,6 +212,8 @@ int main(int ac, char **av)
 	map_size.x = 100;
 	map_size.y = 100;
 	map_ini(v.map, map_size, &v);
+	mousebutton1.x = -1;
+	mousebutton2.x = -1;
 	while (!quit)
 	{
 		while (SDL_PollEvent(&e))
@@ -222,6 +226,8 @@ int main(int ac, char **av)
 			cam_rot.y = v.rot;
 			if (e.type == SDL_KEYDOWN)
 			{
+				if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+					quit = 1;
 				if (e.key.keysym.scancode == SDL_SCANCODE_W)
 				{
 					v.perso_pos.y += 0.1 * cos((v.rot) * M_PI_2);
@@ -319,7 +325,33 @@ int main(int ac, char **av)
 			}
 			if (e.type == SDL_MOUSEBUTTONDOWN)
 			{
-				quit = 1;
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					if (mousebutton2.x == -1)
+					{
+						mousebutton2.x = e.button.x;
+						mousebutton2.y = e.button.y;
+					}
+					else if (mousebutton1.x == -1)
+					{
+						mousebutton1.x = e.button.x;
+						mousebutton1.y = e.button.y;
+					}
+					else
+					{
+						printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
+						octant(mousebutton1, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
+						octant(mousebutton2, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
+						octant(mousebutton1, mousebutton2, v.p_tab, 0xffffffff, 2);
+						mousebutton1.x = -1;
+						mousebutton2.x = -1;
+						//print_map(&v);
+						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE*4);
+						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);
+						SDL_RenderPresent(v.rend);	
+					}
+					
+				}
 			}
 		}
 	}
