@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 15:29:51 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/30 13:00:50 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/07 13:31:57 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,25 @@ void	init(t_env *e)
 	e->select = 0;
 	e->select_line = 0;
 	e->secteur = 0;
+	e->info = 0;
+	if (TTF_init() == -1)
+	{
+		ft_printf("Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		error_sdl(e);
+	}
 	init2(e);
+}
+
+void	free_all(t_env *e)
+{
+	int		i;
+
+	i = 0;
+	while (i <= 10)
+	{
+		free(e->sec[i].file);
+		free(e->sec[i].pixels);
+		i++;
+	}
+	exit(0);
 }

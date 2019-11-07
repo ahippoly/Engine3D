@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 11:38:48 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/29 13:02:23 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/07 11:58:09 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	find_select(t_env *e, int i)
 		draw_ver(e);
 		edit_draw(e);
 	}
+	e->find_line = 1;
 	e->sec[e->secteur].line = i;
 	e->x1 = e->p3.x;
 	e->y1 = e->p3.y;

@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/28 11:24:14 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/07 14:53:16 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <math.h>
 # include <time.h>
 # include <pthread.h>
+# include "SDL_ttf.h"
 
 # define NAME "DOOM SKR SKRUUUU"
 # define W_WIN 960
@@ -83,6 +84,8 @@ typedef	struct		s_env
 	
 	int				select;
 	int				select_line;
+	int				find_line;
+	int				info;
 	t_sdl			sdl;
 	t_sec			sec[10];
 }					t_env;
@@ -90,6 +93,7 @@ typedef	struct		s_env
 void	error_sdl(t_env *e);
 void    gere_key(t_env *e);
 void    init(t_env *e);
+void	free_all(t_env *e);
 
 /*
 ** Bresenham functions ##################################################

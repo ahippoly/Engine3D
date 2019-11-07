@@ -6,7 +6,7 @@
 #    By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/11 13:58:07 by ceaudouy          #+#    #+#              #
-#    Updated: 2019/10/25 15:35:45 by ceaudouy         ###   ########.fr        #
+#    Updated: 2019/11/07 14:36:10 by ceaudouy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,13 @@ INC_NAME = color.h\
 
 LIB_PATH = libft
 SDL_PATH = SDL2.framework/headers
+TTF_PATH = SDL2_ttf.framework/headers
 PRINTF_PATH = libft/ft_printf
 GEN = $(addprefix $(GEN_PATH),$(GEN_NAME))
-CPPFLAGS = -I$(INC_PATH) -I$(LIB_PATH) -I$(PRINTF_PATH) -I$(SDL_PATH)
+CPPFLAGS = -I$(INC_PATH) -I$(LIB_PATH) -I$(PRINTF_PATH) -I$(SDL_PATH) -I$(TTF_PATH)
 LDLIBS = -Llibft -lft
 LDLIBX = -LSDL2.framework
+LDLIBX_TTF = -LSDL2_ttf.framework
 SDL_CMP = `sdl2-config --cflags --libs`
 FRAMEWK = -framework SDL2
 NAME = doom-nukem
@@ -59,7 +61,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIB_PATH)
-	$(CC) $(LDFLAGS) $(LDLIBS) $(LDLIBX) $(SDL_CMP) $^ -o $@
+	$(CC) $(LDFLAGS) $(LDLIBS) $(LDLIBX)  $(SDL_CMP) `sdl2-config --libs` -LSDL2_ttf $^ -o $@
 
 $(OBJ): $(INC)
 
@@ -79,6 +81,7 @@ re: fclean all
 gcov_debug: $(SRC)
 	@make -C $(LIB_PATH)
 	@make -C $(SDL_PATH)
+	@make -C $(TTF_PATH)
 	$(CC) $(LDFLAGS) $(LDLIBS) $(LDLIBX) $(FRAMEWK) $(CPPFLAGS) $(GCOV) $^ -o $(NAME)
 
 clean_gcov:

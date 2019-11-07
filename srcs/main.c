@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:58:19 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/30 13:23:44 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/07 11:25:08 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int		create_fd()
 
 void	set_sdl(t_env *e)
 {
-	init(e);
 	e->fd = create_fd();
 	if (e->fd < 0)
 		exit(1);
+	init(e);
 	e->sdl.quit = SDL_FALSE;
 	e->sdl.window = SDL_CreateWindow(NAME, SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, W_WIN, H_WIN, SDL_WINDOW_OPENGL);
@@ -53,6 +53,7 @@ void	set_sdl(t_env *e)
 	SDL_DestroyWindow(e->sdl.window);
 	SDL_DestroyTexture(e->sdl.texture);
 	SDL_Quit();
+	free_all(e);
 }
 
 

@@ -6,11 +6,55 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/10/30 12:17:16 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/07 12:08:48 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+void    gere_key3(t_env *e)
+{
+	if (e->sdl.event.key.keysym.scancode == 58)
+	{
+		if (e->select == 1 && e->find_line == 1)
+			e->info ^= 1;
+	}
+}
+
+
+void    gere_key2(t_env *e)
+{
+	if (e->sdl.event.key.keysym.scancode == 20 && e->sec[e->secteur].i_file > 0) //select ligne
+    {
+    	e->set_wall = 0;
+    	e->select ^= 1;
+		e->find_line = 0;
+    	e->info = 0;
+    	if (e->select == 0)
+    		e->edit_id = e->tmp_id;
+		clear(e);
+		draw_ver(e);
+		edit_draw(e);
+	}
+	if (e->sdl.event.key.keysym.scancode == 87) // ++secteur
+		if (e->secteur < 10)
+		{
+			e->secteur++;
+    		clear(e);
+			draw_ver(e);
+			edit_draw(e);
+			e->set_wall = 0;
+		}
+	if (e->sdl.event.key.keysym.scancode == 86) // --secteur
+		if (e->secteur > 0)
+		{
+ 	   		e->set_wall = 0;
+			e->secteur--;
+ 	   		clear(e);
+			draw_ver(e);
+			edit_draw(e);
+		}
+}
 
 void    gere_key(t_env *e)
 {
@@ -40,34 +84,9 @@ void    gere_key(t_env *e)
     	draw_back(e);
     if (e->sdl.event.key.keysym.scancode == 42 && e->sec[e->secteur].i_file > 0 && e->select == 1)	//effacer ligne select
     	delete_line(e);
-    if (e->sdl.event.key.keysym.scancode == 20 && e->sec[e->secteur].i_file > 0) //select ligne
-    {
-    	e->set_wall = 0;
-    	e->select ^= 1;
-    	if (e->select == 0)
-    		e->edit_id = e->tmp_id;
-		clear(e);
-		draw_ver(e);
-		edit_draw(e);
-	}
-	if (e->sdl.event.key.keysym.scancode == 87)
-		if (e->secteur < 10)
-		{
-			e->secteur++;
-    		clear(e);
-			draw_ver(e);
-			edit_draw(e);
-			e->set_wall = 0;
-		}
-	if (e->sdl.event.key.keysym.scancode == 86)
-		if (e->secteur > 0)
-		{
- 	   		e->set_wall = 0;
-			e->secteur--;
- 	   		clear(e);
-			draw_ver(e);
-			edit_draw(e);
-		}
-	printf("e->secteur = %d\n", e->secteur);
-    print(e);
+	gere_key2(e);
+	gere_key3(e);
+   	// ft_putnbr(e->sdl.event.key.keysym.scancode);
+	ft_putchar('\n');
+	print(e);
 }
