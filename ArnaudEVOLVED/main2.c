@@ -219,9 +219,7 @@ int main(int ac, char **av)
 		while (SDL_PollEvent(&e))
 		{
 			if (e.type == SDL_QUIT)
-			{
 				quit = 1;
-			}
 			cam_rot.x = v.roty;
 			cam_rot.y = v.rot;
 			if (e.type == SDL_KEYDOWN)

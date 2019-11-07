@@ -202,8 +202,8 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_si
 		i = 0;
 		//adapt_out_screen(&pos1, &pos2, 0);
 		oct_ini(&oct, pos1, pos2, pos, forced_side);
-		*length = ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]);
-		//printf("mem_octant, pixels drawed = %i\n", *length);
+		*length = ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]) + 0;
+		printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
 		pos_tab = (SDL_Point*)malloc(sizeof(SDL_Point) * *length);
 		while (i < *length)
@@ -219,6 +219,7 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_si
 			i++;
 			pos[oct.boolxy][0] += oct.inc[oct.boolxy];
 		}
+		printf("mem_octant, i = %i\n", i);
 		//pos_tab[i].x = pos[0][0];
 		//pos_tab[i].y = pos[1][0];
 	}

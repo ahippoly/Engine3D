@@ -358,9 +358,77 @@ void draw_texture(t_line top, t_line bot, char *pixels, t_text *text)
 	free(line[1]);
 }
 
-void draw_textured_triangle(SDL_Point begin, SDL_Point end, SDL_Point corner, int side, t_text *text, char *pixel)
+void draw_sub_triangle(SDL_Point point[3], t_pos text_ratio[3], char *pixels, t_text *text)
 {
 	unsigned int *p_tab;
+	SDL_Point *line[2];
+	int *length[2];
+	int i;
+	int j;
+	int scan_length;
+	double step_x;
+	double step_y;
+	t_pos line_text_ratio_step[2];
+	t_pos current_text_ratio[2];
 
-	p_tab = (unsigned int*)pixel;
+	p_tab = (unsigned int*)pixels;
+	line[0] = mem_octant(point[0], point[1], length[0], 2);
+	line[1] = mem_octant(point[0], point[2], length[1], 2);
+	line_text_ratio_step[0].x = (text_ratio[1].x - text_ratio[0].x) / *length[0];
+	line_text_ratio_step[0].y = (text_ratio[1].y - text_ratio[0].y) / *length[0];
+	line_text_ratio_step[1].x = (text_ratio[1].x - text_ratio[0].x) / *length[1];
+	line_text_ratio_step[1].y = (text_ratio[1].y - text_ratio[0].y) / *length[1];
+	current_text_ratio[0].x = text_ratio[0].x;
+	current_text_ratio[0].y = text_ratio[0].y;
+	current_text_ratio[1].x = text_ratio[0].x;
+	current_text_ratio[1].y = text_ratio[0].y;
+	
+	i = 0;
+	while (i < *length[1])
+	{
+		current_text_ratio[0].x += line_text_ratio_step[0].x;
+		current_text_ratio[1].x += line_text_ratio_step[1].x;
+		current_text_ratio[0].y += line_text_ratio_step[0].y;
+		current_text_ratio[1].y += line_text_ratio_step[1].y;
+		scan_length = line[1][i].x - line[0][i].x;
+		step_x = (current_text_ratio[1].x - current_text_ratio[0].x) / scan_length;
+		step_y = (current_text_ratio[1].y - current_text_ratio[0].y) / scan_length;
+		j = 0;
+		while (j < scan_length)
+		{
+
+			j++;
+		}
+		i++;
+	}
+}
+
+void draw_textured_triangle(SDL_Point begin, SDL_Point end, SDL_Point corner, int side, t_text *text, char *pixels)
+{
+	unsigned int	*p_tab;
+	SDL_Point		*begin_corner;
+	SDL_Point		*corner_end;
+	SDL_Point		*begin_end;
+	int				begin_corner_l;
+	int				corner_end_l;
+	int 			begin_end_l;
+	SDL_Point		*lowest_point;
+
+	//find lowest point
+	if (begin.y < corner.y)
+		if (begin.y < end.y)
+			lowest_point = &begin;
+		else
+			lowest_point = &end;
+	else if (corner.y < end.y)
+		lowest_point = &corner;
+	else
+		lowest_point = &end;
+	//	
+		
+	// begin_corner = mem_octant(begin, corner, &begin_corner_l, 2);
+	// corner_end = mem_octant(corner, end, &corner_end_l, 2);
+	// begin_end = mem_octant(begin, end, &begin_end_l, 2);
+
+	p_tab = (unsigned int*)pixels;
 }
