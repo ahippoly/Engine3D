@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 15:29:51 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/11/07 13:31:57 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/08 13:55:36 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void    init2(t_env *e)
 
 void	init(t_env *e)
 {
+	TTF_Init();
 	e->set_wall = 0;
 	e->set_map = 0;
 	e->edit_id = 0;
@@ -41,11 +42,6 @@ void	init(t_env *e)
 	e->select_line = 0;
 	e->secteur = 0;
 	e->info = 0;
-	if (TTF_init() == -1)
-	{
-		ft_printf("Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
-		error_sdl(e);
-	}
 	init2(e);
 }
 

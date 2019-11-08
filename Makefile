@@ -6,7 +6,7 @@
 #    By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/11 13:58:07 by ceaudouy          #+#    #+#              #
-#    Updated: 2019/11/07 14:36:10 by ceaudouy         ###   ########.fr        #
+#    Updated: 2019/11/08 14:07:19 by ceaudouy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,10 @@ INC_NAME = color.h\
 LIB_PATH = libft
 SDL_PATH = SDL2.framework/headers
 TTF_PATH = SDL2_ttf.framework/headers
+FREETYPE = SDL2_ttf.framework/FreeType.framework/headers/freetype
 PRINTF_PATH = libft/ft_printf
 GEN = $(addprefix $(GEN_PATH),$(GEN_NAME))
-CPPFLAGS = -I$(INC_PATH) -I$(LIB_PATH) -I$(PRINTF_PATH) -I$(SDL_PATH) -I$(TTF_PATH)
+CPPFLAGS = -I$(INC_PATH) -I$(LIB_PATH) -I$(PRINTF_PATH) -I$(SDL_PATH) -I$(TTF_PATH) -I$(FREETYPE)
 LDLIBS = -Llibft -lft
 LDLIBX = -LSDL2.framework
 LDLIBX_TTF = -LSDL2_ttf.framework
@@ -55,13 +56,13 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix $(INC_PATH),$(INC_NAME))
 
-.PHONY: all, clean, fclean, re, norme, cleanlib, analyzer
+.PHONY: all, clean, fclean, re, norme, cleanlib
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIB_PATH)
-	$(CC) $(LDFLAGS) $(LDLIBS) $(LDLIBX)  $(SDL_CMP) `sdl2-config --libs` -LSDL2_ttf $^ -o $@
+	$(CC) $(LDFLAGS) $(SDL_CMP) $(LDLIBS) $(LDLIBX) $(LDLIBX_TTF) $^ -o $@
 
 $(OBJ): $(INC)
 
@@ -69,7 +70,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
-clean: clean_gcov
+clean:
 	rm -fv $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 
@@ -78,17 +79,6 @@ fclean: clean
 
 re: fclean all
 
-gcov_debug: $(SRC)
-	@make -C $(LIB_PATH)
-	@make -C $(SDL_PATH)
-	@make -C $(TTF_PATH)
-	$(CC) $(LDFLAGS) $(LDLIBS) $(LDLIBX) $(FRAMEWK) $(CPPFLAGS) $(GCOV) $^ -o $(NAME)
-
-clean_gcov:
-	rm -fv *.gcov *.gcda *.gcno
-
-re_gcov: clean_gcov fclean gcov_debug
-
 norme:
 	norminette $(SRC)
 	norminette $(INC)
@@ -96,18 +86,3 @@ norme:
 cleanlib:
 	@make -C $(LIB_PATH) fclean
 	@make -C $(SDL_PATH) clean
-
-analyzer:
-	$(CC) -fsyntax-only $(CFLAGS) $(CPPFLAGS) $(SRC)
-	$(CC) --analyze $(CFLAGS) $(CPPFLAGS) $(SRC)
-
-clean_analyzer:
-	rm -fv $(PLIST)
-
-ifeq (create_map,$(firstword $(MAKECMDGOALS)))
-ARGS = $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-$(eval $(ARGS):;@:)
-else
-ARGS = test
-$(eval $(ARGS):;@:)
-endif
