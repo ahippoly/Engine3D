@@ -337,14 +337,15 @@ int main(int ac, char **av)
 					}
 					else
 					{
-						printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
+						//printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
 						octant(mousebutton1, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
 						octant(mousebutton2, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
 						octant(mousebutton1, mousebutton2, v.p_tab, 0xffffffff, 2);
+						draw_textured_triangle(mousebutton2, mousebutton1, create_point(e.button.x, e.button.y), 0, &v.stone, v.p_tab);
 						mousebutton1.x = -1;
 						mousebutton2.x = -1;
 						//print_map(&v);
-						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE*4);
+						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE * 4);
 						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);
 						SDL_RenderPresent(v.rend);	
 					}

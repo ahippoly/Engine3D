@@ -64,33 +64,33 @@ typedef struct  s_vox_line
 	t_vox pos2;
 }				t_vox_line;
 
-typedef struct  s_var
+typedef struct		s_var
 {
-	SDL_Window *win;
-    SDL_Renderer *rend;
-	SDL_Texture *screen;
-	SDL_Texture *mini_map_xy;
-	SDL_Texture *mini_map_xz;
-	SDL_Texture *mini_map_yz;
-	SDL_Texture *character;
-	SDL_Texture *t_ray;
-	char *p_tab;;
-	char *p_ray;
-	char *p_clear;
-	char p_perso[PERSO*PERSO*4];
-	char ***map;
-	t_vox perso_pos;
-	t_vox map_size;
-	double z_pos;
-	SDL_Rect map_border;
-	SDL_Point win_size;
-	double rot;
-	double roty;
-	double fov;
-	t_text stone;
-	char *img_tab;
-	SDL_Point img_size;
-}               t_var;
+	SDL_Window		*win;
+    SDL_Renderer	*rend;
+	SDL_Texture 	*screen;
+	SDL_Texture 	*mini_map_xy;
+	SDL_Texture 	*mini_map_xz;
+	SDL_Texture 	*mini_map_yz;
+	SDL_Texture 	*character;
+	SDL_Texture 	*t_ray;
+	char			*p_tab;;
+	char			*p_ray;
+	char			*p_clear;
+	char			p_perso[PERSO*PERSO*4];
+	char			***map;
+	t_vox			perso_pos;
+	t_vox			map_size;
+	double			z_pos;
+	SDL_Rect		map_border;
+	SDL_Point		win_size;
+	double			rot;
+	double			roty;
+	double			fov;
+	t_text			stone;
+	char			*img_tab;
+	SDL_Point		img_size;
+}					t_var;
 
 typedef struct  s_oct
 {
@@ -116,8 +116,14 @@ typedef struct  s_disp_range
 	double		end_x;
 }				t_disp_range;
 
-char *ft_load_bmp(char *file, int *width, int *height);
-void errorcase(void);
+typedef struct  s_triangle_point
+{
+	SDL_Point	pos;
+	t_pos		text_ratio;
+}				t_triangle_point;
+
+char 	*ft_load_bmp(char *file, int *width, int *height);
+void 	errorcase(void);
 
 void    oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2], int forced_side);
 void    octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_side);
@@ -151,4 +157,6 @@ void line_intersect(t_vox cam_pos, t_pos cam_rot, t_vox *p1, t_vox *p2, t_line *
 t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2);
 t_vox create_vox(double x, double y, double z);
 SDL_Point create_point(int x, int y);
+
+void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, int side, t_text *text, char *pixels);
 #endif
