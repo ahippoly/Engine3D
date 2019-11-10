@@ -21,9 +21,9 @@ void load_triangle1_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     corner[1] = load_corner(v, x + 1, y , z);
     corner[2] = load_corner(v, x , y + 1 , z);
 
-    octant(corner[0], corner[1], v->p_tab, 0xff00ffff, 0);
-    octant(corner[0], corner[2], v->p_tab, 0xff00ffff, 0);
-    octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
+    octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+    octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
+    octant(corner[1], corner[2], v->p_tab, 0xff00ffff);
 }
 
 void load_triangle2_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
@@ -35,9 +35,9 @@ void load_triangle2_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     corner[1] = load_corner(v, x + 1, y , z);
     corner[2] = load_corner(v, x + 1 , y + 1 , z);
 
-    octant(corner[0], corner[1], v->p_tab, 0xff00ffff, 0);
-    octant(corner[0], corner[2], v->p_tab, 0xff00ffff, 0);
-    octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
+    octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+    octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
+    octant(corner[1], corner[2], v->p_tab, 0xff00ffff);
 }
 
 void load_triangle3_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
@@ -49,9 +49,9 @@ void load_triangle3_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     corner[1] = load_corner(v, x , y + 1 , z);
     corner[2] = load_corner(v, x + 1 , y + 1 , z);
 
-    octant(corner[0], corner[1], v->p_tab, 0xff00ffff, 0);
-    octant(corner[0], corner[2], v->p_tab, 0xff00ffff, 0);
-    octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
+    octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+    octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
+    octant(corner[1], corner[2], v->p_tab, 0xff00ffff);
 }
 
 void load_triangle4_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
@@ -63,9 +63,9 @@ void load_triangle4_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     corner[1] = load_corner(v, x + 1, y + 1 , z);
     corner[2] = load_corner(v, x , y + 1 , z);
 
-    octant(corner[0], corner[1], v->p_tab, 0xff00ffff, 0);
-    octant(corner[0], corner[2], v->p_tab, 0xff00ffff, 0);
-    octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
+    octant(corner[0], corner[1], v->p_tab, 0xff00ffff);
+    octant(corner[0], corner[2], v->p_tab, 0xff00ffff);
+    octant(corner[1], corner[2], v->p_tab, 0xff00ffff);
 }
 
 void load_triangle_point(t_var *v, int x, int y, int z, int rot)
@@ -96,7 +96,7 @@ void load_triangle_point(t_var *v, int x, int y, int z, int rot)
 		load_triangle4_plane(v, x, y, z - 1, downcorner);
 	}
 
-    octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff, 0);
-    octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff, 0);
-    octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff, 0);
+    octant(downcorner[0], upcorner[0], v->p_tab, 0xff00ffff);
+    octant(downcorner[1], upcorner[1], v->p_tab, 0xff00ffff);
+    octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff);
 }

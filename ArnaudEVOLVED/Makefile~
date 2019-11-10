@@ -30,12 +30,10 @@ SDL2 = -L lib -l SDL2
 
 SAN = -fsanitize=address
 
-MATH = -lm
-
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(SDLM) $(MATH)
+	$(CC)  $(HEADER) $(OBJ) -o $(NAME) $(LIBFT) $(SDLM)
 
 $(LIBFT):
 	make -C ./libft/

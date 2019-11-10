@@ -358,6 +358,16 @@ void draw_texture(t_line top, t_line bot, char *pixels, t_text *text)
 	free(line[1]);
 }
 
+void swap_triangle_point(t_triangle_point *p1, t_triangle_point *p2)
+{
+	t_triangle_point tmp;
+
+	tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
+}
+
+
 void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 {
 	unsigned int *p_tab;
@@ -372,11 +382,15 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	t_pos line_text_ratio_step[2];
 	t_pos current_text_ratio[2];
 	t_pos scan_ratio;
+	int left_line;
 
 	p_tab = (unsigned int*)pixels;
 	text_pix = (unsigned int*)text->pixels;
-	line[1] = mem_octant(point[0].pos, point[2].pos, &length[1], 2);
+	if (point[2].pos.x < point[1].pos.x)
+		swap_triangle_point(&point[2], &point[1]);
+	
 	line[0] = mem_octant(point[0].pos, point[1].pos, &length[0], 2);
+	line[1] = mem_octant(point[0].pos, point[2].pos, &length[1], 2);
 	printf("DrawSubTriangle\n");
 	printf(" length0 = %d, length1 = %d\n", length[0], length[1]);
 	line_text_ratio_step[0].x = (point[1].text_ratio.x - point[0].text_ratio.x) / length[0];
@@ -389,19 +403,21 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	current_text_ratio[1].y = point[0].text_ratio.y;
 
 	i = 0;
+	
 	while (i < length[1])
 	{
 		current_text_ratio[0].x += line_text_ratio_step[0].x;
 		current_text_ratio[1].x += line_text_ratio_step[1].x;
 		current_text_ratio[0].y += line_text_ratio_step[0].y;
 		current_text_ratio[1].y += line_text_ratio_step[1].y;
-		printf(" Current_ratio0 : x = %f, y = %f | Current_ratio1 : x = %f, y = %f\n", current_text_ratio[0].x, current_text_ratio[0].y, current_text_ratio[1].x, current_text_ratio[1].y);
+		//printf(" Current_ratio0 : x = %f, y = %f | Current_ratio1 : x = %f, y = %f\n", current_text_ratio[0].x, current_text_ratio[0].y, current_text_ratio[1].x, current_text_ratio[1].y);
 		scan_length = line[1][i].x - line[0][i].x;
 		scan_ratio.x = current_text_ratio[0].x;
 		scan_ratio.y = current_text_ratio[0].y;
 		step_x = (current_text_ratio[1].x - current_text_ratio[0].x) / scan_length;
 		step_y = (current_text_ratio[1].y - current_text_ratio[0].y) / scan_length;
-		printf(" scan_ratio before : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+		//printf(" scan_ratio before : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+		printf(" scan_length = %d\n", scan_length);
 		j = 0;
 		while (j < scan_length)
 		{
@@ -412,20 +428,12 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 			scan_ratio.y += step_y;
 			j++;
 		}
-		printf(" scan_ratio after : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
-		printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
+		//printf(" scan_ratio after : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+		//printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
 		i++;
 	}
 }
 
-void swap_triangle_point(t_triangle_point *p1, t_triangle_point *p2)
-{
-	t_triangle_point tmp;
-
-	tmp = *p1;
-	*p1 = *p2;
-	*p2 = tmp;
-}
 
 void sort_triangle_point_by_height(t_triangle_point point[3])
 {
@@ -439,20 +447,29 @@ void sort_triangle_point_by_height(t_triangle_point point[3])
 		swap_triangle_point(&point[1], &point[2]);
 }
 
-void create_sub_triangle(t_triangle_point original[3], t_triangle_point sub[3])
+void create_sub_triangle(t_triangle_point original[3], t_triangle_point sub[3], int is_topside)
 {
 	double coef_ratio;
 
-	sub[0] = original[0];
-	sub[1] = original[1];
-	sub[2] = original[2];
-
+	if (is_topside == 1)
+	{
+		sub[0] = original[0];
+		sub[1] = original[1];
+		sub[2] = original[2];
+	}
+	else
+	{
+		sub[0] = original[2];
+		sub[1] = original[1];
+		sub[2] = original[0];
+	}
+	
 	coef_ratio = ((double)sub[2].pos.y - sub[1].pos.y) / (sub[2].pos.y - sub[0].pos.y); 
 	
 	sub[2].text_ratio.x += (sub[0].text_ratio.x - sub[2].text_ratio.x) * coef_ratio;
 	sub[2].text_ratio.y += (sub[0].text_ratio.y - sub[2].text_ratio.y) * coef_ratio;
 	sub[2].pos.y = sub[1].pos.y;
-	sub[2].pos.x += coef_ratio * (sub[0].pos.x - sub[2].pos.x) ;
+	sub[2].pos.x += coef_ratio * (sub[0].pos.x - sub[2].pos.x);
 
 	printf(" coef_ratio = %f\n", coef_ratio);
 	printf(" adapted point : x = %d, y = %d\n", sub[2].pos.x, sub[2].pos.y);
@@ -475,37 +492,6 @@ void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, in
 	//SDL_Point			point[3];
 	//t_pos				text_ratio[3];
 
-	//find lowest point
-	// if (begin.y < corner.y)
-	// 	if (begin.y < end.y)
-	// 	{
-	// 		lowest_point = &begin;
-	// 		point[0] = begin;
-	// 		point[1] = end;
-	// 		point[2] = corner;
-	// 	}
-	// 	else
-	// 	{
-	// 		lowest_point = &end;
-	// 		point[0] = end;
-	// 		point[1] = corner;
-	// 		point[2] = begin;
-	// 	}
-	// else if (corner.y < end.y)
-	// {
-	// 	lowest_point = &corner;
-	// 	point[0] = corner;
-	// 	point[1] = begin;
-	// 	point[2] = end;
-	// }
-	// else
-	// {
-	// 	lowest_point = &end;
-	// 	point[0] = end;
-	// 	point[1] = corner;
-	// 	point[2] = begin;
-	// }//	
-
 	printf("TRIANGLE :\n beg : x = %d, y = %d\n corner : x = %d, y = %d\n end : x = %d, y = %d\n", begin.x,begin.y, corner.x, corner.y, end.x, end.y);
 	point[0].pos = begin;
 	point[0].text_ratio.x = 0;
@@ -518,8 +504,10 @@ void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, in
 	point[2].text_ratio.y = 1;
 	sort_triangle_point_by_height(point);
 	printf("\n Top point : x = %d, y = %d\n Middle : x = %d, y = %d\n Bot : x = %d, y = %d\n", point[0].pos.x, point[0].pos.y, point[1].pos.x, point[1].pos.y, point[2].pos.x, point[2].pos.y);
-	create_sub_triangle(point, sub_triangle_top);
+	create_sub_triangle(point, sub_triangle_top, 1);
 	draw_sub_triangle(sub_triangle_top, pixels, text);
+	create_sub_triangle(point, sub_triangle_bot, 0);
+	draw_sub_triangle(sub_triangle_bot, pixels, text);
 		
 	// begin_corner = mem_octant(begin, corner, &begin_corner_l, 2);
 	// corner_end = mem_octant(corner, end, &corner_end_l, 2);
