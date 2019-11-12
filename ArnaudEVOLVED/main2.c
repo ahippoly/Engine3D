@@ -178,6 +178,7 @@ int main(int ac, char **av)
 	SDL_Texture *screen;
 	SDL_Texture *view;
 	SDL_Rect image_size;
+	const Uint8 *keyboard;
 	void *pixel_view;
 	int pitch;
 	int w;
@@ -200,10 +201,12 @@ int main(int ac, char **av)
 	t_line test;
 	t_vox pt1;
 	t_vox pt2;
-	SDL_Point mousebutton1;
-	SDL_Point mousebutton2;
+	SDL_Point mousebutton[MOUSE];
+	int savedmouse;
+	int i;
 
 	ac = 1;
+	savedmouse = 0;
 	SDL_Init(SDL_INIT_VIDEO);
 	var_ini(&v,av[1]);
 	printf("segfault 1?\n");
@@ -212,75 +215,78 @@ int main(int ac, char **av)
 	map_size.x = 100;
 	map_size.y = 100;
 	map_ini(v.map, map_size, &v);
-	mousebutton1.x = -1;
-	mousebutton2.x = -1;
+	i = 0;
+	while (i < MOUSE)
+		mousebutton[i++].x = -1;
 	while (!quit)
 	{
 		while (SDL_PollEvent(&e))
 		{
+			//SDL_PumpEvents();
+			keyboard = SDL_GetKeyboardState(NULL);
 			if (e.type == SDL_QUIT)
 				quit = 1;
 			cam_rot.x = v.roty;
 			cam_rot.y = v.rot;
 			if (e.type == SDL_KEYDOWN)
 			{
-				if (e.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+				if (keyboard[SDL_SCANCODE_ESCAPE])
 					quit = 1;
-				if (e.key.keysym.scancode == SDL_SCANCODE_W)
+				if (keyboard[SDL_SCANCODE_W])
 				{
 					v.perso_pos.y += 0.1 * cos((v.rot) * M_PI_2);
 					v.perso_pos.x += 0.1 * sin((v.rot) * M_PI_2);
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_S)
+				if (keyboard[SDL_SCANCODE_S])
 				{
 					v.perso_pos.y -= 0.1 * cos((v.rot) * M_PI_2);
 					v.perso_pos.x -= 0.1 * sin((v.rot) * M_PI_2);
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_A)
+				if (keyboard[SDL_SCANCODE_A])
 				{
 					v.perso_pos.y += 0.1 * cos((v.rot + 1) * M_PI_2);
 					v.perso_pos.x += 0.1 * sin((v.rot + 1) * M_PI_2);
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_D)
+				if (keyboard[SDL_SCANCODE_D])
 				{					
 					v.perso_pos.y -= 0.1 * cos((v.rot + 1) * M_PI_2);
 					v.perso_pos.x -= 0.1 * sin((v.rot + 1) * M_PI_2);
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_Q)
+				if (keyboard[SDL_SCANCODE_Q])
 				{
 					v.rot += (double)0.02;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_E)
+				if (keyboard[SDL_SCANCODE_E])
 				{
 					v.rot -= (double)0.02;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_F)
+				if (keyboard[SDL_SCANCODE_F])
 				{
 					v.perso_pos.z += (double)0.1;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_R)
+				if (keyboard[SDL_SCANCODE_R])
 				{
 					v.perso_pos.z -= (double)0.1;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_T)
+				if (keyboard[SDL_SCANCODE_T])
 				{
 					v.roty += (double)0.02;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_G)
+				if (keyboard[SDL_SCANCODE_G])
 				{
 					v.roty -= (double)0.02;
 					print_map(&v);
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_Z)
+				if (keyboard[SDL_SCANCODE_Z])
 				{
 					//	if (v.fov < 10)
 					{
@@ -288,7 +294,7 @@ int main(int ac, char **av)
 						print_map(&v);
 					}
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_X)
+				if (keyboard[SDL_SCANCODE_X])
 				{
 					if (v.fov > 0.051)
 					{
@@ -296,7 +302,7 @@ int main(int ac, char **av)
 						print_map(&v);
 					}
 				}
-				if (e.key.keysym.scancode == SDL_SCANCODE_B)
+				if (keyboard[SDL_SCANCODE_B])
 				{
 					test.pos1.x = -42;
 					test.pos1.y = 500;
@@ -325,26 +331,18 @@ int main(int ac, char **av)
 			{
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
-					if (mousebutton2.x == -1)
+					printf("MOUSE POS : x = %d, y = %d\n", e.button.x, e.button.y);
+					if (savedmouse < MOUSE)
 					{
-						mousebutton2.x = e.button.x;
-						mousebutton2.y = e.button.y;
-					}
-					else if (mousebutton1.x == -1)
-					{
-						mousebutton1.x = e.button.x;
-						mousebutton1.y = e.button.y;
+						mousebutton[savedmouse].x = e.button.x;
+						mousebutton[savedmouse].y = e.button.y;
+						savedmouse++;
 					}
 					else
 					{
+						savedmouse = 0;
 						//printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
-						octant(mousebutton1, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
-						octant(mousebutton2, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
-						octant(mousebutton1, mousebutton2, v.p_tab, 0xffffffff, 2);
-						draw_textured_triangle(mousebutton2, mousebutton1, create_point(e.button.x, e.button.y), 0, &v.stone, v.p_tab);
-						draw_textured_triangle(mousebutton2, create_point(e.button.x + mousebutton2.x - mousebutton1.x, e.button.y + mousebutton2.y - mousebutton1.y), create_point(e.button.x, e.button.y), 1, &v.stone, v.p_tab);
-						mousebutton1.x = -1;
-						mousebutton2.x = -1;
+						draw_textured_rectangle2(create_line_sdl(mousebutton[0], mousebutton[1]), create_line_sdl(mousebutton[2], create_point(e.button.x, e.button.y)), &v.stone, v.p_tab);
 						//print_map(&v);
 						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE * 4);
 						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);

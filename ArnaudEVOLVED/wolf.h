@@ -29,6 +29,7 @@
 # define PERSO 5
 # define BUFF_SIZE 1000000
 # define NAZI "Alerte nazi, Test de nazi detecte, Alerte nazi\n"
+# define MOUSE 3
 
 typedef struct  s_pos
 {
@@ -157,7 +158,12 @@ void line_intersect(t_vox cam_pos, t_pos cam_rot, t_vox *p1, t_vox *p2, t_line *
 t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2);
 t_vox create_vox(double x, double y, double z);
 SDL_Point create_point(int x, int y);
+t_line create_line(int x1, int y1, int x2, int y2);
+t_line create_line_sdl(SDL_Point pos1, SDL_Point pos2);
 
 void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, int side, t_text *text, char *pixels);
 void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels);
+void draw_textured_rectangle2(t_line top, t_line bot, t_text *text, char *pixels);
+void draw_textured_rectangle3(t_line top, t_line bot, t_text *text, char *pixels);
+
 #endif
