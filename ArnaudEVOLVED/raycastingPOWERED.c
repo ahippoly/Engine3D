@@ -130,13 +130,22 @@ void load_cube_lines(t_var *v, int x, int y, int z, t_vox cam_pos, t_pos cam_rot
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z)), 0xffaaffcc);
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x, y + 1, z)), 0xffaaffcc);
 
-draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
-, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
-, v->p_tab, &v->stone);
+// draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+// , create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
+// , v->p_tab, &v->stone);
 
-draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
-, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
-, v->p_tab, &v->stone);
+draw_textured_rectangle(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+, create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
+, &v->stone, v->p_tab);
+
+// draw_texture(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+// , create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
+// , v->p_tab, &v->stone);
+
+// draw_textured_rectangle(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+//  , create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
+//  , &v->stone, v->p_tab);
+
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x, y, z + 1)), 0xffaabbcc);
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y, z), create_vox(x + 1, y, z + 1)), 0xffaabbcc);
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y + 1, z), create_vox(x + 1, y + 1, z + 1)), 0xffaabbcc);

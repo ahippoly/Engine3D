@@ -342,6 +342,7 @@ int main(int ac, char **av)
 						octant(mousebutton2, create_point(e.button.x, e.button.y), v.p_tab, 0xffffffff, 2);
 						octant(mousebutton1, mousebutton2, v.p_tab, 0xffffffff, 2);
 						draw_textured_triangle(mousebutton2, mousebutton1, create_point(e.button.x, e.button.y), 0, &v.stone, v.p_tab);
+						draw_textured_triangle(mousebutton2, create_point(e.button.x + mousebutton2.x - mousebutton1.x, e.button.y + mousebutton2.y - mousebutton1.y), create_point(e.button.x, e.button.y), 1, &v.stone, v.p_tab);
 						mousebutton1.x = -1;
 						mousebutton2.x = -1;
 						//print_map(&v);

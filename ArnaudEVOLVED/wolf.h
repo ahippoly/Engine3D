@@ -159,4 +159,5 @@ t_vox create_vox(double x, double y, double z);
 SDL_Point create_point(int x, int y);
 
 void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, int side, t_text *text, char *pixels);
+void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels);
 #endif

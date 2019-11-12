@@ -497,8 +497,17 @@ void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, in
 	point[0].text_ratio.x = 0;
 	point[0].text_ratio.y = 0;
 	point[1].pos = corner;
-	point[1].text_ratio.x = 1;
-	point[1].text_ratio.y = 0;
+	if (side == 0)
+	{
+		point[1].text_ratio.x = 1;
+		point[1].text_ratio.y = 0;
+	}
+	else
+	{
+		point[1].text_ratio.x = 0;
+		point[1].text_ratio.y = 1;
+	}
+	
 	point[2].pos = end;
 	point[2].text_ratio.x = 1;
 	point[2].text_ratio.y = 1;
@@ -514,4 +523,10 @@ void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, in
 	// begin_end = mem_octant(begin, end, &begin_end_l, 2);
 
 	p_tab = (unsigned int*)pixels;
+}
+
+void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels)
+{
+	draw_textured_triangle(top.pos1, top.pos2, bot.pos2, 0, text, pixels);
+	draw_textured_triangle(top.pos1, bot.pos1, bot.pos2, 1, text, pixels);
 }
