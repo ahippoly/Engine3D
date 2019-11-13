@@ -27,7 +27,7 @@ OBJ = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	gcc -Wall -Wextra -Werror -c -I . $(SRC)
+	gcc -c -I . $(SRC)
 	ar rcs $(NAME) $(OBJ)
 
 clean :

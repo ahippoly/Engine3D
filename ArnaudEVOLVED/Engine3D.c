@@ -233,25 +233,25 @@ t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2)
 	line.pos1 = vox_on_screen(p1, cam_pos, cam_rot);
 	line.pos2 = vox_on_screen(p2, cam_pos, cam_rot);
 	
-		cam_rot.x += 0.5;
-		cam_rot.y += 0.5;
-		line_intersect(cam_pos, cam_rot, &p1, &p2, &line);
-		cam_rot.x -= 0.5;
-		cam_rot.y -= 0.5;
-		if (line.pos1.x == -42)
-			line.pos1 = vox_on_screen(p1, cam_pos, cam_rot);
-		else if (line.pos2.x == -42)
-			line.pos2 = vox_on_screen(p2, cam_pos, cam_rot);
-		cam_rot.x -= 0.5;
-		cam_rot.y -= 0.5;
-		
-		line_intersect(cam_pos, cam_rot, &p1, &p2, &line);
-		cam_rot.x += 0.5;
-		cam_rot.y += 0.5;
-		if (line.pos1.x == -42)
-			line.pos1 = vox_on_screen(p1, cam_pos, cam_rot);
-		else if (line.pos2.x == -42)
-			line.pos2 = vox_on_screen(p2, cam_pos, cam_rot);
+	cam_rot.x += 0.5;
+	cam_rot.y += 0.5;
+	line_intersect(cam_pos, cam_rot, &p1, &p2, &line);
+	cam_rot.x -= 0.5;
+	cam_rot.y -= 0.5;
+	if (line.pos1.x == -42)
+		line.pos1 = vox_on_screen(p1, cam_pos, cam_rot);
+	else if (line.pos2.x == -42)
+		line.pos2 = vox_on_screen(p2, cam_pos, cam_rot);
+	cam_rot.x -= 0.5;
+	cam_rot.y -= 0.5;
+	
+	line_intersect(cam_pos, cam_rot, &p1, &p2, &line);
+	cam_rot.x += 0.5;
+	cam_rot.y += 0.5;
+	if (line.pos1.x == -42)
+		line.pos1 = vox_on_screen(p1, cam_pos, cam_rot);
+	else if (line.pos2.x == -42)
+		line.pos2 = vox_on_screen(p2, cam_pos, cam_rot);
 		
 	
 	
@@ -426,8 +426,9 @@ void swap_triangle_point(t_triangle_point *p1, t_triangle_point *p2)
 
 void put_pixel_attempt(unsigned int *p_tab, SDL_Point pos, int color)
 {
-	if (pos.x >= 0 && pos.x < WIN_SIZE
-		&& pos.y >= 0 && pos.y < WIN_SIZE)
+	//printf("pixel pos : x = %d, y = %d\n", pos.x, pos.y);
+	if (pos.x > 0 && pos.x < WIN_SIZE
+		&& pos.y > 0 && pos.y < WIN_SIZE)
 		p_tab[pos.x + pos.y * WIN_SIZE] = color;
 }
 
@@ -436,6 +437,7 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	unsigned int *p_tab;
 	unsigned int *text_pix;
 	SDL_Point *line[2];
+	int drawed_length[2];
 	int length[2];
 	int i;
 	int j;
@@ -452,8 +454,10 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	if (point[2].pos.x < point[1].pos.x)
 		swap_triangle_point(&point[2], &point[1]);
 	
-	line[0] = mem_octant(point[0].pos, point[1].pos, &length[0], 2);
-	line[1] = mem_octant(point[0].pos, point[2].pos, &length[1], 2);
+	line[0] = mem_octant(point[0].pos, point[1].pos, &drawed_length[0], 2);
+	line[1] = mem_octant(point[0].pos, point[2].pos, &drawed_length[1], 2);
+	length[0] = ft_abs(point[1].pos.y - point[0].pos.y);
+	length[1] = ft_abs(point[2].pos.y - point[0].pos.y);
 	printf("DrawSubTriangle\n");
 	printf(" length0 = %d, length1 = %d\n", length[0], length[1]);
 	line_text_ratio_step[0].x = (point[1].text_ratio.x - point[0].text_ratio.x) / length[0];
@@ -464,6 +468,24 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	current_text_ratio[0].y = point[0].text_ratio.y;
 	current_text_ratio[1].x = point[0].text_ratio.x;
 	current_text_ratio[1].y = point[0].text_ratio.y;
+
+	if (point[0].pos.y < 0)
+	{
+		current_text_ratio[0].x += line_text_ratio_step[0].x * -point[0].pos.y;
+		current_text_ratio[0].y += line_text_ratio_step[0].y * -point[0].pos.y;
+		current_text_ratio[1].x += line_text_ratio_step[1].x * -point[0].pos.y;
+		current_text_ratio[1].y += line_text_ratio_step[1].y * -point[0].pos.y;
+	}
+	if (point[1].pos.y < 0)
+	{
+		current_text_ratio[0].x += line_text_ratio_step[0].x * -point[1].pos.y;
+		current_text_ratio[0].y += line_text_ratio_step[0].y * -point[1].pos.y;
+	}
+	if (point[2].pos.y < 0)
+	{
+		current_text_ratio[1].x += line_text_ratio_step[1].x * -point[2].pos.y;
+		current_text_ratio[1].y += line_text_ratio_step[1].y * -point[2].pos.y;
+	}
 
 	i = 0;
 
@@ -477,7 +499,7 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	// 	i += point[0].pos.y - WIN_SIZE;
 	// }
 	
-	while (i < length[1])
+	while (i < drawed_length[1])
 	{
 		current_text_ratio[0].x += line_text_ratio_step[0].x;
 		current_text_ratio[1].x += line_text_ratio_step[1].x;
@@ -494,17 +516,18 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 		j = 0;
 		if (line[0][i].x < 0)
 		{
-			//j = -line[0][i].x;
-			//scan_ratio.x = step_x * j;
-			//scan_ratio.y = step_y * j;
-			//printf("j = %d\n",j);
+			j = -line[0][i].x;
+			scan_ratio.x += step_x * j;
+			scan_ratio.y += step_y * j;
+			printf("j = %d\n",j);
+
 
 		}
 		if (line[1][i].x > WIN_SIZE)
 			scan_length -= line[1][i].x - WIN_SIZE;
 		while (j < scan_length)
 		{
-			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y), text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)]);
+			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y), text_pix[(int)(ft_frange(scan_ratio.x, 0, 1) * text->w) + ((int)(ft_frange(scan_ratio.y, 0, 1) * text->h) * text->w)]);
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xff000000 | ((int)(scan_ratio.y * 65536) & 0xff00ff00) | (int)(scan_ratio.x * 256);

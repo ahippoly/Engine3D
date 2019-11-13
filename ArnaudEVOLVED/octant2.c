@@ -197,12 +197,16 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_si
 
 	*length = 0;
 	pos_tab = NULL;
-	if (pos1.x != -42 && pos2.x != -42)
+	if (pos1.x != -42 && pos2.x != -42
+		&& pos1.x != -2147483648
+		&& pos2.x != -2147483648
+		&& pos1.y != -2147483648
+		&& pos2.y != -2147483648)
 	{
 		i = 0;
 		//adapt_out_screen(&pos1, &pos2, 0);
 		oct_ini(&oct, pos1, pos2, pos, forced_side);
-		*length = ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]) + 0;
+		*length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]) + 0);
 		printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
 		pos_tab = (SDL_Point*)malloc(sizeof(SDL_Point) * *length);

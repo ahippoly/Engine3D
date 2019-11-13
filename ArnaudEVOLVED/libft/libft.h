@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 18:17:58 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/10/08 16:56:44 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/11/13 20:43:13 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int					ft_max(int a, int b);
 int					ft_min(int a, int b);
 double				ft_fmax(double a, double b);
 double				ft_fmin(double a, double b);
+int					ft_range(int value, int min, int max);
+double				ft_frange(double value, double min, double max);
 
 void				print_memory(const void *addr, size_t size);
 

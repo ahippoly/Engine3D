@@ -6,7 +6,7 @@
 /*   By: ahippoly <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 18:17:58 by ahippoly          #+#    #+#             */
-/*   Updated: 2019/09/26 03:42:56 by ahippoly         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:56:44 by ahippoly         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int					ft_pgcd(int a, int b);
 int					ft_abs(int a);
 int					ft_max(int a, int b);
 int					ft_min(int a, int b);
+double				ft_fmax(double a, double b);
+double				ft_fmin(double a, double b);
 
 void				print_memory(const void *addr, size_t size);
 

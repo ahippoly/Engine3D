@@ -220,15 +220,15 @@ int main(int ac, char **av)
 		mousebutton[i++].x = -1;
 	while (!quit)
 	{
-		while (SDL_PollEvent(&e))
+		//while (SDL_PollEvent(&e))
 		{
-			//SDL_PumpEvents();
+			SDL_PumpEvents();
 			keyboard = SDL_GetKeyboardState(NULL);
 			if (e.type == SDL_QUIT)
 				quit = 1;
 			cam_rot.x = v.roty;
 			cam_rot.y = v.rot;
-			if (e.type == SDL_KEYDOWN)
+			//if (e.type == SDL_KEYDOWN)
 			{
 				if (keyboard[SDL_SCANCODE_ESCAPE])
 					quit = 1;
