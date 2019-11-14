@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/11 13:57:54 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/11/08 14:05:22 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/14 11:30:13 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <time.h>
 # include <pthread.h>
 # include "SDL_ttf.h"
-# include "ft2build.h"
 
 # define NAME "DOOM SKR SKRUUUU"
 # define W_WIN 960

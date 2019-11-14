@@ -6,7 +6,7 @@
 /*   By: ceaudouy <ceaudouy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 15:05:11 by ceaudouy          #+#    #+#             */
-/*   Updated: 2019/11/07 12:08:48 by ceaudouy         ###   ########.fr       */
+/*   Updated: 2019/11/14 11:30:59 by ceaudouy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ void    gere_key(t_env *e)
 	gere_key2(e);
 	gere_key3(e);
    	// ft_putnbr(e->sdl.event.key.keysym.scancode);
-	ft_putchar('\n');
+	//ft_putchar('\n');
 	print(e);
 }

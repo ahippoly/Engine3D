@@ -1,0 +1,39 @@
+
+secteur: 0
+id	x1	y1	x2	y2
+0	352	416	384	352
+0	384	352	448	320
+0	448	320	480	352
+0	480	352	512	416
+0	512	416	576	384
+0	576	384	576	320
+
+secteur: 1
+id	x1	y1	x2	y2
+
+secteur: 2
+id	x1	y1	x2	y2
+
+secteur: 3
+id	x1	y1	x2	y2
+
+secteur: 4
+id	x1	y1	x2	y2
+
+secteur: 5
+id	x1	y1	x2	y2
+
+secteur: 6
+id	x1	y1	x2	y2
+
+secteur: 7
+id	x1	y1	x2	y2
+
+secteur: 8
+id	x1	y1	x2	y2
+
+secteur: 9
+id	x1	y1	x2	y2
+
+secteur: 10
+id	x1	y1	x2	y2
