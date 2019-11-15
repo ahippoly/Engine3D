@@ -220,7 +220,7 @@ int main(int ac, char **av)
 		mousebutton[i++].x = -1;
 	while (!quit)
 	{
-		//while (SDL_PollEvent(&e))
+		while (SDL_PollEvent(&e))
 		{
 			SDL_PumpEvents();
 			keyboard = SDL_GetKeyboardState(NULL);
@@ -228,7 +228,7 @@ int main(int ac, char **av)
 				quit = 1;
 			cam_rot.x = v.roty;
 			cam_rot.y = v.rot;
-			//if (e.type == SDL_KEYDOWN)
+			if (e.type == SDL_KEYDOWN)
 			{
 				if (keyboard[SDL_SCANCODE_ESCAPE])
 					quit = 1;
@@ -317,6 +317,7 @@ int main(int ac, char **av)
 					pt2.y = 1;
 					pt2.z = 0;
 					line_intersect(v.perso_pos, cam_rot, &pt1, &pt2, &test);
+					//draw_textured_rectangle2(create_line())
 //					cut_frustum(v.perso_pos, cam_rot);
 				}
 				printf("       rotx = %f \n",v.rot);

@@ -458,8 +458,8 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	line[1] = mem_octant(point[0].pos, point[2].pos, &drawed_length[1], 2);
 	length[0] = ft_abs(point[1].pos.y - point[0].pos.y);
 	length[1] = ft_abs(point[2].pos.y - point[0].pos.y);
-	printf("DrawSubTriangle\n");
-	printf(" length0 = %d, length1 = %d\n", length[0], length[1]);
+	// printf("DrawSubTriangle\n");
+	// printf(" length0 = %d, length1 = %d\n", length[0], length[1]);
 	line_text_ratio_step[0].x = (point[1].text_ratio.x - point[0].text_ratio.x) / length[0];
 	line_text_ratio_step[0].y = (point[1].text_ratio.y - point[0].text_ratio.y) / length[0];
 	line_text_ratio_step[1].x = (point[2].text_ratio.x - point[0].text_ratio.x) / length[1];
@@ -519,7 +519,7 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 			j = -line[0][i].x;
 			scan_ratio.x += step_x * j;
 			scan_ratio.y += step_y * j;
-			printf("j = %d\n",j);
+			//printf("j = %d\n",j);
 		}
 		if (line[1][i].x > WIN_SIZE)
 			scan_length -= line[1][i].x - WIN_SIZE;
@@ -577,9 +577,9 @@ void create_sub_triangle(t_triangle_point original[3], t_triangle_point sub[3], 
 	sub[2].pos.y = sub[1].pos.y;
 	sub[2].pos.x += coef_ratio * (sub[0].pos.x - sub[2].pos.x);
 
-	printf(" coef_ratio = %f\n", coef_ratio);
-	printf(" adapted point : x = %d, y = %d\n", sub[2].pos.x, sub[2].pos.y);
-	printf(" text_ratio : x = %f, y = %f\n", sub[2].text_ratio.x, sub[2].text_ratio.y);
+	// printf(" coef_ratio = %f\n", coef_ratio);
+	// printf(" adapted point : x = %d, y = %d\n", sub[2].pos.x, sub[2].pos.y);
+	// printf(" text_ratio : x = %f, y = %f\n", sub[2].text_ratio.x, sub[2].text_ratio.y);
 }
 
 void draw_triangle(t_triangle_point point[3], char *pixels, t_text *text)
@@ -611,7 +611,7 @@ void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, in
 	//SDL_Point			point[3];
 	//t_pos				text_ratio[3];
 
-	printf("TRIANGLE :\n beg : x = %d, y = %d\n corner : x = %d, y = %d\n end : x = %d, y = %d\n", begin.x,begin.y, corner.x, corner.y, end.x, end.y);
+	//printf("TRIANGLE :\n beg : x = %d, y = %d\n corner : x = %d, y = %d\n end : x = %d, y = %d\n", begin.x,begin.y, corner.x, corner.y, end.x, end.y);
 	point[0].pos = begin;
 	point[0].text_ratio.x = 0;
 	point[0].text_ratio.y = 0;
@@ -644,6 +644,7 @@ void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels)
 	
 	//draw_textured_triangle(top.pos1, top.pos2, bot.pos2, 0, text, pixels);
 	//draw_textured_triangle(top.pos1, bot.pos1, bot.pos2, 1, text, pixels);
+	printf("Rectangle point : \n x = %d, y = %d\n x2 = %d, y2 = %d\n x3 = %d y3 = %d\n x4 = %d y4 = %d\n", top.pos1.x, top.pos1.y, top.pos2.x, top.pos2.y, bot.pos1.x, bot.pos1.y, bot.pos2.x, bot.pos2.y);
 
 	center = segment_intersect(top.pos1, bot.pos2, bot.pos1, top.pos2);
 	point[0][0].pos = top.pos1;
@@ -655,7 +656,6 @@ void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels)
 	point[0][1].text_ratio.y = 0.5;
 	point[0][2].text_ratio.x = 1;
 	point[0][2].text_ratio.y = 0;
-
 
 	point[1][0].pos = top.pos1;
 	point[1][1].pos = center;
@@ -702,41 +702,49 @@ void draw_textured_rectangle2(t_line top, t_line bot, t_text *text, char *pixels
 
 	SDL_Point middle_bot;
 
-	middle_bot.x = (bot.pos1.x + bot.pos2.x) / 2;
-	middle_bot.y = (bot.pos1.y + bot.pos2.y) / 2;
-	point[0][0].pos = top.pos1;
-	point[0][1].pos = middle_bot;
-	point[0][2].pos = bot.pos1;
-	point[0][0].text_ratio.x = 0;
-	point[0][0].text_ratio.y = 0;
-	point[0][1].text_ratio.x = 0.5;
-	point[0][1].text_ratio.y = 1;
-	point[0][2].text_ratio.x = 0;
-	point[0][2].text_ratio.y = 1;
 
-	point[1][0].pos = top.pos1;
-	point[1][1].pos = middle_bot;
-	point[1][2].pos = top.pos2;
-	point[1][0].text_ratio.x = 0;
-	point[1][0].text_ratio.y = 0;
-	point[1][1].text_ratio.x = 0.5;
-	point[1][1].text_ratio.y = 1;
-	point[1][2].text_ratio.x = 1;
-	point[1][2].text_ratio.y = 0;
+	printf("Rectangle point : \n x = %d, y = %d\n x2 = %d, y2 = %d\n x3 = %d y3 = %d\n x4 = %d y4 = %d\n", top.pos1.x, top.pos1.y, top.pos2.x, top.pos2.y, bot.pos1.x, bot.pos1.y, bot.pos2.x, bot.pos2.y);
+	if (top.pos1.x != -42
+	&& top.pos2.x != -42
+	&& bot.pos1.x != -42
+	&& bot.pos2.x != -42)
+	{
+		middle_bot.x = (bot.pos1.x + bot.pos2.x) / 2;
+		middle_bot.y = (bot.pos1.y + bot.pos2.y) / 2;
+		point[0][0].pos = top.pos1;
+		point[0][1].pos = middle_bot;
+		point[0][2].pos = bot.pos1;
+		point[0][0].text_ratio.x = 0;
+		point[0][0].text_ratio.y = 0;
+		point[0][1].text_ratio.x = 0.5;
+		point[0][1].text_ratio.y = 1;
+		point[0][2].text_ratio.x = 0;
+		point[0][2].text_ratio.y = 1;
 
-	point[2][0].pos = top.pos2;
-	point[2][1].pos = middle_bot;
-	point[2][2].pos = bot.pos2;
-	point[2][0].text_ratio.x = 1;
-	point[2][0].text_ratio.y = 0;
-	point[2][1].text_ratio.x = 0.5;
-	point[2][1].text_ratio.y = 1;
-	point[2][2].text_ratio.x = 1;
-	point[2][2].text_ratio.y = 1;
+		point[1][0].pos = top.pos1;
+		point[1][1].pos = middle_bot;
+		point[1][2].pos = top.pos2;
+		point[1][0].text_ratio.x = 0;
+		point[1][0].text_ratio.y = 0;
+		point[1][1].text_ratio.x = 0.5;
+		point[1][1].text_ratio.y = 1;
+		point[1][2].text_ratio.x = 1;
+		point[1][2].text_ratio.y = 0;
 
-	draw_triangle(point[0], pixels, text);
-	draw_triangle(point[1], pixels, text);
-	draw_triangle(point[2], pixels, text);
+		point[2][0].pos = top.pos2;
+		point[2][1].pos = middle_bot;
+		point[2][2].pos = bot.pos2;
+		point[2][0].text_ratio.x = 1;
+		point[2][0].text_ratio.y = 0;
+		point[2][1].text_ratio.x = 0.5;
+		point[2][1].text_ratio.y = 1;
+		point[2][2].text_ratio.x = 1;
+		point[2][2].text_ratio.y = 1;
+
+		draw_triangle(point[0], pixels, text);
+		draw_triangle(point[1], pixels, text);
+		draw_triangle(point[2], pixels, text);
+	}
 }
 
 void draw_textured_rectangle3(t_line top, t_line bot, t_text *text, char *pixels)
