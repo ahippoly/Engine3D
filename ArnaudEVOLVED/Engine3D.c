@@ -520,8 +520,6 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 			scan_ratio.x += step_x * j;
 			scan_ratio.y += step_y * j;
 			printf("j = %d\n",j);
-
-
 		}
 		if (line[1][i].x > WIN_SIZE)
 			scan_length -= line[1][i].x - WIN_SIZE;
@@ -539,6 +537,8 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 		//printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
 		i++;
 	}
+	free(line[0]);
+	free(line[1]);
 }
 
 void sort_triangle_point_by_height(t_triangle_point point[3])
