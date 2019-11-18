@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void load_triangle1_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
+void load_triangle1_plane(t_var *v, int x, int y, int z , t_point corner[4])
 {
     SDL_Point point;
     SDL_Point point2;
@@ -26,7 +26,7 @@ void load_triangle1_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
 }
 
-void load_triangle2_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
+void load_triangle2_plane(t_var *v, int x, int y, int z , t_point corner[4])
 {
     SDL_Point point;
     SDL_Point point2;
@@ -40,7 +40,7 @@ void load_triangle2_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
 }
 
-void load_triangle3_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
+void load_triangle3_plane(t_var *v, int x, int y, int z , t_point corner[4])
 {
     SDL_Point point;
     SDL_Point point2;
@@ -54,7 +54,7 @@ void load_triangle3_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
     octant(corner[1], corner[2], v->p_tab, 0xff00ffff, 0);
 }
 
-void load_triangle4_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
+void load_triangle4_plane(t_var *v, int x, int y, int z , t_point corner[4])
 {
     SDL_Point point;
     SDL_Point point2;
@@ -70,10 +70,10 @@ void load_triangle4_plane(t_var *v, int x, int y, int z , SDL_Point corner[4])
 
 void load_triangle_point(t_var *v, int x, int y, int z, int rot)
 {
-    SDL_Point upcorner[3];
-    SDL_Point downcorner[3];
-    SDL_Point point;
-    SDL_Point point2;
+    t_point upcorner[3];
+    t_point downcorner[3];
+    t_point point;
+    t_point point2;
 
 	if (rot == 1)
 	{

@@ -33,8 +33,8 @@ void print_map(t_var *v)
 {
 	SDL_Rect disp_pos;
 	SDL_Rect perso_pos;
-	SDL_Point endray;
-	SDL_Point startray;
+	t_point endray;
+	t_point startray;
 	double rot;
 	double roty;
 	double fov;

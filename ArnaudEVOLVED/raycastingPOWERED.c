@@ -12,7 +12,8 @@
 
 #include "wolf.h"
 
-SDL_Point load_corner(t_var *v, int i, int j, int h)
+/*
+t_point load_corner(t_var *v, int i, int j, int h)
 {
 	SDL_Point pos;
 	SDL_Point size;
@@ -29,7 +30,7 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 	SDL_Point endray;
     SDL_Point startray;
     SDL_Point perso_pos;
-	SDL_Point ret;
+	t_point ret;
 	int half_screen;
 	double rot;
 	double roty;
@@ -68,18 +69,18 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 	diff.z = h - v->perso_pos.z;
 	depth = diff.x * sin_rot * sin_roty + diff.y * cos_rot * sin_roty + diff.z * cos_roty;
 	depth *= v->fov;
-	//* cos(M_PI_4); 
-	//* sin(v->fov); 
-	//* v->fov;
+	 *cos(M_PI_4); 
+	 *sin(v->fov); 
+	 *v->fov;
 //	diffy_screenpos = diff.y * sin(rot) - diff.x * cos(rot);
 	diffx_screenpos = diff.y * sin_rot 
 		//+ diff.x * cos(rot) * cos(roty) 
 		- diff.x * cos_rot;
 	diffy_screenpos = diff.z * sin_roty - diff.x * cos_roty * sin_rot - diff.y * cos_roty * cos_rot;
 	width = depth * 2;
-		//* sin(M_PI_4);
-		//* sin(v->fov); 
-		//* v->fov;
+		* sin(M_PI_4);
+		* sin(v->fov); 
+		* v->fov;
 	startx = diffx_screenpos + depth;
 	starty = diffy_screenpos + depth;
 /*	printf("i = %i, j = %i\n",i , j);
@@ -98,7 +99,7 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 	startray.x =  pos.x + 100 * -cos((v->rot) * M_PI_2);
 	startray.y =  pos.y + 100 * sin((v->rot) * M_PI_2);
 	octant(startray, endray, v->p_tab, 0xff00aa00);
-*/
+
 //////////////////////////////////////////////////////  Display CALC
 
 	//if (startx > 0 && startx < width && starty > 0 && starty < width)
@@ -115,8 +116,10 @@ SDL_Point load_corner(t_var *v, int i, int j, int h)
 		ret.x = -42;
 		ret.y = -42;
 	}
+	ret.zdist = depth;
 	return (ret);
 }
+*/
 
 void draw_line(t_var *v, t_line line, int color)
 {
@@ -157,7 +160,8 @@ draw_textured_rectangle2(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), c
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x, y + 1, z + 1)), 0xffaabbcc);
 }
 
-void load_cube_plane(t_var *v, int x, int y, int z, SDL_Point corner[4])
+/*
+void load_cube_plane(t_var *v, int x, int y, int z, t_point corner[4])
 {
 	SDL_Point point;
 	SDL_Point point2;
@@ -204,13 +208,15 @@ void load_cube_plane(t_var *v, int x, int y, int z, SDL_Point corner[4])
 	octant(corner[1], corner[3], v->p_tab, 0xff00ffff, 0);	
 	octant(corner[2], corner[3], v->p_tab, 0xff00ffff, 0);
 }
+*/
 
+/*
 void load_cube_point(t_var *v, int x, int y, int z)
 {
-	SDL_Point upcorner[4];
-	SDL_Point downcorner[4];
-	SDL_Point point;
-	SDL_Point point2;
+	t_point upcorner[4];
+	t_point downcorner[4];
+	t_point point;
+	t_point point2;
 	int i;
 	int j;
 	int h;
@@ -233,13 +239,13 @@ void load_cube_point(t_var *v, int x, int y, int z)
 	octant(downcorner[2], upcorner[2], v->p_tab, 0xff00ffff, 0);	
 	octant(downcorner[3], upcorner[3], v->p_tab, 0xff00ffff, 0);
 }
-
+*/
 void load_wall(t_var *v)
 {
 	int x;
 	int y;
 	int z;
-	SDL_Point point;
+	t_point point;
 	t_line wall_hight_tmp;
 	t_line wall_hight;
 	t_line wall_hight2;
@@ -260,9 +266,9 @@ void load_wall(t_var *v)
 				if (v->map[x][y][z] != 0)
 				{
 					//printf("i = %i , j = %i, map = %i , Id = %i , height = %i\n",i,j, v->map[j][i], v->map[j][i] / 100, v->map[j][i] % 100);
-					if (v->map[x][y][z] < 5 && v->map[x][y][z] > 1) //load triangle
-						load_triangle_point(v, x, y, -z, v->map[x][y][z]);
-					else
+					// if (v->map[x][y][z] < 5 && v->map[x][y][z] > 1) //load triangle
+					// 	load_triangle_point(v, x, y, -z, v->map[x][y][z]);
+					// else
 						//load_cube_point(v, x, y, -z);
 						load_cube_lines(v, x, y, z, v->perso_pos, cam_rot);
 				}

@@ -37,6 +37,14 @@ typedef struct  s_pos
     double         y;
 }               t_pos;
 
+typedef struct  s_point
+{
+	int			x;
+	int			y;
+	double		zdist;
+	t_pos		text_ratio;
+}				t_point;
+
 typedef struct  s_vox
 {
     double         x;
@@ -46,9 +54,8 @@ typedef struct  s_vox
 
 typedef struct  s_line
 {
-	SDL_Point	pos1;
-	SDL_Point	pos2;
-	double		text_ratio;
+	t_point		pos1;
+	t_point		pos2;
 }               t_line;
 
 typedef struct	s_text
@@ -61,8 +68,8 @@ typedef struct	s_text
 
 typedef struct  s_vox_line
 {
-	t_vox pos1;
-	t_vox pos2;
+	t_vox 		pos1;
+	t_vox 		pos2;
 }				t_vox_line;
 
 typedef struct		s_var
@@ -117,51 +124,46 @@ typedef struct  s_disp_range
 	double		end_x;
 }				t_disp_range;
 
-typedef struct  s_triangle_point
-{
-	SDL_Point	pos;
-	t_pos		text_ratio;
-}				t_triangle_point;
 
 char 	*ft_load_bmp(char *file, int *width, int *height);
 void 	errorcase(void);
 
-void    oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2], int forced_side);
-void    octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_side);
+void    oct_ini(t_oct *oct, t_point pos1, t_point pos2, int pos[2][2], int forced_side);
+void    octant(t_point pos1, t_point pos2, char *pixel, int color, int forced_side);
 
 void put_border(char *p_tab, SDL_Point disp_size);
 void put_rect(char *pixel, SDL_Point pos, SDL_Point size, int color, SDL_Point win_size);
 void map_ini(char ***map, SDL_Point size, t_var *v);
 void print_map(t_var *v);
 void load_wall(t_var *v);
-SDL_Point load_corner(t_var *v, int i, int j, int h);
+t_point load_corner(t_var *v, int i, int j, int h);
 
-void load_triangle1_plane(t_var *v, int x, int y, int z , SDL_Point corner[4]);
+void load_triangle1_plane(t_var *v, int x, int y, int z , t_point corner[4]);
 void load_triangle_point(t_var *v, int x, int y, int z, int rot);
 
 char ***readfile2(char *file, t_var *v);
 
 void disp_text(char *pixels, char *img_tab, SDL_Point size);
 
-SDL_Point   *mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_side);
+t_point		*mem_octant(t_point pos1, t_point pos2, int *length, int forced_side);
 void    	*nazi_case(void);
 void		draw_texture(t_line top, t_line bot, char *pixels, t_text *text);
 void   		bresenham_texture(t_line line, char *pixels, t_text *text, double x_ratio, t_disp_range ra);
-SDL_Point   vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot);
+t_point   	vox_on_screen(t_vox point, t_vox cam_pos, t_pos cam_rot);
 
 t_vox cut_frustum(t_vox cam_pos, t_pos cam_rot);
 //t_pos line_intersect(t_vox cam_pos, t_pos cam_rot);
-t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy);
+t_disp_range adapt_out_screen(t_point *pp1, t_point *pp2, int for_xy);
 
-SDL_Point segment_intersect(SDL_Point p1, SDL_Point p2, SDL_Point p3, SDL_Point p4);
+t_point segment_intersect(t_point p1, t_point p2, t_point p3, t_point p4);
 void line_intersect(t_vox cam_pos, t_pos cam_rot, t_vox *p1, t_vox *p2, t_line *line);
 t_line create_3Dlines(t_vox cam_pos, t_pos cam_rot, t_vox p1, t_vox p2);
 t_vox create_vox(double x, double y, double z);
-SDL_Point create_point(int x, int y);
-t_line create_line(int x1, int y1, int x2, int y2);
-t_line create_line_sdl(SDL_Point pos1, SDL_Point pos2);
+t_point create_point(int x, int y, double zdist);
+t_line create_line(t_point pos1, t_point pos2);
+//t_line create_line_sdl(t_point pos1, t_point pos2);
 
-void draw_textured_triangle(SDL_Point begin, SDL_Point corner, SDL_Point end, int side, t_text *text, char *pixels);
+void draw_textured_triangle(t_point begin, t_point corner, t_point end, int side, t_text *text, char *pixels);
 void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels);
 void draw_textured_rectangle2(t_line top, t_line bot, t_text *text, char *pixels);
 void draw_textured_rectangle3(t_line top, t_line bot, t_text *text, char *pixels);

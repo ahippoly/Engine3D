@@ -1,6 +1,6 @@
 NAME = wolf3d
 
-SRC = main2.c object3D.c raycastingPOWERED.c print_map.c \
+SRC = main2.c raycastingPOWERED.c print_map.c \
 parsing.c parsing2.c octant2.c utils.c Engine3D.c \
 readfile1.c
 

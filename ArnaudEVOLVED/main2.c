@@ -114,9 +114,9 @@ void put_rect(char *pixel, SDL_Point pos, SDL_Point size, int color, SDL_Point w
 	}
 }
 
-void put_view_ray(char *pixel, SDL_Point cube_pos[2], SDL_Point pos, float rot, char color)
+void put_view_ray(char *pixel, SDL_Point cube_pos[2], t_point pos, float rot, char color)
 {
-	SDL_Point endpoint;
+	t_point endpoint;
 
 	endpoint.x = pos.x - (100 * cos(rot * M_PI_2));
 	endpoint.y = pos.y - (100 * sin(rot * M_PI_2));
@@ -201,7 +201,7 @@ int main(int ac, char **av)
 	t_line test;
 	t_vox pt1;
 	t_vox pt2;
-	SDL_Point mousebutton[MOUSE];
+	t_point mousebutton[MOUSE];
 	int savedmouse;
 	int i;
 
@@ -343,7 +343,7 @@ int main(int ac, char **av)
 					{
 						savedmouse = 0;
 						//printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
-						draw_textured_rectangle2(create_line_sdl(mousebutton[0], mousebutton[1]), create_line_sdl(mousebutton[2], create_point(e.button.x, e.button.y)), &v.stone, v.p_tab);
+						draw_textured_rectangle2(create_line(mousebutton[0], mousebutton[1]), create_line(mousebutton[2], create_point(e.button.x, e.button.y, 0)), &v.stone, v.p_tab);
 						//print_map(&v);
 						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE * 4);
 						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);

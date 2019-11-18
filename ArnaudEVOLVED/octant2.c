@@ -12,16 +12,17 @@
 
 #include "wolf.h"
 
-SDL_Point create_point(int x, int y)
+t_point create_point(int x, int y, double zdist)
 {
-	SDL_Point point;
+	t_point point;
 
 	point.x = x;
 	point.y = y;
+	point.zdist = zdist;
 	return (point);
 }
 
-void	oct_ini(t_oct *oct, SDL_Point pos1, SDL_Point pos2, int pos[2][2], int forced_side)
+void	oct_ini(t_oct *oct, t_point pos1, t_point pos2, int pos[2][2], int forced_side)
 {
 	pos[0][0] = pos1.x;
 	pos[0][1] = pos2.x;
@@ -51,10 +52,10 @@ void calc_new_point(int *v1, int *v2, int *v3, int *v4)
 	
 }
 
-t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy)
+t_disp_range adapt_out_screen(t_point *pp1, t_point *pp2, int for_xy)
 {
-	SDL_Point p1;
-	SDL_Point p2;
+	t_point p1;
+	t_point p2;
 	t_disp_range range;
 	int adapt;
 
@@ -145,7 +146,7 @@ t_disp_range adapt_out_screen(SDL_Point *pp1, SDL_Point *pp2, int for_xy)
 	//	printf("--Out of Screeen, p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 }
 
-void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_side)
+void	octant(t_point pos1, t_point pos2, char *pixel, int color, int forced_side)
 {
 	t_oct			oct;
 	int				pos[2][2];
@@ -188,12 +189,12 @@ void	octant(SDL_Point pos1, SDL_Point pos2, char *pixel, int color, int forced_s
 	}
 }
 
-SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_side)
+t_point	*mem_octant(t_point pos1, t_point pos2, int *length, int forced_side)
 {
 	t_oct			oct;
 	int				pos[2][2];
 	int				i;
-	SDL_Point		*pos_tab;
+	t_point			*pos_tab;
 
 	*length = 0;
 	pos_tab = NULL;
@@ -209,7 +210,7 @@ SDL_Point	*mem_octant(SDL_Point pos1, SDL_Point pos2, int *length, int forced_si
 		*length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]) + 0);
 		//printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
-		pos_tab = (SDL_Point*)malloc(sizeof(SDL_Point) * *length);
+		pos_tab = (t_point*)malloc(sizeof(t_point) * *length);
 		while (i < *length)
 		{
 			pos_tab[i].x = pos[0][0];
