@@ -934,7 +934,6 @@ void draw_rectangle(t_point point[4], char *pixels, t_text *text)
 void draw_textured_rectangle4(t_line top, t_line bot, t_text *text, char *pixels)
 {
 	t_point point[2][3];
-	t_point middle[4];
 
 	point[0][0] = top.pos1;
 	point[0][1] = top.pos2;
@@ -955,6 +954,8 @@ void draw_textured_rectangle4(t_line top, t_line bot, t_text *text, char *pixels
 	point[1][1].text_ratio.y = 1;
 	point[1][2].text_ratio.x = 1;
 	point[1][2].text_ratio.y = 1;
+
+	printf("zdist : 1 = %f, 2 = %f, 3 = %f, 4 = %f\n", top.pos1.zdist, top.pos2.zdist, bot.pos1.zdist, bot.pos2.zdist);
 
 	draw_triangle(point[0], pixels, text);
 	draw_triangle(point[1], pixels, text);

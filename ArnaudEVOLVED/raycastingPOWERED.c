@@ -83,7 +83,7 @@ t_point load_corner(t_var *v, int i, int j, int h)
 		* v->fov;
 	startx = diffx_screenpos + depth;
 	starty = diffy_screenpos + depth;
-/*	printf("i = %i, j = %i\n",i , j);
+	printf("i = %i, j = %i\n",i , j);
 	printf("posx =  %i , posy = %i, posz =  %i \n",pos.x, pos.y,h);
 	printf("diffx = %f, diffy = %f, diffz = %f\n",diff.x, diff.y, diff.z);
 //	printf("diffx_distance = %f\n", diffx_distance);
@@ -137,7 +137,7 @@ void load_cube_lines(t_var *v, int x, int y, int z, t_vox cam_pos, t_pos cam_rot
 // , create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
 // , v->p_tab, &v->stone);
 
-draw_textured_rectangle2(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+draw_textured_rectangle4(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
 , create_3Dlines(cam_pos, cam_rot, create_vox(x, y + 1, z), create_vox(x + 1, y + 1, z))
 , &v->stone, v->p_tab);
 

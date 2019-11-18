@@ -167,5 +167,6 @@ void draw_textured_triangle(t_point begin, t_point corner, t_point end, int side
 void draw_textured_rectangle(t_line top, t_line bot, t_text *text, char *pixels);
 void draw_textured_rectangle2(t_line top, t_line bot, t_text *text, char *pixels);
 void draw_textured_rectangle3(t_line top, t_line bot, t_text *text, char *pixels);
+void draw_textured_rectangle4(t_line top, t_line bot, t_text *text, char *pixels);
 
 #endif

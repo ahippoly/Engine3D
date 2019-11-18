@@ -343,7 +343,7 @@ int main(int ac, char **av)
 					{
 						savedmouse = 0;
 						//printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
-						draw_textured_rectangle2(create_line(mousebutton[0], mousebutton[1]), create_line(mousebutton[2], create_point(e.button.x, e.button.y, 0)), &v.stone, v.p_tab);
+						draw_textured_rectangle4(create_line(mousebutton[0], mousebutton[1]), create_line(mousebutton[2], create_point(e.button.x, e.button.y, 0)), &v.stone, v.p_tab);
 						//print_map(&v);
 						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE * 4);
 						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);
