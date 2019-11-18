@@ -432,6 +432,134 @@ void put_pixel_attempt(unsigned int *p_tab, SDL_Point pos, int color)
 		p_tab[pos.x + pos.y * WIN_SIZE] = color;
 }
 
+void draw_sub_rectangle(t_triangle_point point[4], char *pixels, t_text *text)
+{
+	unsigned int *p_tab;
+	unsigned int *text_pix;
+	SDL_Point *line[2];
+	int drawed_length[2];
+	int length[2];
+	int i;
+	int j;
+	int scan_length;
+	double step_x;
+	double step_y;
+	t_pos line_text_ratio_step[2];
+	t_pos current_text_ratio[2];
+	t_pos scan_ratio;
+	int left_line;
+	int out_of_screen_bot;
+
+	p_tab = (unsigned int*)pixels;
+	text_pix = (unsigned int*)text->pixels;
+	if (point[1].pos.x < point[0].pos.x)
+		swap_triangle_point(&point[1], &point[0]);
+	if (point[3].pos.x < point[2].pos.x)
+		swap_triangle_point(&point[3], &point[2]);
+	
+	line[0] = mem_octant(point[0].pos, point[2].pos, &drawed_length[0], 2);
+	line[1] = mem_octant(point[1].pos, point[3].pos, &drawed_length[1], 2);
+	length[0] = ft_abs(point[2].pos.y - point[0].pos.y);
+	length[1] = ft_abs(point[3].pos.y - point[1].pos.y);
+	// printf("DrawSubTriangle\n");
+	// printf(" length0 = %d, length1 = %d\n", length[0], length[1]);
+	line_text_ratio_step[0].x = (point[2].text_ratio.x - point[0].text_ratio.x) / length[0];
+	line_text_ratio_step[0].y = (point[2].text_ratio.y - point[0].text_ratio.y) / length[0];
+	line_text_ratio_step[1].x = (point[3].text_ratio.x - point[1].text_ratio.x) / length[1];
+	line_text_ratio_step[1].y = (point[3].text_ratio.y - point[1].text_ratio.y) / length[1];
+	current_text_ratio[0].x = point[0].text_ratio.x;
+	current_text_ratio[0].y = point[0].text_ratio.y;
+	current_text_ratio[1].x = point[1].text_ratio.x;
+	current_text_ratio[1].y = point[1].text_ratio.y;
+
+	if (point[0].pos.y < 0)
+	{
+		current_text_ratio[0].x += line_text_ratio_step[0].x * -point[0].pos.y;
+		current_text_ratio[0].y += line_text_ratio_step[0].y * -point[0].pos.y;
+	}
+	if (point[0].pos.y > WIN_SIZE)
+	{
+		out_of_screen_bot = point[0].pos.y - WIN_SIZE;
+		current_text_ratio[0].x += line_text_ratio_step[0].x * out_of_screen_bot;
+		current_text_ratio[0].y += line_text_ratio_step[0].y * out_of_screen_bot;
+	}
+	if (point[1].pos.y < 0)
+	{
+		current_text_ratio[1].x += line_text_ratio_step[1].x * -point[0].pos.y;
+		current_text_ratio[1].y += line_text_ratio_step[1].y * -point[0].pos.y;
+	}
+	if (point[1].pos.y > WIN_SIZE)
+	{
+		out_of_screen_bot = point[1].pos.y - WIN_SIZE;
+		current_text_ratio[1].x += line_text_ratio_step[1].x * out_of_screen_bot;
+		current_text_ratio[1].y += line_text_ratio_step[1].y * out_of_screen_bot;
+	}
+	// if (point[1].pos.y < 0)
+	// {
+	// 	current_text_ratio[0].x += line_text_ratio_step[0].x * -point[1].pos.y;
+	// 	current_text_ratio[0].y += line_text_ratio_step[0].y * -point[1].pos.y;
+	// }
+	// if (point[2].pos.y < 0)
+	// {
+	// 	current_text_ratio[1].x += line_text_ratio_step[1].x * -point[2].pos.y;
+	// 	current_text_ratio[1].y += line_text_ratio_step[1].y * -point[2].pos.y;
+	// }
+
+	i = 0;
+
+	// if (point[2].pos.y > point[0].pos.y)
+	// {
+	// 	if (point[2].pos.y >= WIN_SIZE)
+	// 		length[1] -= point[2].pos.y - WIN_SIZE;
+	// }
+	// else if (point[0].pos.y >= WIN_SIZE)
+	// {
+	// 	i += point[0].pos.y - WIN_SIZE;
+	// }
+	
+	while (i < drawed_length[1])
+	{
+		current_text_ratio[0].x += line_text_ratio_step[0].x;
+		current_text_ratio[0].y += line_text_ratio_step[0].y;
+		current_text_ratio[1].x += line_text_ratio_step[1].x;
+		current_text_ratio[1].y += line_text_ratio_step[1].y;
+		//printf(" Current_ratio0 : x = %f, y = %f | Current_ratio1 : x = %f, y = %f\n", current_text_ratio[0].x, current_text_ratio[0].y, current_text_ratio[1].x, current_text_ratio[1].y);
+		scan_length = line[1][i].x - line[0][i].x;
+		scan_ratio.x = current_text_ratio[0].x;
+		scan_ratio.y = current_text_ratio[0].y;
+		step_x = (current_text_ratio[1].x - current_text_ratio[0].x) / scan_length;
+		step_y = (current_text_ratio[1].y - current_text_ratio[0].y) / scan_length;
+		//printf(" scan_ratio before : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+		//printf(" scan_length = %d\n", scan_length);
+		j = 0;
+		if (line[0][i].x < 0)
+		{
+			j = -line[0][i].x;
+			scan_ratio.x += step_x * j;
+			scan_ratio.y += step_y * j;
+			//printf("j = %d\n",j);
+		}
+		if (line[1][i].x > WIN_SIZE)
+			scan_length -= line[1][i].x - WIN_SIZE;
+		while (j < scan_length)
+		{
+			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y), text_pix[(int)(ft_frange(scan_ratio.x, 0, 1) * text->w) + ((int)(ft_frange(scan_ratio.y, 0, 1) * text->h) * text->w)]);
+			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
+			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
+			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xff000000 | ((int)(scan_ratio.y * 65536) & 0xff00ff00) | (int)(scan_ratio.x * 256);
+			scan_ratio.x += step_x;
+			scan_ratio.y += step_y;
+			j++;
+		}
+		//printf(" scan_ratio after : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+		//printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
+		i++;
+	}
+	free(line[0]);
+	free(line[1]);
+}
+
+
 void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 {
 	unsigned int *p_tab;
@@ -448,6 +576,7 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 	t_pos current_text_ratio[2];
 	t_pos scan_ratio;
 	int left_line;
+	int out_of_screen_bot;
 
 	p_tab = (unsigned int*)pixels;
 	text_pix = (unsigned int*)text->pixels;
@@ -476,16 +605,24 @@ void draw_sub_triangle(t_triangle_point point[3], char *pixels, t_text *text)
 		current_text_ratio[1].x += line_text_ratio_step[1].x * -point[0].pos.y;
 		current_text_ratio[1].y += line_text_ratio_step[1].y * -point[0].pos.y;
 	}
-	if (point[1].pos.y < 0)
+	if (point[0].pos.y > WIN_SIZE)
 	{
-		current_text_ratio[0].x += line_text_ratio_step[0].x * -point[1].pos.y;
-		current_text_ratio[0].y += line_text_ratio_step[0].y * -point[1].pos.y;
+		out_of_screen_bot = point[0].pos.y - WIN_SIZE;
+		current_text_ratio[0].x += line_text_ratio_step[0].x * out_of_screen_bot;
+		current_text_ratio[0].y += line_text_ratio_step[0].y * out_of_screen_bot;
+		current_text_ratio[1].x += line_text_ratio_step[1].x * out_of_screen_bot;
+		current_text_ratio[1].y += line_text_ratio_step[1].y * out_of_screen_bot;
 	}
-	if (point[2].pos.y < 0)
-	{
-		current_text_ratio[1].x += line_text_ratio_step[1].x * -point[2].pos.y;
-		current_text_ratio[1].y += line_text_ratio_step[1].y * -point[2].pos.y;
-	}
+	// if (point[1].pos.y < 0)
+	// {
+	// 	current_text_ratio[0].x += line_text_ratio_step[0].x * -point[1].pos.y;
+	// 	current_text_ratio[0].y += line_text_ratio_step[0].y * -point[1].pos.y;
+	// }
+	// if (point[2].pos.y < 0)
+	// {
+	// 	current_text_ratio[1].x += line_text_ratio_step[1].x * -point[2].pos.y;
+	// 	current_text_ratio[1].y += line_text_ratio_step[1].y * -point[2].pos.y;
+	// }
 
 	i = 0;
 
@@ -549,6 +686,20 @@ void sort_triangle_point_by_height(t_triangle_point point[3])
 		swap_triangle_point(&point[0], &point[1]);
 	if (point[0].pos.y > point[2].pos.y)
 		swap_triangle_point(&point[0], &point[2]);
+	if (point[1].pos.y > point[2].pos.y)
+		swap_triangle_point(&point[1], &point[2]);
+}
+
+void sort_rectangle_point_by_height(t_triangle_point point[4])
+{
+	t_triangle_point tmp;
+
+	if (point[0].pos.y > point[1].pos.y)
+		swap_triangle_point(&point[0], &point[1]);
+	if (point[2].pos.y > point[3].pos.y)
+		swap_triangle_point(&point[2], &point[3]);
+	if (point[0].pos.y > point[3].pos.y)
+		swap_triangle_point(&point[0], &point[3]);
 	if (point[1].pos.y > point[2].pos.y)
 		swap_triangle_point(&point[1], &point[2]);
 }
@@ -750,6 +901,48 @@ void draw_textured_rectangle2(t_line top, t_line bot, t_text *text, char *pixels
 void draw_textured_rectangle3(t_line top, t_line bot, t_text *text, char *pixels)
 {
 	t_triangle_point point[2][3];
+
+	point[0][0].pos = top.pos1;
+	point[0][1].pos = top.pos2;
+	point[0][2].pos = bot.pos2;
+	point[0][0].text_ratio.x = 0;
+	point[0][0].text_ratio.y = 0;
+	point[0][1].text_ratio.x = 1;
+	point[0][1].text_ratio.y = 0;
+	point[0][2].text_ratio.x = 1;
+	point[0][2].text_ratio.y = 1;
+
+	point[1][0].pos = top.pos1;
+	point[1][1].pos = bot.pos1;
+	point[1][2].pos = bot.pos2;
+	point[1][0].text_ratio.x = 0;
+	point[1][0].text_ratio.y = 0;
+	point[1][1].text_ratio.x = 0;
+	point[1][1].text_ratio.y = 1;
+	point[1][2].text_ratio.x = 1;
+	point[1][2].text_ratio.y = 1;
+
+	draw_triangle(point[0], pixels, text);
+	draw_triangle(point[1], pixels, text);
+}
+
+void draw_rectangle(t_triangle_point point[4], char *pixels, t_text *text)
+{
+	t_triangle_point	sub_triangle_top[3];
+	t_triangle_point	sub_triangle_bot[3];
+
+	sort_triangle_point_by_height(point);
+	// printf("\n Top point : x = %d, y = %d\n Middle : x = %d, y = %d\n Bot : x = %d, y = %d\n", point[0].pos.x, point[0].pos.y, point[1].pos.x, point[1].pos.y, point[2].pos.x, point[2].pos.y);
+	create_sub_triangle(point, sub_triangle_top, 1);
+	create_sub_triangle(point, sub_triangle_bot, 0);
+	draw_sub_triangle(sub_triangle_top, pixels, text);
+	draw_sub_triangle(sub_triangle_bot, pixels, text);
+}
+
+void draw_textured_rectangle4(t_line top, t_line bot, t_text *text, char *pixels)
+{
+	t_triangle_point point[2][3];
+	t_triangle_point middle[4];
 
 	point[0][0].pos = top.pos1;
 	point[0][1].pos = top.pos2;
