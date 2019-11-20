@@ -568,12 +568,6 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	double step_y;
 	t_pos line_text_ratio_step[2];
 	t_pos current_text_ratio[2];
-	t_pos base_text_ratio[2];
-	t_pos correct_text_ratio[2];
-	t_pos correct_text;
-	double zdist[2];
-	double base_zdist[2];
-	double zdist_step[2];
 	t_pos scan_ratio;
 	int left_line;
 	int out_of_screen_bot;
@@ -597,18 +591,6 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	current_text_ratio[0].y = point[0].text_ratio.y;
 	current_text_ratio[1].x = point[0].text_ratio.x;
 	current_text_ratio[1].y = point[0].text_ratio.y;
-	zdist[0] = point[0].zdist;
-	zdist[1] = point[0].zdist;
-	base_zdist[0] = zdist[0];
-	base_zdist[1] = zdist[1];
-	zdist_step[0] = (point[1].zdist - zdist[0]) / length[0];
-	zdist_step[1] = (point[2].zdist - zdist[0]) / length[1];
-
-	base_text_ratio[0].x = point[0].text_ratio.x;
-	base_text_ratio[0].y = point[0].text_ratio.y;
-	base_text_ratio[1].x = point[0].text_ratio.x;
-	base_text_ratio[1].y = point[0].text_ratio.y;
-
 
 	if (point[0].y < 0)
 	{
@@ -654,14 +636,6 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 		current_text_ratio[1].x += line_text_ratio_step[1].x;
 		current_text_ratio[0].y += line_text_ratio_step[0].y;
 		current_text_ratio[1].y += line_text_ratio_step[1].y;
-		zdist[0] += zdist_step[0];
-		zdist[1] += zdist_step[1];
-
-		correct_text_ratio[0].x = base_text_ratio[1].x + (1 / (base_text_ratio[0].x / base_zdist[0] - current_text_ratio[0].x / zdist[0]));
-		correct_text_ratio[1].x = base_text_ratio[1].x + (1 / (base_text_ratio[1].x / base_zdist[1] - current_text_ratio[0].x / zdist[1]));
-		correct_text_ratio[0].y = base_text_ratio[1].y + (1 / (base_text_ratio[0].y / base_zdist[0] - current_text_ratio[0].y / zdist[0]));
-		correct_text_ratio[1].y = base_text_ratio[1].y + (1 / (base_text_ratio[1].y / base_zdist[1] - current_text_ratio[0].y / zdist[1]));
-	
 		//printf(" Current_ratio0 : x = %f, y = %f | Current_ratio1 : x = %f, y = %f\n", current_text_ratio[0].x, current_text_ratio[0].y, current_text_ratio[1].x, current_text_ratio[1].y);
 		scan_length = line[1][i].x - line[0][i].x;
 		scan_ratio.x = current_text_ratio[0].x;
@@ -682,9 +656,7 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 			scan_length -= line[1][i].x - WIN_SIZE;
 		while (j < scan_length)
 		{
-			correct_text.x = base_text_ratio[1].x + (1 / (base_text_ratio[0].x / base_zdist[0] - scan_ratio.x / zdist[0]));
-			correct_text.y = base_text_ratio[1].y + (1 / (base_text_ratio[0].y / base_zdist[0] - scan_ratio.y / zdist[0]));
-			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y, 0), text_pix[(int)(ft_frange(correct_text.x, 0, 1) * text->w) + ((int)(ft_frange(correct_text.y, 0, 1) * text->h) * text->w)]);
+			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y, 0), text_pix[(int)(ft_frange(scan_ratio.x, 0, 1) * text->w) + ((int)(ft_frange(scan_ratio.y, 0, 1) * text->h) * text->w)]);
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xff000000 | ((int)(scan_ratio.y * 65536) & 0xff00ff00) | (int)(scan_ratio.x * 256);

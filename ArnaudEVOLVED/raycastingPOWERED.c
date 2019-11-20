@@ -145,9 +145,9 @@ draw_textured_rectangle4(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), c
 // , create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
 // , v->p_tab, &v->stone);
 
-// draw_textured_rectangle(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
-//  , create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
-//  , &v->stone, v->p_tab);
+draw_textured_rectangle4(create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x + 1, y, z))
+ , create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z + 1), create_vox(x + 1, y, z + 1))
+ , &v->stone, v->p_tab);
 
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x, y, z), create_vox(x, y, z + 1)), 0xffaabbcc);
 	draw_line(v, create_3Dlines(cam_pos, cam_rot, create_vox(x + 1, y, z), create_vox(x + 1, y, z + 1)), 0xffaabbcc);
