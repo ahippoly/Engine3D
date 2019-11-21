@@ -441,9 +441,12 @@ void draw_sub_rectangle(t_point point[4], char *pixels, t_text *text)
 	double step_y;
 	t_pos line_text_ratio_step[2];
 	t_pos current_text_ratio[2];
+	t_pos correct_text_ratio[2];
 	t_pos scan_ratio;
 	int left_line;
 	int out_of_screen_bot;
+	double ratio;
+	double ratio_step;
 
 	p_tab = (unsigned int*)pixels;
 	text_pix = (unsigned int*)text->pixels;
@@ -536,8 +539,11 @@ void draw_sub_rectangle(t_point point[4], char *pixels, t_text *text)
 		}
 		if (line[1][i].x > WIN_SIZE)
 			scan_length -= line[1][i].x - WIN_SIZE;
+		
 		while (j < scan_length)
 		{
+			
+			
 			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y, 0), text_pix[(int)(ft_frange(scan_ratio.x, 0, 1) * text->w) + ((int)(ft_frange(scan_ratio.y, 0, 1) * text->h) * text->w)]);
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
 			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
@@ -574,9 +580,13 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	double zdist[2];
 	double base_zdist[2];
 	double zdist_step[2];
+	double scan_zdist;
+	double scan_zdist_step;
 	t_pos scan_ratio;
 	int left_line;
 	int out_of_screen_bot;
+	double ratio;
+	double ratio_step;
 
 	p_tab = (unsigned int*)pixels;
 	text_pix = (unsigned int*)text->pixels;
@@ -668,32 +678,41 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 		scan_ratio.y = current_text_ratio[0].y;
 		step_x = (current_text_ratio[1].x - current_text_ratio[0].x) / scan_length;
 		step_y = (current_text_ratio[1].y - current_text_ratio[0].y) / scan_length;
-		//printf(" scan_ratio before : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
-		//printf(" scan_length = %d\n", scan_length);
-		j = 0;
-		if (line[0][i].x < 0)
+		scan_zdist = zdist[0];
+		scan_zdist_step = (zdist[1] - zdist[0]) / scan_length;
+		if (scan_length > 0)
 		{
-			j = -line[0][i].x;
-			scan_ratio.x += step_x * j;
-			scan_ratio.y += step_y * j;
-			//printf("j = %d\n",j);
-		}
-		if (line[1][i].x > WIN_SIZE)
-			scan_length -= line[1][i].x - WIN_SIZE;
-		while (j < scan_length)
-		{
-			correct_text.x = base_text_ratio[1].x + (1 / (base_text_ratio[0].x / base_zdist[0] - scan_ratio.x / zdist[0]));
-			correct_text.y = base_text_ratio[1].y + (1 / (base_text_ratio[0].y / base_zdist[0] - scan_ratio.y / zdist[0]));
-			put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y, 0), text_pix[(int)(ft_frange(correct_text.x, 0, 1) * text->w) + ((int)(ft_frange(correct_text.y, 0, 1) * text->h) * text->w)]);
-			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
-			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
-			//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xff000000 | ((int)(scan_ratio.y * 65536) & 0xff00ff00) | (int)(scan_ratio.x * 256);
-			scan_ratio.x += step_x;
-			scan_ratio.y += step_y;
-			j++;
-		}
-		//printf(" scan_ratio after : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
-		//printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
+			ratio = 0;
+			ratio_step = (double)1 / scan_length;
+			//printf(" scan_ratio before : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+			//printf(" scan_length = %d\n", scan_length);
+			j = 0;
+			if (line[0][i].x < 0)
+			{
+				j = -line[0][i].x;
+				scan_ratio.x += step_x * j;
+				scan_ratio.y += step_y * j;
+				//printf("j = %d\n",j);
+			}
+			if (line[1][i].x > WIN_SIZE)
+				scan_length -= line[1][i].x - WIN_SIZE;
+			while (j < scan_length)
+			{
+				ratio += ratio_step;
+				 correct_text.x = ((1 - ratio) * current_text_ratio[0].x / zdist[0] + ratio * current_text_ratio[1].x / zdist[1]) / ((1 - ratio) / zdist[0] + ratio / zdist[1]);
+				 correct_text.y = ((1 - ratio) * current_text_ratio[0].y / zdist[0] + ratio * current_text_ratio[1].y / zdist[1]) / ((1 - ratio) / zdist[0] + ratio / zdist[1]);
+				put_pixel_attempt(p_tab, create_point(line[0][i].x + j, line[0][i].y, 0), text_pix[(int)(ft_frange(correct_text.x, 0, 1) * text->w) + ((int)(ft_frange(correct_text.y, 0, 1) * text->h) * text->w)]);
+				//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = text_pix[(int)(scan_ratio.x * text->w) + ((int)(scan_ratio.y * text->h) * text->w)];
+				//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xffffffff;
+				//p_tab[(line[0][i].x + j) + (line[0][i].y * WIN_SIZE)] = 0xff000000 | ((int)(scan_ratio.y * 65536) & 0xff00ff00) | (int)(scan_ratio.x * 256);
+				scan_ratio.x += step_x;
+				scan_ratio.y += step_y;
+				scan_zdist += scan_zdist_step;
+				j++;
+			}
+			}
+			//printf(" scan_ratio after : x = %f, y = %f\n", scan_ratio.x, scan_ratio.y);
+			//printf(" pixel from text : x = %d, y = %d\n", (int)(scan_ratio.x * text->w), (int)(scan_ratio.y * text->h * text->w));
 		i++;
 	}
 	free(line[0]);
