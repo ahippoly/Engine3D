@@ -153,7 +153,7 @@ void var_ini(t_var *v, char *file)
 	v->map = readfile2(file, v);
 	printf("map_size : x = %f, y = %f, z = %f\n",v->map_size.x ,v->map_size.y, v->map_size.z);
 	v->perso_pos.x = 1.5;
-	v->perso_pos.y = -1;
+	v->perso_pos.y = -1.5;
 	v->perso_pos.z = -0.5;
 	v->fov = 1;
 	v->rot = 0;

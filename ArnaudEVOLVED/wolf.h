@@ -58,6 +58,12 @@ typedef struct  s_line
 	t_point		pos2;
 }               t_line;
 
+typedef struct  s_range
+{
+	double		start;
+	double		end;
+}               t_range;
+
 typedef struct	s_text
 {
 	char		*pixels;

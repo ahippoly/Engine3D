@@ -176,7 +176,6 @@ void	octant(t_point pos1, t_point pos2, char *pixel, int color, int forced_side)
 			oct.e -= oct.d[oct.bool];
 			while (oct.e <= 0)
 			{
-				printf("e = %d\n", oct.e);
 				pos[oct.bool][0] += oct.inc[oct.bool];
 				oct.e += oct.d[oct.boolxy];
 			}
