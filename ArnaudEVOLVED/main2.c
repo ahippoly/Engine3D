@@ -152,8 +152,11 @@ void var_ini(t_var *v, char *file)
 	v->p_tab = (char*)malloc(WIN_SIZE * WIN_SIZE * 4);	
 	v->map = readfile2(file, v);
 	printf("map_size : x = %f, y = %f, z = %f\n",v->map_size.x ,v->map_size.y, v->map_size.z);
+	// v->perso_pos.x = 0.766921;
+	// v->perso_pos.y = 1.380223;
+	// v->perso_pos.z = -1.600000;
 	v->perso_pos.x = 1.5;
-	v->perso_pos.y = -1.5;
+	v->perso_pos.y = -2;
 	v->perso_pos.z = -0.5;
 	v->fov = 1;
 	v->rot = 0;
@@ -343,19 +346,21 @@ int main(int ac, char **av)
 					{
 						savedmouse = 0;
 						//printf("created line , p1 : x = %d, y = %d, p2 : x = %d, y = %d\n",mousebutton1.x, mousebutton1.y, e.button.x, e.button.y);
-						draw_textured_rectangle4(create_line(mousebutton[0], mousebutton[1]), create_line(mousebutton[2], create_point(e.button.x, e.button.y, 0)), &v.stone, v.p_tab);
-						//print_map(&v);
+						//draw_textured_rectangle4(create_line(mousebutton[0], mousebutton[1]), create_line(mousebutton[2], create_point(e.button.x, e.button.y, 0)), &v.stone, v.p_tab);
+						draw_textured_triangle(mousebutton[0], mousebutton[1], mousebutton[2],0 , &v.stone, v.p_tab);
+						octant(mousebutton[0], mousebutton[1], v.p_tab, 0xffffffff, 2);
+						octant(mousebutton[1], mousebutton[2], v.p_tab, 0xffffffff, 2);
+						octant(mousebutton[2], mousebutton[0], v.p_tab, 0xffffffff, 2);
 						SDL_UpdateTexture(v.screen, NULL, v.p_tab, WIN_SIZE * 4);
 						SDL_RenderCopy(v.rend, v.screen, NULL, NULL);
 						SDL_RenderPresent(v.rend);	
 					}
-					
 				}
 			}
 		}
 	}
 
-//	SDL_FreeFormat(format);
+	//	SDL_FreeFormat(format);
 	//SDL_Quit();
 	return (0);
 }

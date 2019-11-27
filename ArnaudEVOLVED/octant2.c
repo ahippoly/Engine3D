@@ -74,7 +74,7 @@ t_disp_range adapt_out_screen(t_point *pp1, t_point *pp2, int for_xy)
 	{
 		//printf("beg = p1, x = %d y = %d, p2 x = %d y = %d\n",p1.x, p1.y, p2.x, p2.y);
 		//printf("abs x = %d, abs y = %d\n",ft_abs(p1.x - p2.x), ft_abs(p1.y - p2.y));
-		if (for_xy > 1 || for_xy == 0)
+		if (for_xy < 2)
 		{
 			if (p1.x > WIN_SIZE)
 			{
@@ -105,7 +105,7 @@ t_disp_range adapt_out_screen(t_point *pp1, t_point *pp2, int for_xy)
 				p2.x = 0;
 			}
 		}
-		if (for_xy >= 1)
+		if (for_xy == 2 || for_xy == 0)
 		{
 			if (p1.y < 0)
 			{
@@ -205,16 +205,19 @@ t_point	*mem_octant(t_point pos1, t_point pos2, int *length, int forced_side)
 		&& pos2.y != -2147483648)
 	{
 		i = 0;
-		adapt_out_screen(&pos1, &pos2, 1);
+		//adapt_out_screen(&pos1, &pos2, 1);
 		oct_ini(&oct, pos1, pos2, pos, forced_side);
 		*length = ft_min(WIN_SIZE, ft_abs(pos[oct.boolxy][0] - pos[oct.boolxy][1]) + 0);
-		//printf("mem_octant, pixels drawed = %i\n", *length);
+		printf("mem_octant, pixels drawed = %i\n", *length);
 		//printf("pos1 = %i, pos2 = %i\n",pos[oct.boolxy][0], pos[oct.boolxy][1]);
 		pos_tab = (t_point*)malloc(sizeof(t_point) * *length);
 		while (i < *length)
 		{
 			pos_tab[i].x = pos[0][0];
 			pos_tab[i].y = pos[1][0];
+			pos_tab[i].text_ratio.x = 0;
+			pos_tab[i].text_ratio.y = 0;
+			pos_tab[i].zdist = 0;
 			oct.e -= oct.d[oct.bool];
 			while (oct.e <= 0)
 			{
