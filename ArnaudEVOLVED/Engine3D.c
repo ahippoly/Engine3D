@@ -622,6 +622,7 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	int draw_length;
 	int length[2];
 	int i;
+	int is_toptobot;
 	t_pos line_text_ratio_step[2];
 	t_pos current_text_ratio[2];
 	t_pos base_text_ratio[2];
@@ -640,6 +641,9 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	text_pix = (unsigned int*)text->pixels;
 	if (point[2].x < point[1].x)
 		swap_triangle_point(&point[2], &point[1]);
+	is_toptobot = 0;
+	if (point[0].y < point[2].y)
+		is_toptobot = 1;
 	line[0] = mem_octant(point[0], point[1], &drawed_length[0], 2);
 	line[1] = mem_octant(point[0], point[2], &drawed_length[1], 2);
 	printf("draw_length: 1 = %d, 2 = %d\n", drawed_length[0], drawed_length[1]);
@@ -655,8 +659,8 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	current_text_ratio[0].y = point[0].text_ratio.y;
 	current_text_ratio[1].x = point[0].text_ratio.x;
 	current_text_ratio[1].y = point[0].text_ratio.y;
-	zdist[0] = point[0].zdist;
-	zdist[1] = point[0].zdist;
+	zdist[0] = point[1].zdist;
+	zdist[1] = point[2].zdist;
 	base_zdist[0] = zdist[0];
 	base_zdist[1] = zdist[1];
 	zdist_step[0] = (point[1].zdist - zdist[0]) / length[0];
@@ -667,12 +671,22 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	base_text_ratio[1].x = point[0].text_ratio.x;
 	base_text_ratio[1].y = point[0].text_ratio.y;
 	i = 0;
-	ratio.y = 0;
-	ratio_step.y = (double)1 / drawed_length[1];
+	if (is_toptobot == 0)
+	{
+		ratio.y = 0;
+		ratio_step.y = (double)1 / draw_length;
+	}
+	else
+	{
+		ratio.y = 1;
+		ratio_step.y = (double)-1 / draw_length;
+	}
+	
 	draw_length = ft_min(drawed_length[0], drawed_length[1]);
 	while (i < draw_length)
 	{
-	
+		line[0][i].zdist = ((1 - ratio.y) * point[1].zdist) + ratio.y / (((1 - ratio.y) / point[1].zdist + ratio.y / point[0].zdist));
+		line[1][i].zdist = ((1 - ratio.y) * point[2].zdist) + ratio.y / (((1 - ratio.y) / point[2].zdist + ratio.y / point[0].zdist));
 		line[0][i].text_ratio.x = current_text_ratio[0].x;
 		line[0][i].text_ratio.y = current_text_ratio[0].y;
 		line[1][i].text_ratio.x = current_text_ratio[1].x;
@@ -682,6 +696,7 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 		current_text_ratio[0].y += line_text_ratio_step[0].y;
 		current_text_ratio[1].x += line_text_ratio_step[1].x;
 		current_text_ratio[1].y += line_text_ratio_step[1].y;
+		ratio.y += ratio_step.y;
 		i++;
 	}
 	free(line[0]);
@@ -734,6 +749,7 @@ void create_sub_triangle(t_point original[3], t_point sub[3], int is_topside)
 {
 	double coef_ratio;
 	double tmp;
+	double zdist[2];
 
 	if (is_topside == 1)
 	{
@@ -746,9 +762,18 @@ void create_sub_triangle(t_point original[3], t_point sub[3], int is_topside)
 		sub[0] = original[2];
 		sub[1] = original[1];
 		sub[2] = original[0];
-		sub[0].zdist = original[0].zdist;
-		sub[2].zdist = original[2].zdist;
 	}
+	if (sub[0].zdist > sub[2].zdist)
+	{
+		zdist[0] = sub[2].zdist;
+		zdist[1] = sub[0].zdist;
+	}
+	else
+	{
+		zdist[0] = sub[0].zdist;
+		zdist[1] = sub[2].zdist;
+	}
+	
 	// printf("CreateSubTriangle\n");
 	// printf("Is topside = %d\n",is_topside);
 	// printf(" zdist origin: 2 = %f, 0 = %f\n", sub[2].zdist, sub[0].zdist);
@@ -761,16 +786,10 @@ void create_sub_triangle(t_point original[3], t_point sub[3], int is_topside)
 
 
 
-	if (is_topside == 0)
+	if (is_topside == 1)
 		coef_ratio = 1 - coef_ratio;
-	sub[2].zdist = ((1 - coef_ratio) * sub[0].zdist) + coef_ratio / (((1 - coef_ratio) / sub[0].zdist + coef_ratio / sub[2].zdist));
+	sub[2].zdist = ((1 - coef_ratio) * zdist[0]) + coef_ratio / (((1 - coef_ratio) / zdist[0] + coef_ratio / zdist[1]));
 
-	if (is_topside == 0)
-	{
-		tmp = sub[0].zdist;
-		sub[0].zdist = sub[2].zdist;
-		sub[2].zdist = tmp;
-	}
 	// printf(" coef_ratio = %f\n", coef_ratio);
 	// printf(" adapted point : x = %d, y = %d\n", sub[2].x, sub[2].y);
 	printf(" zdist adapted = %f\n", sub[2].zdist);
