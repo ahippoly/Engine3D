@@ -588,6 +588,9 @@ void draw_scanline(t_point start, t_point end, unsigned int *p_tab, t_text *text
 	int i;
 	int scan_length;
 	t_pos text_step;
+	t_pos correct_text;
+	double ratio;
+	double ratio_step;
 	
 	scan_length = end.x - start.x;
 	text_step.x = (end.text_ratio.x - start.text_ratio.x) / scan_length;
@@ -602,14 +605,26 @@ void draw_scanline(t_point start, t_point end, unsigned int *p_tab, t_text *text
 	}
 	if (end.x > WIN_SIZE)
 		scan_length -= (end.x - WIN_SIZE);
+	if (scan_length > 0)
+	{
+	ratio = 0;
+	ratio_step = (double)1 / scan_length;
 	while (i < scan_length)
 	{
 		start.x++;
-		put_pixel_attempt(p_tab, start, read_text_pix(start.text_ratio, text));
-		start.text_ratio.x += text_step.x;
-		start.text_ratio.y += text_step.y;
+		//printf("START_ZDIST = %f, END_ZDIST = %f\n",start.zdist, end.zdist);
+		correct_text.x = ((((double)1 - ratio) * start.text_ratio.x / start.zdist) + (ratio * end.text_ratio.x / end.zdist)) / (((double)1 - ratio) / start.zdist + ratio / end.zdist);
+		correct_text.y = ((((double)1 - ratio) * start.text_ratio.y / start.zdist) + (ratio * end.text_ratio.y / end.zdist)) / (((double)1 - ratio) / start.zdist + ratio / end.zdist);
+		// printf("ratio = %f, startzdist = %f, endzdist = %f\n", ratio, start.zdist, end.zdist);
+		// printf("correct_text.x = %f, correct_text.y = %f\n",correct_text.x , correct_text.y);
+		//printf("ratio = %f, 1-ratio = %f\n", ratio, 1- ratio);
+		put_pixel_attempt(p_tab, start, read_text_pix(correct_text, text));
+		// start.text_ratio.x += text_step.x;
+		// start.text_ratio.y += text_step.y;
 		//put_pixel_attempt(p_tab, start, 0xffffffff);
+		ratio += ratio_step;
 		i++;
+	}
 	}
 }
 
@@ -671,6 +686,8 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 	base_text_ratio[1].x = point[0].text_ratio.x;
 	base_text_ratio[1].y = point[0].text_ratio.y;
 	i = 0;
+	draw_length = ft_min(drawed_length[0], drawed_length[1]);
+	//printf("draw_length = %i\n", draw_length);
 	if (is_toptobot == 0)
 	{
 		ratio.y = 0;
@@ -682,15 +699,19 @@ void draw_sub_triangle(t_point point[3], char *pixels, t_text *text)
 		ratio_step.y = (double)-1 / draw_length;
 	}
 	
-	draw_length = ft_min(drawed_length[0], drawed_length[1]);
+	
 	while (i < draw_length)
 	{
-		line[0][i].zdist = ((1 - ratio.y) * point[1].zdist) + ratio.y / (((1 - ratio.y) / point[1].zdist + ratio.y / point[0].zdist));
-		line[1][i].zdist = ((1 - ratio.y) * point[2].zdist) + ratio.y / (((1 - ratio.y) / point[2].zdist + ratio.y / point[0].zdist));
+		// line[0][i].zdist = ((double)1 - ratio.y) * point[1].zdist + ratio.y / ((((double)1 - ratio.y) / point[1].zdist + ratio.y / (point[0].zdist)));
+		// line[1][i].zdist = ((double)1 - ratio.y) * point[2].zdist + ratio.y / ((((double)1 - ratio.y) / point[2].zdist + ratio.y / (point[0].zdist)));
+		line[0][i].zdist = (double)1 / ((double)1 / point[1].zdist + ((double)1 / point[0].zdist - (double)1 / point[1].zdist) * ratio.y );
+		line[1][i].zdist = (double)1 / ((double)1 / point[2].zdist + ((double)1 / point[0].zdist - (double)1 / point[2].zdist) * ratio.y );
 		line[0][i].text_ratio.x = current_text_ratio[0].x;
 		line[0][i].text_ratio.y = current_text_ratio[0].y;
 		line[1][i].text_ratio.x = current_text_ratio[1].x;
 		line[1][i].text_ratio.y = current_text_ratio[1].y;
+		// printf("zdist : 0 = %f, 1 = %f, 2 = %f\n", point[0].zdist, point[1].zdist, point[2].zdist);
+		// printf("Before scanline : ratioy = %f, startzdist = %f, endzdist = %f\n",ratio.y, line[0][i].zdist, line[1][i].zdist);
 		draw_scanline(line[0][i], line[1][i], p_tab, text);
 		current_text_ratio[0].x += line_text_ratio_step[0].x;
 		current_text_ratio[0].y += line_text_ratio_step[0].y;
@@ -788,7 +809,8 @@ void create_sub_triangle(t_point original[3], t_point sub[3], int is_topside)
 
 	if (is_topside == 1)
 		coef_ratio = 1 - coef_ratio;
-	sub[2].zdist = ((1 - coef_ratio) * zdist[0]) + coef_ratio / (((1 - coef_ratio) / zdist[0] + coef_ratio / zdist[1]));
+	//sub[2].zdist = ((1 - coef_ratio) * zdist[0]) + coef_ratio / (((1 - coef_ratio) / zdist[0] + coef_ratio / zdist[1]));
+	sub[2].zdist = (double)1 / (((double)1 - coef_ratio) / zdist[0] + coef_ratio / zdist[1]);
 
 	// printf(" coef_ratio = %f\n", coef_ratio);
 	// printf(" adapted point : x = %d, y = %d\n", sub[2].x, sub[2].y);
